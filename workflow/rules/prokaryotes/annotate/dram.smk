@@ -120,7 +120,7 @@ rule prokaryotes__annotate__dram__annotate__aggregate_trnas:
         """
 
 
-rule prokaryotes__annotate__dram__annotate_aggregate_rrnas:
+rule prokaryotes__annotate__dram__annotate__aggregate_rrnas:
     """Aggregate DRAM rRNAs"""
     input:
         collect_dram_annotate,
@@ -144,7 +144,7 @@ rule prokaryotes__annotate__dram__annotate_aggregate_rrnas:
         """
 
 
-rule prokaryotes__annotate__dram__annotate_archive:
+rule prokaryotes__annotate__dram__annotate__archive:
     """
     Create tarball once annotations are merged done
     """
