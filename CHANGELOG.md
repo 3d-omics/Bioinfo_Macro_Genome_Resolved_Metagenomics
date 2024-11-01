@@ -1,5 +1,27 @@
 # Changelog
 
+## [1.2.0](https://github.com/3d-omics/mg_assembly/compare/v1.1.0...v1.2.0) (2024-11-01)
+
+
+### Features
+
+* assemble quast + assemble report ([ad3f2f8](https://github.com/3d-omics/mg_assembly/commit/ad3f2f83a3b2f38037aed277428f8fb33f87192c))
+* insert mg_preprocess, delete redundant code, cram -&gt; bam ([6589dc1](https://github.com/3d-omics/mg_assembly/commit/6589dc1c5f904ae84b00be761220cf9898190d46))
+* multiqc report for viruses ([b6581b7](https://github.com/3d-omics/mg_assembly/commit/b6581b7f7a71dd9979e94f4a4a5e5f5baf162647))
+* split environments ([36f3e8a](https://github.com/3d-omics/mg_assembly/commit/36f3e8a16ece0af1074a64027cf189d0ca91a591))
+
+
+### Bug Fixes
+
+* add parallel to envs ([394d345](https://github.com/3d-omics/mg_assembly/commit/394d345c076d4c8ca01909d39a5f507dccf3b0f9))
+* add pigz to envs ([a642477](https://github.com/3d-omics/mg_assembly/commit/a64247750018e08e9732af3c3cd68e04d6800393))
+* add rename to environment ([12a50b2](https://github.com/3d-omics/mg_assembly/commit/12a50b2c5e6530d2b20618d77d92431f8e351cea))
+* **dram:** params -&gt; output ([6d082b4](https://github.com/3d-omics/mg_assembly/commit/6d082b41359fbc10f080b1f9653c4b67a56b4f4d))
+* **drep:** make report parsing a localrule ([0f15e8d](https://github.com/3d-omics/mg_assembly/commit/0f15e8d4346ea9691cef39ba6de9b1664dd3a11d))
+* **drep:** rename rule in profile and reduce time and ram ([be19aac](https://github.com/3d-omics/mg_assembly/commit/be19aacbeb7214641e35053b585222d36793d1d7))
+* **profile:** double on failure in bins, name report rules properly ([389650c](https://github.com/3d-omics/mg_assembly/commit/389650cd7b52d14ab1b11af99ed53971f68b7c5d))
+* txt -&gt; tsv ([1903ad7](https://github.com/3d-omics/mg_assembly/commit/1903ad74e5e42261a11d16cbb56649c55ed55016))
+
 ## [1.1.0](https://github.com/3d-omics/mg_assembly/compare/v1.0.0...v1.1.0) (2024-09-26)
 
 
