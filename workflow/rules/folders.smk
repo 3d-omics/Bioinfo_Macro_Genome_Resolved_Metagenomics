@@ -13,7 +13,7 @@ PRE_BOWTIE2 = PRE / "bowtie2"
 # Assemble
 ASSEMBLE = RESULTS / "assemble"
 ASSEMBLE_MEGAHIT = ASSEMBLE / "megahit/"
-ASSEMBLE_INDEX = ASSEMBLE / "index/"
+ASSEMBLE_INDEX = ASSEMBLE / "build/"
 ASSEMBLE_BOWTIE2 = ASSEMBLE / "bowtie2/"
 ASSEMBLE_QUAST = ASSEMBLE / "quast/"
 
@@ -32,7 +32,7 @@ DREP = PROK_CLUSTER / "drep/"
 
 ## Prokaryotes - Quantify
 PROK_QUANT = PROK / "quantify"
-QUANT_INDEX = PROK_QUANT / "index/"
+QUANT_INDEX = PROK_QUANT / "build/"
 QUANT_BOWTIE2 = PROK_QUANT / "bowtie2/"
 COVERM = PROK_QUANT / "coverm/"
 
@@ -64,7 +64,7 @@ CHECKV = VIR_ANN / "checkv"
 
 ## Viruses - Quantify
 VIR_QUANT = VIR / "quantify"
-VINDEX = VIR_QUANT / "index"
+VINDEX = VIR_QUANT / "build"
 VBOWTIE2 = VIR_QUANT / "bowtie2"
 VCOVERM = VIR_QUANT / "coverm"
 
