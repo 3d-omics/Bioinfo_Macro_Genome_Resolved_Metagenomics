@@ -201,7 +201,7 @@ rule prokaryotes__annotate__dram__distill:
         """
 
 
-rule prokaryotes__annotate__dram__distill_archive:
+rule prokaryotes__annotate__dram__distill__archive:
     input:
         work_dir=PROK_ANN / "dram.distill",
     output:
@@ -230,9 +230,9 @@ rule prokaryotes__annotate__dram__distill_archive:
 rule prokaryotes__annotate__dram__all:
     """Run DRAM on dereplicated genomes."""
     input:
-        rules.prokaryotes__annotate__dram__annotate_archive.output,
-        rules.prokaryotes__annotate__dram__distill_archive.output,
+        rules.prokaryotes__annotate__dram__annotate__archive.output,
+        rules.prokaryotes__annotate__dram__distill__archive.output,
 
 
 localrules:
-    prokaryotes__annotate__dram__distill_archive,
+    prokaryotes__annotate__dram__distill__archive,

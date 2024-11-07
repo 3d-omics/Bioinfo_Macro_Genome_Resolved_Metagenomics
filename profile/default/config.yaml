@@ -34,40 +34,40 @@ set-threads:
     ## prokaryotes - annotate
     prokaryotes__annotate__checkm2: 24
     prokaryotes__annotate__dram__annotate: 24
-    prokaryotes__annotate__gtdbtk: 24
+    prokaryotes__annotate__gtdbtk__classify_wf: 24
     prokaryotes__annotate__quast: 4
     ## prokaryotes - quantify
     prokaryotes__quantify__index: 24
     prokaryotes__quantify__bowtie2: 24
     # viruses
     ## viruses - cluster
-    viruses__cluster__genomad__: 24
-    viruses__cluster__dedupe__: 24
-    viruses__cluster__mmseqs__: 24
+    viruses__cluster__genomad: 24
+    viruses__cluster__dedupe: 24
+    viruses__cluster__mmseqs: 24
     ## viruses - annotate
-    viruses__annotate__genomad__: 24
-    viruses__annotate__virsorter2__: 24
-    viruses__annotate__dramv__annotate__: 24
-    viruses__annotate__quast__: 4
+    viruses__annotate__genomad: 24
+    viruses__annotate__virsorter2: 24
+    viruses__annotate__dramv__annotate: 24
+    viruses__annotate__quast: 4
     ## viruses - quantify
-    viruses__quantify__index__: 24
-    viruses__quantify__bowtie2__: 24
+    viruses__quantify__bowtie2__build: 24
+    viruses__quantify__bowtie2__map: 24
 
 
 set-resources:
     # preprocess
     preprocess__fastp:
         mem_mb: 8G
-        runtime: 4h
+        runtime: 1h
     preprocess__bowtie2__build:
         mem_mb: 32 * 1024 * 2 ** (attempt - 1)
         runtime: 1d
     preprocess__bowtie2__map:
         mem_mb: 32 * 1024 * 2 ** (attempt - 1)
-        runtime: 1d
+        runtime: 4h
     preprocess__bowtie2__fastq:
-        mem_mb: 32G
-        runtime: 1d
+        mem_mb: 8 * 1024
+        runtime: 2h
     preprocess__kraken2__assign:
         mem_mb: 500G
         runtime: 1d
@@ -81,19 +81,23 @@ set-resources:
     preprocess__multiqc:
         mem_mb: 4 * 1024 * 2 ** (attempt - 1)
         runtime: 6h
+
     # assemble
     assemble__megahit:
         mem_mb: 32 * 1024 * 2 ** (attempt - 1)
         runtime: 1w
-    assemble__index:
+    assemble__bowtie2__build:
         mem_mb: 32 * 1024 * 2 ** (attempt - 1)
-        runtime: 2d
-    assemble__bowtie2:
+        runtime: 6h
+    assemble__bowtie2__map:
         mem_mb: 32 * 1024 * 2 ** (attempt - 1)
-        runtime: 1d
+        runtime: 6h
+    assemble__quast:
+        mem_mb: 8G
     assemble__multiqc:
         mem_mb: 8 * 1024 * 2 ** (attempt - 1)
         runtime: 6h
+
     # prokaryotes
     prokaryotes__multiqc:
         mem_mb: 8 * 1024 * 2 ** (attempt - 1)
@@ -128,28 +132,29 @@ set-resources:
     prokaryotes__annotate__checkm2:
         mem_mb: 16G
     prokaryotes__annotate__dram__annotate:
-        mem_mb: 64G
+        mem_mb: 8G
         runtime: 1d
     prokaryotes__annotate__dram__distill:
         mem_mb: 16G
         runtime: 1d
-    prokaryotes__annotate__gtdbtk:
+    prokaryotes__annotate__gtdbtk__classify_wf:
         mem_mb: 64 * 1024 * 2 ** (attempt - 1)
         runtime: 1d
     prokaryotes__annotate__drep__dereplicate:
         mem_mb: 4G
         runtime: 6h
     ## prokaryotes - quantify
-    prokaryotes__quantify__index:
+    prokaryotes__quantify__bowtie2__build:
         mem_mb: 32 * 1024 * 2 ** (attempt - 1)
-        runtime: 1d
-    prokaryotes__quantify__bowtie2:
+        runtime: 6h
+    prokaryotes__quantify__bowtie2__map:
         mem_mb: 32 * 1024 * 2 ** (attempt - 1)
-        runtime: 1d
+        runtime: 6d
     prokaryotes__quantify__coverm__genome__aggregate:
         mem_mb: 8G
     prokaryotes__quantify__coverm__contig__aggregate:
         mem_mb: 8G
+
     # viruses
     viruses__multiqc:
         mem_mb: 8 * 1024 * 2 ** (attempt - 1)
@@ -163,13 +168,25 @@ set-resources:
     viruses__annotate__quast:
         mem_mb: 8G
     ## viruses - quantify
-    viruses__quantify__index:
+    viruses__quantify__bowtie2__build:
         mem_mb: 32 * 1024 * 2 ** (attempt - 1)
         runtime: 1d
-    viruses__quantify__bowtie2:
+    viruses__quantify__bowtie2__map:
         mem_mb: 32 * 1024 * 2 ** (attempt - 1)
         runtime: 1d
     viruses__quantify__coverm__genome__aggregate:
         mem_mb: 8G
     viruses__quantify__coverm__contig_aggregate:
         mem_mb: 8G
+
+
+cache:
+    preprocess__hosts
+    preprocess__bowtie2__build
+
+groups:
+    preprocess__hosts: preprocess__{host}
+    preprocess__bowtie2__build: preprocess__{host}
+    preprocess__fastp: preprocess__{sample_id}.{library_id}
+    preprocess__bowtie2__map: preprocess__{sample_id}.{library_id}
+    preprocess__bowtie2__fastq: preprocess__{sample_id}.{library_id}
