@@ -10,6 +10,7 @@ default-resources:
 
 set-threads:
     # preprocess
+    preprocess__hosts: 8
     preprocess__fastp: 8
     preprocess__bowtie2__build: 24
     preprocess__bowtie2__map: 24
