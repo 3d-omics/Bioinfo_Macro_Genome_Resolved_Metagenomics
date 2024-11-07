@@ -1,11 +1,71 @@
+rule assemble__bowtie2__build:
+    """Index a megahit assembly"""
+    input:
+        contigs=ASSEMBLE_MEGAHIT / "{assembly_id}.fa.gz",
+    output:
+        mock=multiext(
+            str(ASSEMBLE_INDEX / "{assembly_id}"),
+            ".1.bt2",
+            ".2.bt2",
+            ".3.bt2",
+            ".4.bt2",
+            ".rev.1.bt2",
+            ".rev.2.bt2"
+        )
+    log:
+        ASSEMBLE_INDEX / "{assembly_id}.log",
+    conda:
+        "../../environments/bowtie2_samtools.yml"
+    resources:
+        attempt=get_attempt,
+    retries: 5
+    params:
+        index_prefix=lambda w: ASSEMBLE_INDEX / "{assembly_id}",
+    shell:
+        """
+        bowtie2-build \
+            --threads {threads} \
+            {input.contigs} \
+            {params.index_prefix} \
+        2> {log}.{resources.attempt} 1>&2
+
+        mv {log}.{resources.attempt} {log}
+        """
+
+
+rule assemble__bowtie2__build__all:
+    """Index all megahit assemblies"""
+    input:
+        [
+            ASSEMBLE_INDEX / f"{assembly_id}.{extension}"
+            for assembly_id in ASSEMBLIES
+            for extension in [
+                "1.bt2",
+                "2.bt2",
+                "3.bt2",
+                "4.bt2",
+                "rev.1.bt2",
+                "rev.2.bt2"
+            ]
+        ],
+
+
 rule assemble__bowtie2__map:
     """Map one sample to one megahit assembly"""
     input:
-        mock=ASSEMBLE_INDEX / "{assembly_id}",
+        mock=multiext(
+            str(ASSEMBLE_INDEX / "{assembly_id}"),
+            ".1.bt2",
+            ".2.bt2",
+            ".3.bt2",
+            ".4.bt2",
+            ".rev.1.bt2",
+            ".rev.2.bt2"
+        ),
         forward_=PRE_BOWTIE2 / "{sample_id}.{library_id}_1.fq.gz",
         reverse_=PRE_BOWTIE2 / "{sample_id}.{library_id}_2.fq.gz",
         reference=ASSEMBLE_MEGAHIT / "{assembly_id}.fa.gz",
-        fai=ASSEMBLE_MEGAHIT / "{assembly_id}.fa.gz.fai",
+        # fai=ASSEMBLE_MEGAHIT / "{assembly_id}.fa.gz.fai",
     output:
         bam=ASSEMBLE_BOWTIE2 / "{assembly_id}.{sample_id}.{library_id}.bam",
     log:
@@ -13,6 +73,7 @@ rule assemble__bowtie2__map:
     conda:
         "../../environments/bowtie2_samtools.yml"
     params:
+        index_prefix=lambda w: ASSEMBLE_INDEX / f"{w.assembly_id}",
         samtools_mem=params["assemble"]["samtools"]["mem"],
         rg_id=compose_rg_id,
         rg_extra=compose_rg_extra,
@@ -28,7 +89,7 @@ rule assemble__bowtie2__map:
         2> {log}.{resources.attempt} 1>&2
 
         ( bowtie2 \
-            -x {input.mock} \
+            -x {params.index_prefix} \
             -1 {input.forward_} \
             -2 {input.reverse_} \
             --threads {threads} \
@@ -57,3 +118,9 @@ rule assemble__bowtie2__map__all:
             ASSEMBLE_BOWTIE2 / f"{assembly_id}.{sample_id}.{library_id}.bam.bai"
             for assembly_id, sample_id, library_id in ASSEMBLY_SAMPLE_LIBRARY
         ],
+
+
+rule assemble__bowtie2__all:
+    input:
+        rules.assemble__bowtie2__build__all.input,
+        rules.assemble__bowtie2__map__all.input,
