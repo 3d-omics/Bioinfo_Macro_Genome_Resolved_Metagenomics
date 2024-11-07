@@ -10,7 +10,7 @@ rule viruses__quantify__bowtie2__build:
             ".3.bt2",
             ".4.bt2",
             ".rev.1.bt2",
-            ".rev.2.bt2"
+            ".rev.2.bt2",
         ),
     log:
         VINDEX / "virues.log",
@@ -43,7 +43,7 @@ rule viruses__quantify__bowtie2__map:
             ".3.bt2",
             ".4.bt2",
             ".rev.1.bt2",
-            ".rev.2.bt2"
+            ".rev.2.bt2",
         ),
         forward_=PRE_BOWTIE2 / "{sample_id}.{library_id}_1.fq.gz",
         reverse_=PRE_BOWTIE2 / "{sample_id}.{library_id}_2.fq.gz",
@@ -57,7 +57,7 @@ rule viruses__quantify__bowtie2__map:
         samtools_mem=params["quantify"]["bowtie2"]["samtools_mem"],
         rg_id=compose_rg_id,
         rg_extra=compose_rg_extra,
-        index_prefix=lambda w: VINDEX / "viruses",  
+        index_prefix=lambda w: VINDEX / "viruses",
     shell:
         """
         find \

@@ -10,8 +10,8 @@ rule assemble__bowtie2__build:
             ".3.bt2",
             ".4.bt2",
             ".rev.1.bt2",
-            ".rev.2.bt2"
-        )
+            ".rev.2.bt2",
+        ),
     log:
         ASSEMBLE_INDEX / "{assembly_id}.log",
     conda:
@@ -45,7 +45,7 @@ rule assemble__bowtie2__build__all:
                 "3.bt2",
                 "4.bt2",
                 "rev.1.bt2",
-                "rev.2.bt2"
+                "rev.2.bt2",
             ]
         ],
 
@@ -60,7 +60,7 @@ rule assemble__bowtie2__map:
             ".3.bt2",
             ".4.bt2",
             ".rev.1.bt2",
-            ".rev.2.bt2"
+            ".rev.2.bt2",
         ),
         forward_=PRE_BOWTIE2 / "{sample_id}.{library_id}_1.fq.gz",
         reverse_=PRE_BOWTIE2 / "{sample_id}.{library_id}_2.fq.gz",

@@ -10,7 +10,7 @@ rule prokaryotes__quantify__bowtie2__build:
             ".3.bt2",
             ".4.bt2",
             ".rev.1.bt2",
-            ".rev.2.bt2"
+            ".rev.2.bt2",
         ),
     log:
         QUANT_INDEX / "drep.{secondary_ani}.log",
@@ -30,10 +30,7 @@ rule prokaryotes__quantify__bowtie2__build:
 
 rule prokaryotes__quantify__bowtie2__build__all:
     input:
-        [
-            QUANT_INDEX / f"drep.{secondary_ani}"
-            for secondary_ani in SECONDARY_ANIS
-        ],
+        [QUANT_INDEX / f"drep.{secondary_ani}" for secondary_ani in SECONDARY_ANIS],
 
 
 rule prokaryotes__quantify__bowtie2__map:
@@ -46,7 +43,7 @@ rule prokaryotes__quantify__bowtie2__map:
             ".3.bt2",
             ".4.bt2",
             ".rev.1.bt2",
-            ".rev.2.bt2"
+            ".rev.2.bt2",
         ),
         forward_=PRE_BOWTIE2 / "{sample_id}.{library_id}_1.fq.gz",
         reverse_=PRE_BOWTIE2 / "{sample_id}.{library_id}_2.fq.gz",
