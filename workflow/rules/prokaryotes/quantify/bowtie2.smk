@@ -4,20 +4,20 @@ rule prokaryotes__quantify__bowtie2__build:
         contigs=PROK_ANN / "drep.{secondary_ani}.fa.gz",
     output:
         mock=multiext(
-            str(QUANT_INDEX / "drep.{secondary_ani}"),
-            ".1.bt2",
-            ".2.bt2",
-            ".3.bt2",
-            ".4.bt2",
-            ".rev.1.bt2",
-            ".rev.2.bt2",
+            str(QUANT_INDEX / "drep.{secondary_ani}."),
+            "1.bt2",
+            "2.bt2",
+            "3.bt2",
+            "4.bt2",
+            "rev.1.bt2",
+            "rev.2.bt2",
         ),
     log:
         QUANT_INDEX / "drep.{secondary_ani}.log",
     conda:
         "../../../environments/bowtie2_samtools.yml"
     params:
-        index_prefix=lambda w: QUANT_INDEX / "drep.{secondary_ani}",
+        index_prefix=lambda w: QUANT_INDEX / "drep.{secondary_ani}.",
     shell:
         """
         bowtie2-build \
@@ -30,20 +30,24 @@ rule prokaryotes__quantify__bowtie2__build:
 
 rule prokaryotes__quantify__bowtie2__build__all:
     input:
-        [QUANT_INDEX / f"drep.{secondary_ani}" for secondary_ani in SECONDARY_ANIS],
+        [
+            QUANT_INDEX / f"drep.{secondary_ani}.{extension}" 
+            for secondary_ani in SECONDARY_ANIS
+            for extension in ["1.bt2", "2.bt2", "3.bt2", "4.bt2", "rev.1.bt2", "rev.2.bt2"]
+        ],
 
 
 rule prokaryotes__quantify__bowtie2__map:
     """Align one sample to the dereplicated genomes"""
     input:
         mock=multiext(
-            str(QUANT_INDEX / "drep.{secondary_ani}"),
-            ".1.bt2",
-            ".2.bt2",
-            ".3.bt2",
-            ".4.bt2",
-            ".rev.1.bt2",
-            ".rev.2.bt2",
+            str(QUANT_INDEX / "drep.{secondary_ani}."),
+            "1.bt2",
+            "2.bt2",
+            "3.bt2",
+            "4.bt2",
+            "rev.1.bt2",
+            "rev.2.bt2",
         ),
         forward_=PRE_BOWTIE2 / "{sample_id}.{library_id}_1.fq.gz",
         reverse_=PRE_BOWTIE2 / "{sample_id}.{library_id}_2.fq.gz",
