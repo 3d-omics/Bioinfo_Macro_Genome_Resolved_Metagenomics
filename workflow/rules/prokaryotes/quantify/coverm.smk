@@ -4,7 +4,7 @@ rule prokaryotes__quantify__coverm__genome:
         bam=QUANT_BOWTIE2 / "drep.{secondary_ani}" / "{sample_id}.{library_id}.bam",
         bai=QUANT_BOWTIE2 / "drep.{secondary_ani}" / "{sample_id}.{library_id}.bam.bai",
         reference=PROK_ANN / "drep.{secondary_ani}.fa.gz",
-        fai=PROK_ANN / "drep.{secondary_ani}" / "dereplicated_genomes.fa.gz.fai",
+        fai=PROK_ANN / "drep.{secondary_ani}.fa.gz.fai",
     output:
         tsv=COVERM
         / "genome"
@@ -43,13 +43,13 @@ rule prokaryotes__quantify__coverm__genome__aggregate:
     input:
         get_tsvs_for_dereplicate_coverm_genome,
     output:
-        tsv=COVERM / "genome.{method}.{secondary_ani}.tsv.gz",
+        tsv=COVERM / "genome.{method}.drep.{secondary_ani}.tsv.gz",
     log:
-        COVERM / "genome.{method}.{secondary_ani}.log",
+        COVERM / "genome.{method}.drep.{secondary_ani}.log",
     conda:
         "../../../environments/r.yml"
     params:
-        input_dir=lambda w: COVERM / "genome" / w.method / w.secondary_ani,
+        input_dir=lambda w: COVERM / "genome" / w.method / f"drep.{w.secondary_ani}",
     shell:
         """
         Rscript --vanilla workflow/scripts/aggregate_coverm.R \
@@ -63,7 +63,7 @@ rule prokaryotes__quantify__coverm__genome__all:
     """Run coverm genome and all methods"""
     input:
         [
-            COVERM / f"genome.{method}.{secondary_ani}.tsv.gz"
+            COVERM / f"genome.{method}.drep.{secondary_ani}.tsv.gz"
             for method in params["quantify"]["coverm"]["genome"]["methods"]
             for secondary_ani in SECONDARY_ANIS
         ],
@@ -110,13 +110,13 @@ rule prokaryotes__quantify__coverm__contig__aggregate:
     input:
         get_tsvs_for_dereplicate_coverm_contig,
     output:
-        tsv=COVERM / "contig.{method}.{secondary_ani}.tsv.gz",
+        tsv=COVERM / "contig.{method}.drep.{secondary_ani}.tsv.gz",
     log:
-        COVERM / "contig.{method}.{secondary_ani}log",
+        COVERM / "contig.{method}.drep.{secondary_ani}log",
     conda:
         "../../../environments/r.yml"
     params:
-        input_dir=lambda w: COVERM / "contig" / w.method / w.secondary_ani,
+        input_dir=lambda w: COVERM / "contig" / w.method / f"drep{w.secondary_ani}",
     shell:
         """
         Rscript --vanilla workflow/scripts/aggregate_coverm.R \
@@ -130,7 +130,7 @@ rule prokaryotes__quantify__coverm__contig__all:
     """Run coverm contig and all methods"""
     input:
         [
-            COVERM / f"contig.{method}.{secondary_ani}.tsv.gz"
+            COVERM / f"contig.{method}.drep.{secondary_ani}.tsv.gz"
             for method in params["quantify"]["coverm"]["contig"]["methods"]
             for secondary_ani in SECONDARY_ANIS
         ],
