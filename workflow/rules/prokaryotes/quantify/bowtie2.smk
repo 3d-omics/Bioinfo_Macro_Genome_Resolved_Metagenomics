@@ -31,9 +31,16 @@ rule prokaryotes__quantify__bowtie2__build:
 rule prokaryotes__quantify__bowtie2__build__all:
     input:
         [
-            QUANT_INDEX / f"drep.{secondary_ani}.{extension}" 
+            QUANT_INDEX / f"drep.{secondary_ani}.{extension}"
             for secondary_ani in SECONDARY_ANIS
-            for extension in ["1.bt2", "2.bt2", "3.bt2", "4.bt2", "rev.1.bt2", "rev.2.bt2"]
+            for extension in [
+                "1.bt2",
+                "2.bt2",
+                "3.bt2",
+                "4.bt2",
+                "rev.1.bt2",
+                "rev.2.bt2",
+            ]
         ],
 
 
