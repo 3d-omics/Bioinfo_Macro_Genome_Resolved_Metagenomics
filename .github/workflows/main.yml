@@ -56,6 +56,7 @@ jobs:
             --show-failed-logs
             --cores 3
             --latency-wait 5
+            --printshellcmds
             preprocess__bowtie2__all
             preprocess__fastp__all
             preprocess__kraken2__all
@@ -87,6 +88,7 @@ jobs:
             --cores 3
             --latency-wait 5
             --conda-cleanup-envs
+            --printshellcmds
             prokaryotes__cluster__all
 
 
