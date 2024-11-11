@@ -20,7 +20,7 @@ rule assemble__bowtie2__build:
         attempt=get_attempt,
     retries: 5
     params:
-        index_prefix=lambda w: ASSEMBLE_INDEX / "{assembly_id}",
+        index_prefix=lambda w: ASSEMBLE_INDEX / f"{w.assembly_id}",
     shell:
         """
         bowtie2-build \
