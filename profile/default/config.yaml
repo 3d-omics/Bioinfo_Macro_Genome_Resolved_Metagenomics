@@ -72,9 +72,9 @@ set-resources:
         mem_mb: 500G
         runtime: 1d
     preprocess__nonpareil__run:
-        runtime: 1d
+        runtime: 6h
     preprocess__singlem__pipe:
-        runtime: 2d
+        runtime: 2h
         mem_mb: 16G
     preprocess__singlem__condense:
         runtime: 6h
