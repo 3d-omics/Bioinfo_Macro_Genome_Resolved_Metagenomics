@@ -179,11 +179,6 @@ set-resources:
     viruses__quantify__coverm__contig_aggregate:
         mem_mb: 8G
 
-
-cache:
-    preprocess__hosts
-    preprocess__bowtie2__build
-
 groups:
     preprocess__hosts: preprocess__{host}
     preprocess__bowtie2__build: preprocess__{host}
