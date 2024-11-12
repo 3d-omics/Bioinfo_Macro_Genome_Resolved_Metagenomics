@@ -1,3 +1,5 @@
+include: "coverm_functions.smk"
+
 rule prokaryotes__quantify__coverm__genome:
     """Run coverm genome for one library and one mag catalogue"""
     input:

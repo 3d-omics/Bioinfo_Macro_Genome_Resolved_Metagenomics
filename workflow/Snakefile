@@ -39,7 +39,24 @@ SECONDARY_ANIS = params["prokaryotes"]["annotate"]["drep"]["secondary_anis"]
 
 
 # Import subworkflows
-include: "rules/__main__.smk"
+
+module helpers:
+    snakefile:
+        github("jlanga/snakehelpers", path="workflow/Snakefile", branch="main")
+    config:
+        params
+
+use rule * from helpers as helpers__*
+
+include: "rules/functions.smk"
+include: "rules/folders.smk"
+include: "rules/preprocess.smk"
+include: "rules/assemble.smk"
+include: "rules/prokaryotes.smk"
+include: "rules/viruses.smk"
+
+
+
 
 
 rule all:

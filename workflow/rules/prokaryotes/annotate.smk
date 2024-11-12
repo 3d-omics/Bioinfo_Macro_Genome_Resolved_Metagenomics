@@ -1,9 +1,9 @@
-include: "mags.smk"
-include: "gtdbtk.smk"
-include: "dram.smk"
-include: "checkm2.smk"
-include: "drep.smk"
-include: "quast.smk"
+include: "annotate/mags.smk"
+include: "annotate/gtdbtk.smk"
+include: "annotate/dram.smk"
+include: "annotate/checkm2.smk"
+include: "annotate/drep.smk"
+include: "annotate/quast.smk"
 
 
 rule prokaryotes__annotate__all:

@@ -1,6 +1,7 @@
 channels:
   - conda-forge
   - bioconda
-  - nodefaults
+  - defaults
 dependencies:
-  - multiqc =1.25.1
+  - csvkit =2.0.1
+  - singlem =0.18.3

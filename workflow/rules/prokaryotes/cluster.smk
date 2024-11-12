@@ -1,8 +1,8 @@
-include: "__functions__.smk"
-include: "concoct.smk"
-include: "magscot.smk"
-include: "maxbin2.smk"
-include: "metabat2.smk"
+include: "cluster/common_functions.smk"
+include: "cluster/concoct.smk"
+include: "cluster/magscot.smk"
+include: "cluster/maxbin2.smk"
+include: "cluster/metabat2.smk"
 
 
 rule prokaryotes__cluster__all:

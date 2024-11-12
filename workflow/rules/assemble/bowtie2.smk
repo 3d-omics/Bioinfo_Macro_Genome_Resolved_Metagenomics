@@ -64,17 +64,14 @@ rule assemble__bowtie2__map:
         ),
         forward_=PRE_BOWTIE2 / "{sample_id}.{library_id}_1.fq.gz",
         reverse_=PRE_BOWTIE2 / "{sample_id}.{library_id}_2.fq.gz",
-        reference=ASSEMBLE_MEGAHIT / "{assembly_id}.fa.gz",
-        # fai=ASSEMBLE_MEGAHIT / "{assembly_id}.fa.gz.fai",
     output:
         bam=ASSEMBLE_BOWTIE2 / "{assembly_id}.{sample_id}.{library_id}.bam",
     log:
-        log=ASSEMBLE_BOWTIE2 / "{assembly_id}.{sample_id}.{library_id}.log",
+        ASSEMBLE_BOWTIE2 / "{assembly_id}.{sample_id}.{library_id}.log",
     conda:
         "../../environments/bowtie2_samtools.yml"
     params:
         index_prefix=lambda w: ASSEMBLE_INDEX / f"{w.assembly_id}",
-        samtools_mem=params["assemble"]["samtools"]["mem"],
         rg_id=compose_rg_id,
         rg_extra=compose_rg_extra,
     resources:
@@ -97,9 +94,7 @@ rule assemble__bowtie2__map:
             --rg '{params.rg_extra}' \
         | samtools sort \
             -l 9 \
-            -m {params.samtools_mem} \
             -o {output.bam} \
-            --reference {input.reference} \
             --threads {threads} \
         ) 2>> {log}.{resources.attempt} 1>&2
 
@@ -112,10 +107,6 @@ rule assemble__bowtie2__map__all:
     input:
         [
             ASSEMBLE_BOWTIE2 / f"{assembly_id}.{sample_id}.{library_id}.bam"
-            for assembly_id, sample_id, library_id in ASSEMBLY_SAMPLE_LIBRARY
-        ]
-        + [
-            ASSEMBLE_BOWTIE2 / f"{assembly_id}.{sample_id}.{library_id}.bam.bai"
             for assembly_id, sample_id, library_id in ASSEMBLY_SAMPLE_LIBRARY
         ],
 

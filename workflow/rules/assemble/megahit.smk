@@ -1,3 +1,6 @@
+include: "megahit_functions.smk"
+
+
 rule assemble__megahit:
     """Run megahit over one sample, merging all libraries in the process
 

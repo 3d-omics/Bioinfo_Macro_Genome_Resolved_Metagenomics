@@ -1,6 +1,5 @@
-include: "__functions__.smk"
-include: "bowtie2.smk"
-include: "coverm.smk"
+include: "quantify/bowtie2.smk"
+include: "quantify/coverm.smk"
 
 
 rule viruses__quantify__all:

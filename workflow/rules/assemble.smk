@@ -1,8 +1,7 @@
-include: "__functions__.smk"
-include: "megahit.smk"
-include: "bowtie2.smk"
-include: "quast.smk"
-include: "multiqc.smk"
+include: "assemble/megahit.smk"
+include: "assemble/bowtie2.smk"
+include: "assemble/quast.smk"
+include: "assemble/multiqc.smk"
 
 
 rule assemble__all:
@@ -10,4 +9,5 @@ rule assemble__all:
     input:
         rules.assemble__megahit__all.input,
         rules.assemble__bowtie2__all.input,
+        rules.assemble__quast__all.input,
         rules.assemble__multiqc__all.input,

@@ -1,7 +1,7 @@
-include: "cluster/__main__.smk"
-include: "annotate/__main__.smk"
-include: "quantify/__main__.smk"
-include: "multiqc.smk"
+include: "viruses/cluster.smk"
+include: "viruses/annotate.smk"
+include: "viruses/quantify.smk"
+include: "viruses/multiqc.smk"
 
 
 rule viruses__all:

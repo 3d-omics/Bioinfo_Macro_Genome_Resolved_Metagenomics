@@ -20,4 +20,7 @@ rule assemble__quast:
 
 rule assemble__quast__all:
     input:
-        rules.assemble__quast.output,
+        [
+            ASSEMBLE_QUAST / f"{assembly_id}"
+            for assembly_id, _, _ in ASSEMBLY_SAMPLE_LIBRARY
+        ],

@@ -1,6 +1,6 @@
 channels:
   - conda-forge
   - bioconda
-  - nodefaults
+  - defaults
 dependencies:
-  - multiqc =1.25.1
+  - coreutils =9.5

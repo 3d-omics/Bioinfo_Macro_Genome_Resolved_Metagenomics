@@ -1,6 +1,6 @@
-include: "genomad.smk"
-include: "bbmap.smk"
-include: "mmseqs.smk"
+include: "cluster/genomad.smk"
+include: "cluster/bbmap.smk"
+include: "cluster/mmseqs.smk"
 
 
 rule viruses__cluster__all:

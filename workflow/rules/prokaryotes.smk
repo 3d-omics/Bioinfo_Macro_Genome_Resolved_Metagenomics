@@ -1,7 +1,7 @@
-include: "cluster/__main__.smk"
-include: "annotate/__main__.smk"
-include: "quantify/__main__.smk"
-include: "multiqc.smk"
+include: "prokaryotes/cluster.smk"
+include: "prokaryotes/annotate.smk"
+include: "prokaryotes/quantify.smk"
+include: "prokaryotes/multiqc.smk"
 
 
 rule prokaryotes__all:
