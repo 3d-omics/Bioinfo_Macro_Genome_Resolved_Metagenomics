@@ -72,5 +72,3 @@ VIR_QUANT = VIR / "quantify"
 VINDEX = VIR_QUANT / "build"
 VBOWTIE2 = VIR_QUANT / "bowtie2"
 VCOVERM = VIR_QUANT / "coverm"
-
-
