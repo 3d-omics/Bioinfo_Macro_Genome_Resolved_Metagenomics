@@ -45,7 +45,7 @@ jobs:
       - name: Clean conda cache
         run: conda clean --all --yes
 
-      - name: Test workflow - Preprocess
+      - name: Test workflow - Test
         uses: snakemake/snakemake-github-action@v1
         with:
           directory: .
@@ -57,13 +57,9 @@ jobs:
             --cores 3
             --latency-wait 5
             --printshellcmds
-            preprocess__bowtie2__all
-            preprocess__fastp__all
-            preprocess__kraken2__all
-            preprocess__nonpareil__all
-            preprocess__multiqc
+            test
 
-      - name: Test workflow - Assemble
+      - name: Test workflow - Print the commands to everything else
         uses: snakemake/snakemake-github-action@v1
         with:
           directory: .
@@ -75,40 +71,16 @@ jobs:
             --cores 3
             --latency-wait 5
             --printshellcmds
-            assemble__all
-
-      - name: Test workflow - Prokaryotes - Cluster
-        uses: snakemake/snakemake-github-action@v1
-        with:
-          directory: .
-          snakefile: workflow/Snakefile
-          args: >
-            --use-conda
-            --profile profile/default
-            --show-failed-logs
-            --cores 3
-            --latency-wait 5
-            --conda-cleanup-envs
-            --printshellcmds
-            prokaryotes__cluster__all
-
+            --dry-run
+            all
 
       - name: Delete everything
         run: |
           sudo find results -not -name "*.log" -type f -delete -print
 
+      - name: Clean conda
+        run: conda clean --all --yes
 
-      # - name: Test workflow - Dry run
-      #   uses: snakemake/snakemake-github-action@v1
-      #   with:
-      #     directory: .
-      #     snakefile: workflow/Snakefile
-      #     args: >
-      #       --use-conda
-      #       --profile profile/default
-      #       --cores 3
-      #       --dry-run
-      #       --printshellcmds
 
       - uses: actions/upload-artifact@v4
         if: failure()
