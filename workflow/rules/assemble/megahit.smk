@@ -39,7 +39,7 @@ rule assemble__megahit:
 
 rule assemble__megahit__rename:
     input:
-        workdir=directory(ASSEMBLE_MEGAHIT / "{assembly_id}.dir"),
+        workdir=ASSEMBLE_MEGAHIT / "{assembly_id}.dir",
     output:
         fasta=ASSEMBLE_MEGAHIT / "{assembly_id}.fa.gz",
     log:
@@ -67,7 +67,7 @@ rule assemble__megahit__rename:
 
 rule assemble__megahit__archive:
     input:
-        workdir=directory(ASSEMBLE_MEGAHIT / "{assembly_id}.dir"),
+        workdir=ASSEMBLE_MEGAHIT / "{assembly_id}.dir",
     output:
         tarball=ASSEMBLE_MEGAHIT / "{assembly_id}.tar.gz",
     log:

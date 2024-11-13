@@ -15,7 +15,7 @@ set-threads:
     preprocess__bowtie2__build: 24
     preprocess__bowtie2__map: 24
     preprocess__bowtie2__fastq: 24
-    preprocess__bowtie2__clean: 24
+    preprocess__clean: 24
     preprocess__kraken2__assign: 8
     # assemble
     assemble__megahit: 24
