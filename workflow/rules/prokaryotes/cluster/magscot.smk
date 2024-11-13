@@ -170,12 +170,12 @@ rule prokaryotes__cluster__magscot__run:
     log:
         MAGSCOT / "{assembly_id}/magscot.log",
     conda:
-        "../../../environments/magscot.yml"
+        "../../../environments/r.yml"
     params:
         out_prefix=lambda w: MAGSCOT / w.assembly_id / "magscot",
     shell:
         """
-        Rscript --vanilla workflow/scripts/MAGScoT/MAGScoT.R \
+        Rscript --no-init-file workflow/scripts/MAGScoT/MAGScoT.R \
             --input {input.contigs_to_bin} \
             --hmm {input.hmm} \
             --out {params.out_prefix} \
@@ -194,10 +194,10 @@ rule prokaryotes__cluster__magscot__reformat:
     log:
         MAGSCOT / "{assembly_id}" / "magscot.reformat.log",
     conda:
-        "../../../environments/magscot.yml"
+        "../../../environments/r.yml"
     shell:
         """
-        Rscript --vanilla workflow/scripts/clean_magscot_bin_to_contig.R \
+        Rscript --no-init-file workflow/scripts/clean_magscot_bin_to_contig.R \
             --input-file {input.refined_contig_to_bin} \
             --output-file {output.clean} \
         2> {log} 1>&2
