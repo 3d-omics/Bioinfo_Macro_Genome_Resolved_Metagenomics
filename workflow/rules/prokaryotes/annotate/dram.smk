@@ -158,10 +158,8 @@ rule prokaryotes__annotate__dram__annotate__aggregate_gtfs:
         work_dir=PROK_ANN / "dram.annotate",
     shell:
         """
-        ( cat \
-            {params.work_dir}/*/annotations.gtf \
-        | bgzip \
-            --compress-level 9 \
+        ( cat {params.work_dir}/*/annotations.gtf \
+        | bgzip --compress-level 9 \
         > {output} ) \
         2> {log}
         """
@@ -181,10 +179,8 @@ rule prokaryotes__annotate__dram__annotate__aggregate_fna:
         work_dir=PROK_ANN / "dram.annotate",
     shell:
         """
-        ( cat \
-            {params.work_dir}/*/annotations.fna \
+        ( cat {params.work_dir}/*/annotations.fna \
         | bgzip \
-            --compress-level 9 \
         > {output} ) \
         2> {log}
         """
@@ -204,10 +200,8 @@ rule prokaryotes__annotate__dram__annotate__aggregate_faa:
         work_dir=PROK_ANN / "dram.annotate",
     shell:
         """
-        ( cat \
-            {params.work_dir}/*/annotations.faa \
+        ( cat {params.work_dir}/*/annotations.faa \
         | bgzip \
-            --compress-level 9 \
         > {output} ) \
         2> {log}
         """
@@ -227,11 +221,8 @@ rule prokaryotes__annotate__dram__annotate__aggregate_scaffolds:
         work_dir=PROK_ANN / "dram.annotate",
     shell:
         """
-        ( csvstack \
-            --tabs \
-            {params.work_dir}/*/scaffolds.fna \
-        | csvformat \
-            --out-tabs \
+        ( cat {params.work_dir}/*/scaffolds.fna \
+        | bgzip \
         > {output} ) \
         2> {log}
         """
@@ -258,7 +249,6 @@ rule prokaryotes__annotate__dram__annotate__aggregate_genbank:
         2> {log}
 
         bgzip \
-            --compress-level 9 \
             {output}/*.gbk \
         2>> {log} 1>&2
         """
