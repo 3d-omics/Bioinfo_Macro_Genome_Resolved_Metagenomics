@@ -7,7 +7,7 @@ rule prokaryotes__annotate__checkm2:
         report=PROK_ANN / "checkm2.quality_report.tsv",
         tmp_dir=temp(directory(PROK_ANN / "checkm2.quality_report")),
     log:
-        PROK_ANN / "checkm.quality_report.log",
+        PROK_ANN / "checkm2.quality_report.log",
     conda:
         "../../../environments/checkm2.yml"
     shell:
