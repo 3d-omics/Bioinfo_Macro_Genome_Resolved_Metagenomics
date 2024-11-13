@@ -21,7 +21,8 @@ rule assemble__megahit:
         forwards=aggregate_forwards_for_megahit,
         reverses=aggregate_reverses_for_megahit,
     retries: 5
-    group: "assemble__megahit__{assembly_id}"
+    group:
+        "assemble__megahit__{assembly_id}"
     shell:
         """
         megahit \
@@ -46,9 +47,10 @@ rule assemble__megahit__rename:
         log=ASSEMBLE_MEGAHIT / "{assembly_id}.rename.log",
     conda:
         "../../environments/megahit.yml"
-    group: "assemble__megahit__{assembly_id}"
+    group:
+        "assemble__megahit__{assembly_id}"
     params:
-        assembly_id=lambda w: w.assembly_id
+        assembly_id=lambda w: w.assembly_id,
     shell:
         """
         ( seqtk seq \
@@ -74,7 +76,8 @@ rule assemble__megahit__archive:
         log=ASSEMBLE_MEGAHIT / "{assembly_id}.archive.log",
     conda:
         "../../environments/megahit.yml"
-    group: "assemble__megahit__{assembly_id}"
+    group:
+        "assemble__megahit__{assembly_id}"
     shell:
         """
         tar \
@@ -90,11 +93,5 @@ rule assemble__megahit__archive:
 rule assemble__megahit__all:
     """Rename all assemblies contigs to avoid future collisions"""
     input:
-        [
-            ASSEMBLE_MEGAHIT / f"{assembly_id}.fa.gz" 
-            for assembly_id in ASSEMBLIES
-        ],
-        [
-            ASSEMBLE_MEGAHIT / f"{assembly_id}.tar.gz" 
-            for assembly_id in ASSEMBLIES
-        ],
+        [ASSEMBLE_MEGAHIT / f"{assembly_id}.fa.gz" for assembly_id in ASSEMBLIES],
+        [ASSEMBLE_MEGAHIT / f"{assembly_id}.tar.gz" for assembly_id in ASSEMBLIES],
