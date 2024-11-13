@@ -196,7 +196,7 @@ rule prokaryotes__annotate__dram__annotate__aggregate_faa:
         collect_dram_annotate,
     output:
         PROK_ANN / "dram.faa.gz",
-    log:    
+    log:
         PROK_ANN / "dram.faa.log",
     conda:
         "../../../environments/dram.yml"
@@ -355,7 +355,6 @@ rule prokaryotes__annotate__dram__distill__archive:
 rule prokaryotes__annotate__dram__all:
     """Run DRAM on dereplicated genomes."""
     input:
-        rules.prokaryotes__annotate__dram__
         rules.prokaryotes__annotate__dram__annotate__archive.output,
         rules.prokaryotes__annotate__dram__distill__archive.output,
 
