@@ -144,21 +144,21 @@ rule prokaryotes__annotate__dram__annotate__aggregate_rrnas:
         """
 
 
-rule prokaryotes__annotate__dram__annotate__aggregate_gtfs:
+rule prokaryotes__annotate__dram__annotate__aggregate_gffs:
     """Aggregate DRAM GTFs"""
     input:
         collect_dram_annotate,
     output:
-        PROK_ANN / "dram.genes.gtf.gz",
+        PROK_ANN / "dram.genes.gff.gz",
     log:
-        PROK_ANN / "dram.genes.gtf.log",
+        PROK_ANN / "dram.genes.gff.log",
     conda:
         "../../../environments/dram.yml"
     params:
         work_dir=PROK_ANN / "dram.annotate",
     shell:
         """
-        ( cat {params.work_dir}/*/genes.gtf \
+        ( cat {params.work_dir}/*/genes.gff \
         | bgzip --compress-level 9 \
         > {output} ) \
         2> {log}
