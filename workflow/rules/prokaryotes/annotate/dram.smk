@@ -149,16 +149,16 @@ rule prokaryotes__annotate__dram__annotate__aggregate_gtfs:
     input:
         collect_dram_annotate,
     output:
-        PROK_ANN / "dram.gtf.gz",
+        PROK_ANN / "dram.genes.gtf.gz",
     log:
-        PROK_ANN / "dram.gtf.log",
+        PROK_ANN / "dram.genes.gtf.log",
     conda:
         "../../../environments/dram.yml"
     params:
         work_dir=PROK_ANN / "dram.annotate",
     shell:
         """
-        ( cat {params.work_dir}/*/annotations.gtf \
+        ( cat {params.work_dir}/*/genes.gtf \
         | bgzip --compress-level 9 \
         > {output} ) \
         2> {log}
@@ -170,16 +170,16 @@ rule prokaryotes__annotate__dram__annotate__aggregate_fna:
     input:
         collect_dram_annotate,
     output:
-        PROK_ANN / "dram.fna.gz",
+        PROK_ANN / "dram.genes.fna.gz",
     log:
-        PROK_ANN / "dram.fna.log",
+        PROK_ANN / "dram.genes.fna.log",
     conda:
         "../../../environments/dram.yml"
     params:
         work_dir=PROK_ANN / "dram.annotate",
     shell:
         """
-        ( cat {params.work_dir}/*/annotations.fna \
+        ( cat {params.work_dir}/*/genes.fna \
         | bgzip \
         > {output} ) \
         2> {log}
@@ -191,16 +191,16 @@ rule prokaryotes__annotate__dram__annotate__aggregate_faa:
     input:
         collect_dram_annotate,
     output:
-        PROK_ANN / "dram.faa.gz",
+        PROK_ANN / "dram.genes.faa.gz",
     log:
-        PROK_ANN / "dram.faa.log",
+        PROK_ANN / "dram.genes.faa.log",
     conda:
         "../../../environments/dram.yml"
     params:
         work_dir=PROK_ANN / "dram.annotate",
     shell:
         """
-        ( cat {params.work_dir}/*/annotations.faa \
+        ( cat {params.work_dir}/*/genes.faa \
         | bgzip \
         > {output} ) \
         2> {log}
