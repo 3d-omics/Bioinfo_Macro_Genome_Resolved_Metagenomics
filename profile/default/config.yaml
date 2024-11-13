@@ -35,7 +35,7 @@ set-threads:
     prokaryotes__cluster__drep__run: 24
     ## prokaryotes - annotate
     prokaryotes__annotate__checkm2: 24
-    prokaryotes__annotate__dram__annotate: 24
+    prokaryotes__annotate__dram__annotate__archive: 24
     prokaryotes__annotate__gtdbtk__classify_wf: 24
     prokaryotes__annotate__quast: 4
     ## prokaryotes - quantify
@@ -104,6 +104,7 @@ set-resources:
     prokaryotes__multiqc:
         mem_mb: 8 * 1024 * 2 ** (attempt - 1)
         runtime: 6h
+
     ## prokaryotes - cluster
     prokaryotes__cluster__concoct:
         mem_mb: 8 * 1024 * 2 ** (attempt - 1)
@@ -130,9 +131,11 @@ set-resources:
         mem_mb: 8G
     prokaryotes__cluster__magscot__rename:
         mem_mb: 8G
+
     ## prokaryotes - annotate
     prokaryotes__annotate__checkm2:
         mem_mb: 16G
+        runtime: 1d
     prokaryotes__annotate__dram__annotate:
         mem_mb: 8G
         runtime: 1d
@@ -145,6 +148,7 @@ set-resources:
     prokaryotes__annotate__drep__dereplicate:
         mem_mb: 4G
         runtime: 6h
+
     ## prokaryotes - quantify
     prokaryotes__quantify__bowtie2__build:
         mem_mb: 32 * 1024 * 2 ** (attempt - 1)
@@ -161,14 +165,17 @@ set-resources:
     viruses__multiqc:
         mem_mb: 8 * 1024 * 2 ** (attempt - 1)
         runtime: 6h
+
     ## viruses - cluster
     viruses__cluster__genomad:
         mem_mb: 32G
+
     ## viruses - annotate
     viruses__annotate__genomad:
         mem_mb: 32G
     viruses__annotate__quast:
         mem_mb: 8G
+    
     ## viruses - quantify
     viruses__quantify__bowtie2__build:
         mem_mb: 32 * 1024 * 2 ** (attempt - 1)
@@ -180,10 +187,3 @@ set-resources:
         mem_mb: 8G
     viruses__quantify__coverm__contig_aggregate:
         mem_mb: 8G
-
-groups:
-    preprocess__hosts: preprocess__{host}
-    preprocess__bowtie2__build: preprocess__{host}
-    preprocess__fastp: preprocess__{sample_id}.{library_id}
-    preprocess__bowtie2__map: preprocess__{sample_id}.{library_id}
-    preprocess__bowtie2__fastq: preprocess__{sample_id}.{library_id}

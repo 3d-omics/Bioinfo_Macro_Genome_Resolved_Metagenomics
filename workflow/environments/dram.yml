@@ -2,7 +2,7 @@ channels:
   - conda-forge
   - bioconda
 dependencies:
-  - agat =1.4.1
   - csvkit =2.0.1
-  - dram =1.5.0
+  - dram =1.4.6
   - parallel =20240922
+  - htslib =1.21
