@@ -144,6 +144,126 @@ rule prokaryotes__annotate__dram__annotate__aggregate_rrnas:
         """
 
 
+rule prokaryotes__annotate__dram__annotate__aggregate_gtfs:
+    """Aggregate DRAM GTFs"""
+    input:
+        collect_dram_annotate,
+    output:
+        PROK_ANN / "dram.gtf.gz",
+    log:
+        PROK_ANN / "dram.gtf.log",
+    conda:
+        "../../../environments/dram.yml"
+    params:
+        work_dir=PROK_ANN / "dram.annotate",
+    shell:
+        """
+        ( cat \
+            {params.work_dir}/*/annotations.gtf \
+        | bgzip \
+            --compress-level 9 \
+        > {output} ) \
+        2> {log}
+        """
+
+
+rule prokaryotes__annotate__dram__annotate__aggregate_fna:
+    """Aggregate DRAM fasta files"""
+    input:
+        collect_dram_annotate,
+    output:
+        PROK_ANN / "dram.fna.gz",
+    log:
+        PROK_ANN / "dram.fna.log",
+    conda:
+        "../../../environments/dram.yml"
+    params:
+        work_dir=PROK_ANN / "dram.annotate",
+    shell:
+        """
+        ( cat \
+            {params.work_dir}/*/annotations.fna \
+        | bgzip \
+            --compress-level 9 \
+        > {output} ) \
+        2> {log}
+        """
+
+
+rule prokaryotes__annotate__dram__annotate__aggregate_faa:
+    """Aggregate DRAM fasta files"""
+    input:
+        collect_dram_annotate,
+    output:
+        PROK_ANN / "dram.faa.gz",
+    log:    
+        PROK_ANN / "dram.faa.log",
+    conda:
+        "../../../environments/dram.yml"
+    params:
+        work_dir=PROK_ANN / "dram.annotate",
+    shell:
+        """
+        ( cat \
+            {params.work_dir}/*/annotations.faa \
+        | bgzip \
+            --compress-level 9 \
+        > {output} ) \
+        2> {log}
+        """
+
+
+rule prokaryotes__annotate__dram__annotate__aggregate_scaffolds:
+    """Aggregate all DRAM scaffold files"""
+    input:
+        collect_dram_annotate,
+    output:
+        PROK_ANN / "dram.scaffolds.fna.gz",
+    log:
+        PROK_ANN / "dram.scaffolds.log",
+    conda:
+        "../../../environments/dram.yml"
+    params:
+        work_dir=PROK_ANN / "dram.annotate",
+    shell:
+        """
+        ( csvstack \
+            --tabs \
+            {params.work_dir}/*/scaffolds.fna \
+        | csvformat \
+            --out-tabs \
+        > {output} ) \
+        2> {log}
+        """
+
+
+rule prokaryotes__annotate__dram__annotate__aggregate_genbank:
+    """Aggregate all DRAM genbank files"""
+    input:
+        collect_dram_annotate,
+    output:
+        directory(PROK_ANN / "genbank"),
+    log:
+        PROK_ANN / "dram.genbank.log",
+    conda:
+        "../../../environments/dram.yml"
+    params:
+        work_dir=PROK_ANN / "dram.annotate",
+    shell:
+        """
+        cp \
+            --verbose \
+            {params.work_dir}/*/genbank/* \
+            {output} \
+        2> {log}
+
+        bgzip \
+            --compress-level 9 \
+            {output}/*.gbk \
+        2>> {log} 1>&2
+        """
+
+
 rule prokaryotes__annotate__dram__annotate__archive:
     """
     Create tarball once annotations are merged done
@@ -153,6 +273,11 @@ rule prokaryotes__annotate__dram__annotate__archive:
         annotations=PROK_ANN / "dram.annotations.tsv.gz",
         trnas=PROK_ANN / "dram.trnas.tsv",
         rrnas=PROK_ANN / "dram.rrnas.tsv",
+        gtf=PROK_ANN / "dram.gtf.gz",
+        fna=PROK_ANN / "dram.fna.gz",
+        faa=PROK_ANN / "dram.faa.gz",
+        scaffolds=PROK_ANN / "dram.scaffolds.fna.gz",
+        genbank=PROK_ANN / "genbank",
     output:
         tarball=PROK_ANN / "dram.annotate.tar.gz",
     log:
@@ -230,6 +355,7 @@ rule prokaryotes__annotate__dram__distill__archive:
 rule prokaryotes__annotate__dram__all:
     """Run DRAM on dereplicated genomes."""
     input:
+        rules.prokaryotes__annotate__dram__
         rules.prokaryotes__annotate__dram__annotate__archive.output,
         rules.prokaryotes__annotate__dram__distill__archive.output,
 
