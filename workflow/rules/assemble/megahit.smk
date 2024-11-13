@@ -11,21 +11,17 @@ rule assemble__megahit:
         forwards=get_forwards_from_assembly_id,
         reverses=get_reverses_from_assembly_id,
     output:
-        fasta=ASSEMBLE_MEGAHIT / "{assembly_id}.fa.gz",
-        tarball=ASSEMBLE_MEGAHIT / "{assembly_id}.tar.gz",
+        workdir=temp(directory(ASSEMBLE_MEGAHIT / "{assembly_id}.dir")),
     log:
         log=ASSEMBLE_MEGAHIT / "{assembly_id}.log",
     conda:
         "../../environments/megahit.yml"
     params:
-        out_dir=lambda w: ASSEMBLE_MEGAHIT / w.assembly_id,
         min_contig_len=params["assemble"]["megahit"]["min_contig_len"],
         forwards=aggregate_forwards_for_megahit,
         reverses=aggregate_reverses_for_megahit,
-        assembly_id=lambda w: w.assembly_id,
-    resources:
-        attempt=get_attempt,
     retries: 5
+    group: "assemble__megahit__{assembly_id}"
     shell:
         """
         megahit \
@@ -33,38 +29,72 @@ rule assemble__megahit:
             --min-contig-len {params.min_contig_len} \
             --verbose \
             --force \
-            --out-dir {params.out_dir} \
+            --out-dir {output.workdir} \
             --continue \
             -1 {params.forwards} \
             -2 {params.reverses} \
-        2> {log}.{resources.attempt} 1>&2
+        2> {log} 1>&2
+        """
 
+
+rule assemble__megahit__rename:
+    input:
+        workdir=directory(ASSEMBLE_MEGAHIT / "{assembly_id}.dir"),
+    output:
+        fasta=ASSEMBLE_MEGAHIT / "{assembly_id}.fa.gz",
+    log:
+        log=ASSEMBLE_MEGAHIT / "{assembly_id}.rename.log",
+    conda:
+        "../../environments/megahit.yml"
+    group: "assemble__megahit__{assembly_id}"
+    params:
+        assembly_id=lambda w: w.assembly_id
+    shell:
+        """
         ( seqtk seq \
-            {params.out_dir}/final.contigs.fa \
+            {input.workdir}/final.contigs.fa \
         | cut -f 1 -d " " \
         | paste - - \
         | awk \
             '{{printf(">{params.assembly_id}:bin_NA@contig_%08d\\n%s\\n", NR, $2)}}' \
         | bgzip \
-            -l9 \
+            -l 9 \
             -@ {threads} \
         > {output.fasta} \
-        ) 2>> {log}.{resources.attempt}
+        ) 2> {log}
+        """
 
+
+rule assemble__megahit__archive:
+    input:
+        workdir=directory(ASSEMBLE_MEGAHIT / "{assembly_id}.dir"),
+    output:
+        tarball=ASSEMBLE_MEGAHIT / "{assembly_id}.tar.gz",
+    log:
+        log=ASSEMBLE_MEGAHIT / "{assembly_id}.archive.log",
+    conda:
+        "../../environments/megahit.yml"
+    group: "assemble__megahit__{assembly_id}"
+    shell:
+        """
         tar \
             --create \
             --file {output.tarball} \
-            --remove-files \
             --use-compress-program="pigz --best --processes {threads}" \
             --verbose \
-            {params.out_dir} \
-        2>> {log}.{resources.attempt} 1>&2
-
-        mv {log}.{resources.attempt} {log}
+            {input.workdir} \
+        2> {log} 1>&2
         """
 
 
 rule assemble__megahit__all:
     """Rename all assemblies contigs to avoid future collisions"""
     input:
-        [ASSEMBLE_MEGAHIT / f"{assembly_id}.fa.gz" for assembly_id in ASSEMBLIES],
+        [
+            ASSEMBLE_MEGAHIT / f"{assembly_id}.fa.gz" 
+            for assembly_id in ASSEMBLIES
+        ],
+        [
+            ASSEMBLE_MEGAHIT / f"{assembly_id}.tar.gz" 
+            for assembly_id in ASSEMBLIES
+        ],

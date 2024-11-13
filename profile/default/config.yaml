@@ -19,6 +19,8 @@ set-threads:
     preprocess__kraken2__assign: 8
     # assemble
     assemble__megahit: 24
+    assemble__megahit__rename: 24
+    assemble__megahit__archive: 24
     assemble__bowtie2__build: 24
     assemble__bowtie2__map: 24
     # prokaryotes
