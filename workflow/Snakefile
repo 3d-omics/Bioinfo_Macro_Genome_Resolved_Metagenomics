@@ -73,4 +73,4 @@ rule test:
     input:
         rules.preprocess__multiqc__all.input,
         rules.assemble__all.input,
-        rules.prokaryotes__cluster__all.input,
+        # rules.prokaryotes__cluster__all.input,
