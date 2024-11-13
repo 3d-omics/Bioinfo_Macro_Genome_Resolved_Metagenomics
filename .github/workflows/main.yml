@@ -81,6 +81,8 @@ jobs:
       - name: Clean conda
         run: conda clean --all --yes
 
+      - name: Give permissions to cache
+        run: sudo chown -R $USER:$USER .snakemake/conda
 
       - uses: actions/upload-artifact@v4
         if: failure()
