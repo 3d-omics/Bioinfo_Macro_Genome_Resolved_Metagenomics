@@ -6,7 +6,7 @@ rule preprocess__nonpareil__run:
     NOTE: in case that nonpareil fails for low coverage samples, it creates empty files
     """
     input:
-        forward_=PRE_BOWTIE2 / "{sample_id}.{library_id}_1.fq.gz",
+        PRE_CLEAN / "{sample_id}.{library_id}_1.fq.gz",
     output:
         npa=touch(PRE_NONPAREIL / "{sample_id}.{library_id}.npa"),
         npc=touch(PRE_NONPAREIL / "{sample_id}.{library_id}.npc"),
@@ -21,7 +21,7 @@ rule preprocess__nonpareil__run:
     shell:
         """
         nonpareil \
-            -s {input.forward_} \
+            -s {input} \
             -T kmer \
             -b {params.prefix} \
             -f fastq \
