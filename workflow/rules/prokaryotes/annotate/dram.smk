@@ -263,9 +263,9 @@ rule prokaryotes__annotate__dram__annotate__archive:
         annotations=PROK_ANN / "dram.annotations.tsv.gz",
         trnas=PROK_ANN / "dram.trnas.tsv",
         rrnas=PROK_ANN / "dram.rrnas.tsv",
-        gtf=PROK_ANN / "dram.gtf.gz",
-        fna=PROK_ANN / "dram.fna.gz",
-        faa=PROK_ANN / "dram.faa.gz",
+        gtf=PROK_ANN / "dram.genes.gff.gz",
+        fna=PROK_ANN / "dram.genes.fna.gz",
+        faa=PROK_ANN / "dram.genes.faa.gz",
         scaffolds=PROK_ANN / "dram.scaffolds.fna.gz",
         genbank=PROK_ANN / "genbank",
     output:
