@@ -242,11 +242,17 @@ rule prokaryotes__annotate__dram__annotate__aggregate_genbank:
         work_dir=PROK_ANN / "dram.annotate",
     shell:
         """
+        mkdir \
+            --parents \
+            --verbose \
+            {output} \
+        2> {log}
+
         cp \
             --verbose \
             {params.work_dir}/*/genbank/* \
             {output} \
-        2> {log}
+        2>> {log}
 
         bgzip \
             {output}/*.gbk \
