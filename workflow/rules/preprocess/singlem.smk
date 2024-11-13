@@ -104,26 +104,22 @@ rule preprocess__singlem__microbial_fraction:
 rule preprocess__singlem__microbial_fraction__aggregate:
     """Aggregate all the microbial_fraction files into one tsv"""
     input:
-        tsvs=[
+        [
             PRE_SINGLEM / "microbial_fraction" / f"{sample_id}.{library_id}.tsv"
             for sample_id, library_id in SAMPLE_LIBRARY
         ],
     output:
-        tsv=PRE_SINGLEM / "microbial_fraction.tsv",
+        PRE_SINGLEM / "microbial_fraction.tsv.gz",
     log:
         PRE_SINGLEM / "microbial_fraction.log",
     conda:
-        "../../environments/singlem.yml"
-    params:
-        working_dir=PRE_SINGLEM / "microbial_fraction",
+        "../../environments/csvkit.yml"
     shell:
         """
-        ( csvstack \
-            --tabs \
-            $(find {params.working_dir} -maxdepth 1 -size +0 -name "*.tsv") \
-        | csvformat \
-            --out-tabs \
-        > {output.tsv} \
+        ( csvstack --tabs {input} \
+        | csvformat --out-tabs \
+        | gzip --best \
+        > {output} \
         ) 2> {log}
         """
 
