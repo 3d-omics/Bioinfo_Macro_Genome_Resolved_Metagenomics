@@ -1,4 +1,10 @@
 rule prokaryotes__cluster__concoct:
+    """
+    Run the entire concoct pipeline
+
+    Note: don't try to separate it. As it is it is amazing: only the bins remain
+    in the folder
+    """
     input:
         assembly=ASSEMBLE_MEGAHIT / "{assembly_id}.fa.gz",
         bams=get_bams_from_assembly_id,
@@ -56,8 +62,6 @@ rule prokaryotes__cluster__concoct:
             {params.workdir}/cut.bed \
             {params.workdir}/coverage.tsv \
             {params.workdir}/*.csv \
-            {params.workdir}/*.bam \
-            {params.workdir}/*.bai \
             {params.workdir}/*.txt \
         2>> {log} 1>&2
 
