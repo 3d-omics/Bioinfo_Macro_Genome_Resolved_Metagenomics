@@ -16,7 +16,7 @@ rule preprocess__multiqc:
             for sample_id, library_id in SAMPLE_LIBRARY
         ],
         clean=[
-            PRE_BOWTIE2 / f"{sample_id}.{library_id}_{end}_fastqc.zip"
+            PRE_CLEAN / f"{sample_id}.{library_id}_{end}_fastqc.zip"
             for sample_id, library_id in SAMPLE_LIBRARY
             for end in ["1", "2"]
         ],

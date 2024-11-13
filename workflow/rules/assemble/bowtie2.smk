@@ -62,8 +62,8 @@ rule assemble__bowtie2__map:
             ".rev.1.bt2",
             ".rev.2.bt2",
         ),
-        forward_=PRE_BOWTIE2 / "{sample_id}.{library_id}_1.fq.gz",
-        reverse_=PRE_BOWTIE2 / "{sample_id}.{library_id}_2.fq.gz",
+        forward_=PRE_CLEAN / "{sample_id}.{library_id}_1.fq.gz",
+        reverse_=PRE_CLEAN / "{sample_id}.{library_id}_2.fq.gz",
     output:
         bam=ASSEMBLE_BOWTIE2 / "{assembly_id}.{sample_id}.{library_id}.bam",
     log:

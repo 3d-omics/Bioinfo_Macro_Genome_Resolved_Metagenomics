@@ -56,8 +56,8 @@ rule prokaryotes__quantify__bowtie2__map:
             "rev.1.bt2",
             "rev.2.bt2",
         ),
-        forward_=PRE_BOWTIE2 / "{sample_id}.{library_id}_1.fq.gz",
-        reverse_=PRE_BOWTIE2 / "{sample_id}.{library_id}_2.fq.gz",
+        forward_=PRE_CLEAN / "{sample_id}.{library_id}_1.fq.gz",
+        reverse_=PRE_CLEAN / "{sample_id}.{library_id}_2.fq.gz",
         reference=PROK_ANN / "drep.{secondary_ani}.fa.gz",
         fai=PROK_ANN / "drep.{secondary_ani}.fa.gz.fai",
     output:
