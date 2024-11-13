@@ -175,55 +175,8 @@ rule preprocess__bowtie2__fastq__all:
         ],
 
 
-rule preprocess__bowtie2__clean:
-    input:
-        forward_=get_final_fastq_forward,
-        reverse_=get_final_fastq_reverse,
-    output:
-        forward_=PRE_BOWTIE2 / "{sample_id}.{library_id}_1.fq.gz",
-        reverse_=PRE_BOWTIE2 / "{sample_id}.{library_id}_2.fq.gz",
-    log:
-        PRE_BOWTIE2 / "{sample_id}.{library_id}.log",
-    conda:
-        "../../environments/bowtie2.yml"
-    group:
-        "preprocess__{sample_id}.{library_id}"
-    shell:
-        """
-        ( gzip \
-            --decompress \
-            --stdout \
-            {input.forward_} \
-        | bgzip \
-            --compress-level 9 \
-            --threads {threads} \
-        > {output.forward_} \
-        ) 2> {log}
-
-        ( gzip \
-            --decompress \
-            --stdout \
-            {input.reverse_} \
-        | bgzip \
-            --compress-level 9 \
-            --threads {threads} \
-        > {output.reverse_} \
-        ) 2>> {log}
-        """
-
-
-rule preprocess__bowtie2__clean__all:
-    input:
-        [
-            PRE_BOWTIE2 / f"{sample_id}.{library_id}_{end}.fq.gz"
-            for sample_id, library_id in SAMPLE_LIBRARY
-            for end in [1, 2]
-        ],
-
-
 rule preprocess__bowtie2__all:
     input:
         rules.preprocess__bowtie2__build__all.input,
         rules.preprocess__bowtie2__map__all.input,
         rules.preprocess__bowtie2__fastq__all.input,
-        rules.preprocess__bowtie2__clean__all.input,
