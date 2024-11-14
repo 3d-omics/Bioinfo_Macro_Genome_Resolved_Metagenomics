@@ -5,7 +5,6 @@ rule prokaryotes__quantify__coverm__genome:
     """Run coverm genome for one library and one mag catalogue"""
     input:
         bam=QUANT_BOWTIE2 / "drep.{secondary_ani}" / "{sample_id}.{library_id}.bam",
-        bai=QUANT_BOWTIE2 / "drep.{secondary_ani}" / "{sample_id}.{library_id}.bam.bai",
         reference=PROK_ANN / "drep.{secondary_ani}.fa.gz",
         fai=PROK_ANN / "drep.{secondary_ani}.fa.gz.fai",
     output:
@@ -77,7 +76,6 @@ rule prokaryotes__quantify__coverm__contig:
     """Run coverm contig for one library and one mag catalogue"""
     input:
         bam=QUANT_BOWTIE2 / "drep.{secondary_ani}" / "{sample_id}.{library_id}.bam",
-        bai=QUANT_BOWTIE2 / "drep.{secondary_ani}" / "{sample_id}.{library_id}.bam.bai",
         reference=PROK_ANN / "drep.{secondary_ani}.fa.gz",
         fai=PROK_ANN / "drep.{secondary_ani}.fa.gz.fai",
     output:
