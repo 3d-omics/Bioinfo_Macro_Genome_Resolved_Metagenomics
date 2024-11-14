@@ -3,6 +3,6 @@ channels:
   - bioconda
 dependencies:
   - csvkit =2.0.1
-  - dram =1.4.6
+  - dram =1.5.0
   - parallel =20240922
   - htslib =1.21
