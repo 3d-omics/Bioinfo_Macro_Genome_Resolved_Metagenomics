@@ -273,7 +273,7 @@ rule prokaryotes__annotate__dram__annotate__archive:
         fna=PROK_ANN / "dram.genes.fna.gz",
         faa=PROK_ANN / "dram.genes.faa.gz",
         scaffolds=PROK_ANN / "dram.scaffolds.fna.gz",
-        genbank=PROK_ANN / "genbank",
+        genbank=PROK_ANN / "dram.genbank",
     output:
         tarball=PROK_ANN / "dram.annotate.tar.gz",
     log:
