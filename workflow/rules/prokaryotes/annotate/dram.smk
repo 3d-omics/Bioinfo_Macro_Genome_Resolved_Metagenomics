@@ -265,7 +265,6 @@ rule prokaryotes__annotate__dram__annotate__archive:
     Create tarball once annotations are merged done
     """
     input:
-        work_dirs=collect_dram_annotate,
         annotations=PROK_ANN / "dram.annotations.tsv.gz",
         trnas=PROK_ANN / "dram.trnas.tsv",
         rrnas=PROK_ANN / "dram.rrnas.tsv",
