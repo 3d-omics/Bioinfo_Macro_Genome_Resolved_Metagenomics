@@ -233,7 +233,7 @@ rule prokaryotes__annotate__dram__annotate__aggregate_genbank:
     input:
         collect_dram_annotate,
     output:
-        directory(PROK_ANN / "genbank"),
+        directory(PROK_ANN / "dram.genbank"),
     log:
         PROK_ANN / "dram.genbank.log",
     conda:
