@@ -17,7 +17,7 @@ rule prokaryotes__quantify__bowtie2__build:
     conda:
         "../../../environments/bowtie2_samtools.yml"
     params:
-        index_prefix=lambda w: QUANT_INDEX / f"drep.{secondary_ani}.",
+        index_prefix=lambda w: QUANT_INDEX / f"drep.{w.secondary_ani}.",
     shell:
         """
         bowtie2-build \
@@ -70,7 +70,7 @@ rule prokaryotes__quantify__bowtie2__map:
         samtools_mem=params["quantify"]["bowtie2"]["samtools_mem"],
         rg_id=compose_rg_id,
         rg_extra=compose_rg_extra,
-        index_prefix=lambda w: QUANT_INDEX / f"drep.{secondary_ani}",
+        index_prefix=lambda w: QUANT_INDEX / f"drep.{w.secondary_ani}",
     shell:
         """
         find \
