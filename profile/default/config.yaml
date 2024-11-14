@@ -143,7 +143,7 @@ set-resources:
         mem_mb: 16G
         runtime: 1d
     prokaryotes__annotate__gtdbtk__classify_wf:
-        mem_mb: 64 * 1024 * 2 ** (attempt - 1)
+        mem_mb: 128 * 1024 * 2 ** (attempt - 1)
         runtime: 1d
     prokaryotes__annotate__drep__dereplicate:
         mem_mb: 4G
