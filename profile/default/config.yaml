@@ -175,7 +175,7 @@ set-resources:
         mem_mb: 32G
     viruses__annotate__quast:
         mem_mb: 8G
-    
+
     ## viruses - quantify
     viruses__quantify__bowtie2__build:
         mem_mb: 32 * 1024 * 2 ** (attempt - 1)
