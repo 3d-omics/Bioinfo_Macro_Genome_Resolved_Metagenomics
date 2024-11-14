@@ -3,3 +3,4 @@ channels:
   - bioconda
 dependencies:
   - drep =3.5.0
+  - htslib =1.21
