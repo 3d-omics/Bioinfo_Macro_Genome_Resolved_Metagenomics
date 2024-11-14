@@ -99,7 +99,7 @@ rule prokaryotes__quantify__coverm__contig:
     shell:
         """
         ( coverm contig \
-            --bam-files /dev/stdin \
+            --bam-files {input.bam} \
             --methods {params.method} \
             --proper-pairs-only \
         | gzip --best \
