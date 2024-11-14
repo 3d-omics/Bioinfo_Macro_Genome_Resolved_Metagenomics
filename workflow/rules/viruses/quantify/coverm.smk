@@ -4,16 +4,15 @@ include: "coverm_functions.smk"
 rule viruses__quantify__coverm__genome:
     """Run coverm genome for one library and one mag catalogue"""
     input:
-        bam=VBOWTIE2 / "{sample_id}.{library_id}.bam",
-        bai=VBOWTIE2 / "{sample_id}.{library_id}.bam.bai",
+        VBOWTIE2 / "{sample_id}.{library_id}.bam",
     output:
-        tsv=VCOVERM / "genome" / "{method}" / "{sample_id}.{library_id}.tsv.gz",
+        VCOVERM / "genome" / "{method}" / "{sample_id}.{library_id}.tsv.gz",
     conda:
         "../../../environments/coverm.yml"
     log:
         VCOVERM / "genome" / "{method}" / "{sample_id}.{library_id}.log",
     params:
-        method="{method}",
+        method=lambda w: w.method,
         min_covered_fraction=params["quantify"]["coverm"]["genome"][
             "min_covered_fraction"
         ],
@@ -21,12 +20,12 @@ rule viruses__quantify__coverm__genome:
     shell:
         """
         ( coverm genome \
-            --bam-files {input.bam} \
+            --bam-files {input} \
             --methods {params.method} \
             --separator {params.separator} \
             --min-covered-fraction {params.min_covered_fraction} \
         | bgzip \
-        > {output.tsv} \
+        > {output} \
         ) 2> {log}
         """
 
@@ -65,24 +64,23 @@ rule viruses__quantify__coverm__genome__all:
 rule viruses__quantify__coverm__contig:
     """Run coverm contig for one library and one mag catalogue"""
     input:
-        bam=VBOWTIE2 / "{sample_id}.{library_id}.bam",
-        bai=VBOWTIE2 / "{sample_id}.{library_id}.bam.bai",
+        VBOWTIE2 / "{sample_id}.{library_id}.bam",
     output:
-        tsv=VCOVERM / "contig" / "{method}" / "{sample_id}.{library_id}.tsv.gz",
+        VCOVERM / "contig" / "{method}" / "{sample_id}.{library_id}.tsv.gz",
     conda:
         "../../../environments/coverm.yml"
     log:
         VCOVERM / "contig" / "{method}" / "{sample_id}.{library_id}.log",
     params:
-        method="{method}",
+        method=lambda w: w.method,
     shell:
         """
         ( coverm contig \
-            --bam-files {input.bam} \
+            --bam-files {input} \
             --methods {params.method} \
             --proper-pairs-only \
         | bgzip \
-        > {output.tsv} \
+        > {output} \
         ) 2> {log}
         """
 

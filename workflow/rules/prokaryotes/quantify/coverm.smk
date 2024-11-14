@@ -4,11 +4,9 @@ include: "coverm_functions.smk"
 rule prokaryotes__quantify__coverm__genome:
     """Run coverm genome for one library and one mag catalogue"""
     input:
-        bam=QUANT_BOWTIE2 / "drep.{secondary_ani}" / "{sample_id}.{library_id}.bam",
-        reference=PROK_ANN / "drep.{secondary_ani}.fa.gz",
-        fai=PROK_ANN / "drep.{secondary_ani}.fa.gz.fai",
+        QUANT_BOWTIE2 / "drep.{secondary_ani}" / "{sample_id}.{library_id}.bam",
     output:
-        tsv=COVERM
+        COVERM
         / "genome"
         / "{method}"
         / "drep.{secondary_ani}"
@@ -22,7 +20,7 @@ rule prokaryotes__quantify__coverm__genome:
         / "drep.{secondary_ani}"
         / "{sample_id}.{library_id}.log",
     params:
-        method="{method}",
+        method=lambda w: w.method,
         min_covered_fraction=params["quantify"]["coverm"]["genome"][
             "min_covered_fraction"
         ],
@@ -30,12 +28,12 @@ rule prokaryotes__quantify__coverm__genome:
     shell:
         """
         ( coverm genome \
-            --bam-files {input.bam} \
+            --bam-files {input} \
             --methods {params.method} \
             --separator {params.separator} \
             --min-covered-fraction {params.min_covered_fraction} \
         | gzip --best \
-        > {output.tsv} \
+        > {output} \
         ) 2> {log}
         """
 
@@ -75,11 +73,9 @@ rule prokaryotes__quantify__coverm__genome__all:
 rule prokaryotes__quantify__coverm__contig:
     """Run coverm contig for one library and one mag catalogue"""
     input:
-        bam=QUANT_BOWTIE2 / "drep.{secondary_ani}" / "{sample_id}.{library_id}.bam",
-        reference=PROK_ANN / "drep.{secondary_ani}.fa.gz",
-        fai=PROK_ANN / "drep.{secondary_ani}.fa.gz.fai",
+        QUANT_BOWTIE2 / "drep.{secondary_ani}" / "{sample_id}.{library_id}.bam",
     output:
-        tsv=COVERM
+        COVERM
         / "contig"
         / "{method}"
         / "drep.{secondary_ani}"
@@ -93,15 +89,15 @@ rule prokaryotes__quantify__coverm__contig:
         / "drep.{secondary_ani}"
         / "{sample_id}.{library_id}.log",
     params:
-        method="{method}",
+        method=lambda w: w.method,
     shell:
         """
         ( coverm contig \
-            --bam-files {input.bam} \
+            --bam-files {input} \
             --methods {params.method} \
             --proper-pairs-only \
         | gzip --best \
-        > {output.tsv} \
+        > {output} \
         ) 2> {log}
         """
 
