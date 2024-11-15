@@ -42,8 +42,8 @@ rule bowtie2__map:
         index="reference",
         samtools_extra="",
         bowtie2_extra="",
-        rg_id="",
-        rg_extra="",
+        rg_id="",  # compose_rg_id
+        rg_extra="", # compose_rg_extra 
     conda:
         "../../environments/bowtie2.yml"
     shell:
