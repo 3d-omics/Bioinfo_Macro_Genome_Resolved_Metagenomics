@@ -40,7 +40,7 @@ rule bowtie2__map:
     log:
         "reads.log",
     params:
-        index="reference",
+        index=lambda w, input: os.path.splitext(input.mock)[0],  # or use a string
         samtools_extra="",
         bowtie2_extra="",
         rg_id="",  # compose_rg_id
