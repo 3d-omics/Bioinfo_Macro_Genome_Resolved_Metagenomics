@@ -11,7 +11,6 @@ rule coverm__aggregate:
     shell:
         """
         ( csvstack --tabs {input} \
-        | sed 's/ Read Count//' \
         | csvformat --out-tabs \
         | gzip --best \
         > {output} \
