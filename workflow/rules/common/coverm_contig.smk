@@ -15,7 +15,9 @@ rule coverm__contig:
             --bam-files {input} \
             --methods {params.method} \
             --proper-pairs-only \
-        | cut -f 1 -d " " \
+        | cut \
+            --fields 1 \
+            --delimiter " " \
         | gzip \
             --best \
         > {output} \
