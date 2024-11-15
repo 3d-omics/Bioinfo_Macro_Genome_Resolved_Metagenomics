@@ -3,3 +3,4 @@ channels:
   - bioconda
 dependencies:
   - coverm =0.7.0
+  - csvkit =2

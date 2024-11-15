@@ -1,8 +1,7 @@
 include: "coverm_functions.smk"
 
 
-rule prokaryotes__quantify__coverm__genome:
-    """Run coverm genome for one library and one mag catalogue"""
+use rule coverm__genome as prokaryotes__quantify__coverm__genome with:
     input:
         QUANT_BOWTIE2 / "drep.{secondary_ani}" / "{sample_id}.{library_id}.bam",
     output:
@@ -11,8 +10,6 @@ rule prokaryotes__quantify__coverm__genome:
         / "{method}"
         / "drep.{secondary_ani}"
         / "{sample_id}.{library_id}.tsv.gz",
-    conda:
-        "../../../environments/coverm.yml"
     log:
         COVERM
         / "genome"
@@ -25,17 +22,8 @@ rule prokaryotes__quantify__coverm__genome:
             "min_covered_fraction"
         ],
         separator=params["quantify"]["coverm"]["genome"]["separator"],
-    shell:
-        """
-        ( coverm genome \
-            --bam-files {input} \
-            --methods {params.method} \
-            --separator {params.separator} \
-            --min-covered-fraction {params.min_covered_fraction} \
-        | gzip --best \
-        > {output} \
-        ) 2> {log}
-        """
+    conda:
+        "../../../environments/coverm.yml"
 
 
 rule prokaryotes__quantify__coverm__genome__aggregate:
@@ -43,7 +31,7 @@ rule prokaryotes__quantify__coverm__genome__aggregate:
     input:
         get_tsvs_for_dereplicate_coverm_genome,
     output:
-        tsv=COVERM / "genome.{method}.drep.{secondary_ani}.tsv.gz",
+        COVERM / "genome.{method}.drep.{secondary_ani}.tsv.gz",
     log:
         COVERM / "genome.{method}.drep.{secondary_ani}.log",
     conda:
