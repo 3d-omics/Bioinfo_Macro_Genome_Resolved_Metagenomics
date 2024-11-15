@@ -1,4 +1,5 @@
 rule bowtie2__build:
+    """Build a bowtie2 index"""
     input:
         ref="reference.fa",
     output:
@@ -18,7 +19,7 @@ rule bowtie2__build:
 
 
 rule bowtie2__map:
-    """Map one library to reference genome using bowtie2
+    """Map one library to a reference genome using bowtie2
 
     Output SAM file is piped to samtools sort to generate a CRAM file.
     """
