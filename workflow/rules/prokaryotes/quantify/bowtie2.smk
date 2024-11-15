@@ -48,6 +48,8 @@ use rule bowtie2__map as prokaryotes__quantify__bowtie2__map with:
         QUANT_BOWTIE2 / "drep.{secondary_ani}" / "{sample_id}.{library_id}.bam",
     log:
         QUANT_BOWTIE2 / "drep.{secondary_ani}" / "{sample_id}.{library_id}.log",
+    conda:
+        "../../../environments/bowtie2.yml"
     params:
         index=lambda w: QUANT_INDEX / f"drep.{w.secondary_ani}",
         bowtie2_extra=params["preprocess"]["bowtie2"]["bowtie2_extra"],
