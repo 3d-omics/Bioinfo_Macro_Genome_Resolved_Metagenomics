@@ -6,5 +6,4 @@ def get_coverm_assembly_files(wildcards):
         for _, sample_id, library_id in ASSEMBLY_SAMPLE_LIBRARY
         if assembly_id == wildcards.assembly_id
     ]
-    print(files)
     return files
