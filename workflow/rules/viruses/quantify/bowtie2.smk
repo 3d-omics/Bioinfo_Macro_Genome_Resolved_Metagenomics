@@ -37,8 +37,6 @@ use rule bowtie2__map as viruses__quantify__bowtie2__map with:
         VBOWTIE2 / "{sample_id}.{library_id}.bam",
     log:
         VBOWTIE2 / "{sample_id}.{library_id}.log",
-    conda:
-        "../../../environments/bowtie2_samtools.yml"
     params:
         index=VINDEX / "viruses",
         samtools_extra=params["preprocess"]["bowtie2"]["samtools_extra"],

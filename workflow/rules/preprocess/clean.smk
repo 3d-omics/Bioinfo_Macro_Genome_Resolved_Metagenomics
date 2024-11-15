@@ -11,7 +11,7 @@ rule preprocess__clean:
     log:
         PRE_CLEAN / "{sample_id}.{library_id}.log",
     conda:
-        "../../environments/bowtie2.yml"
+        "../../environments/bowtie2.yml"  # It has samtools in it
     group:
         "preprocess__{sample_id}.{library_id}"
     shell:

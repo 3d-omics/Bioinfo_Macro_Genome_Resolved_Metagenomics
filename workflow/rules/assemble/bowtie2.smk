@@ -13,8 +13,6 @@ use rule bowtie2__build as assemble__bowtie2__build with:
         ),
     log:
         ASSEMBLE_INDEX / "{assembly_id}.log",
-    conda:
-        "../../environments/bowtie2_samtools.yml"
     retries: 5
 
 
