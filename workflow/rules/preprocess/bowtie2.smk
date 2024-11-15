@@ -1,14 +1,9 @@
 include: "bowtie2_functions.smk"
 
 
-rule preprocess__bowtie2__build:
-    """Build bowtie2 index for a reference
-
-    NOTE: Let the script decide to use a small or a large index based on the size of
-    the reference genome.
-    """
+use rule bowtie2__build as preprocess__bowtie2__build with:
     input:
-        reference=PRE_HOSTS / "{host}.fa.gz",
+        ref=PRE_HOSTS / "{host}.fa.gz",
     output:
         multiext(
             str(PRE_BUILD / "{host}"),
@@ -21,21 +16,9 @@ rule preprocess__bowtie2__build:
         ),
     log:
         PRE_BUILD / "{host}.log",
-    conda:
-        "../../environments/bowtie2.yml"
-    params:
-        prefix=lambda w: str(PRE_BUILD / f"{w.host}"),
     cache: "omit-software"
     group:
         "preprocess__{host}"
-    shell:
-        """
-        bowtie2-build \
-            --threads {threads} \
-            {input.reference} \
-            {params.prefix} \
-        2> {log} 1>&2
-        """
 
 
 rule preprocess__bowtie2__build__all:
@@ -55,11 +38,7 @@ rule preprocess__bowtie2__build__all:
         ],
 
 
-rule preprocess__bowtie2__map:
-    """Map one library to reference genome using bowtie2
-
-    Output SAM file is piped to samtools sort to generate a CRAM file.
-    """
+use rule bowtie2__map as preprocess__bowtie2__map with:
     input:
         forward_=get_fastq_for_host_mapping_forward,
         reverse_=get_fastq_for_host_mapping_reverse,
@@ -73,7 +52,7 @@ rule preprocess__bowtie2__map:
             ".rev.2.bt2",
         ),
     output:
-        bam=PRE_BOWTIE2 / "{host}.{sample_id}.{library_id}.bam",
+        PRE_BOWTIE2 / "{host}.{sample_id}.{library_id}.bam",
     log:
         PRE_BOWTIE2 / "{host}.{sample_id}.{library_id}.log",
     params:
@@ -82,36 +61,8 @@ rule preprocess__bowtie2__map:
         bowtie2_extra=params["preprocess"]["bowtie2"]["bowtie2_extra"],
         rg_id=compose_rg_id,
         rg_extra=compose_rg_extra,
-    conda:
-        "../../environments/bowtie2.yml"
     group:
         "preprocess__{sample_id}.{library_id}"
-    shell:
-        """
-        ( bowtie2 \
-            -x {params.index} \
-            -1 {input.forward_} \
-            -2 {input.reverse_} \
-            {params.bowtie2_extra} \
-            --rg '{params.rg_extra}' \
-            --rg-id '{params.rg_id}' \
-            --threads {threads} \
-        | samtools sort \
-            {params.samtools_extra} \
-            --threads {threads} \
-            -T {output.bam} \
-            -o {output.bam} \
-        ) 2> {log} 1>&2
-        """
-
-
-rule preprocess__bowtie2__map__all:
-    input:
-        [
-            PRE_BOWTIE2 / f"{host}.{sample_id}.{library_id}.bam"
-            for host in HOST_NAMES
-            for sample_id, library_id in SAMPLE_LIBRARY
-        ],
 
 
 rule preprocess__bowtie2__fastq:
@@ -165,18 +116,6 @@ rule preprocess__bowtie2__fastq:
         """
 
 
-rule preprocess__bowtie2__fastq__all:
-    input:
-        [
-            PRE_BOWTIE2 / f"{host}.{sample_id}.{library_id}_u{end}.fq.gz"
-            for host in HOST_NAMES
-            for sample_id, library_id in SAMPLE_LIBRARY
-            for end in [1, 2]
-        ],
-
-
 rule preprocess__bowtie2__all:
     input:
         rules.preprocess__bowtie2__build__all.input,
-        rules.preprocess__bowtie2__map__all.input,
-        rules.preprocess__bowtie2__fastq__all.input,
