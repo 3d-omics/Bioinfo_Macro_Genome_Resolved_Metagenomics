@@ -1,9 +1,8 @@
-rule viruses__quantify__bowtie2__build:
-    """Index dereplicader"""
+use rule bowtie2__build as viruses__quantify__bowtie2__build with:
     input:
-        contigs=MMSEQS / "rep_seq.fa.gz",
+        ref=MMSEQS / "rep_seq.fa.gz",
     output:
-        mock=multiext(
+        multiext(
             str(VINDEX / "viruses"),
             ".1.bt2",
             ".2.bt2",
@@ -14,18 +13,6 @@ rule viruses__quantify__bowtie2__build:
         ),
     log:
         VINDEX / "virues.log",
-    conda:
-        "../../../environments/bowtie2_samtools.yml"
-    params:
-        index_prefix=VINDEX / "viruses",
-    shell:
-        """
-        bowtie2-build \
-            --threads {threads} \
-            {input.contigs} \
-            {params.index_prefix} \
-        2> {log} 1>&2
-        """
 
 
 rule viruses__quantify__bowtie2__build__all:
@@ -33,9 +20,10 @@ rule viruses__quantify__bowtie2__build__all:
         rules.viruses__quantify__bowtie2__build.output,
 
 
-rule viruses__quantify__bowtie2__map:
-    """Align one sample to the dereplicated genomes"""
+use rule bowtie2__map as viruses__quantify__bowtie2__map with:
     input:
+        forward_=PRE_CLEAN / "{sample_id}.{library_id}_1.fq.gz",
+        reverse_=PRE_CLEAN / "{sample_id}.{library_id}_2.fq.gz",
         mock=multiext(
             str(VINDEX / "viruses"),
             ".1.bt2",
@@ -45,42 +33,18 @@ rule viruses__quantify__bowtie2__map:
             ".rev.1.bt2",
             ".rev.2.bt2",
         ),
-        forward_=PRE_CLEAN / "{sample_id}.{library_id}_1.fq.gz",
-        reverse_=PRE_CLEAN / "{sample_id}.{library_id}_2.fq.gz",
     output:
-        bam=VBOWTIE2 / "{sample_id}.{library_id}.bam",
+        VBOWTIE2 / "{sample_id}.{library_id}.bam",
     log:
         VBOWTIE2 / "{sample_id}.{library_id}.log",
     conda:
         "../../../environments/bowtie2_samtools.yml"
     params:
-        samtools_mem=params["quantify"]["bowtie2"]["samtools_mem"],
+        index=VINDEX / "viruses",
+        samtools_extra=params["preprocess"]["bowtie2"]["samtools_extra"],
+        bowtie2_extra=params["preprocess"]["bowtie2"]["bowtie2_extra"],
         rg_id=compose_rg_id,
         rg_extra=compose_rg_extra,
-        index_prefix=VINDEX / "viruses",
-    shell:
-        """
-        find \
-            $(dirname {output.bam}) \
-            -name "$(basename {output.bam}).tmp.*.bam" \
-            -delete \
-        2> {log} 1>&2
-
-        ( bowtie2 \
-            -x {params.index_prefix} \
-            -1 {input.forward_} \
-            -2 {input.reverse_} \
-            --threads {threads} \
-            --rg-id '{params.rg_id}' \
-            --rg '{params.rg_extra}' \
-        | samtools sort \
-            -l 9 \
-            -M \
-            -m {params.samtools_mem} \
-            -o {output.bam} \
-            --threads {threads} \
-        ) 2>> {log} 1>&2
-        """
 
 
 rule viruses__quantify__bowtie2__map__all:
