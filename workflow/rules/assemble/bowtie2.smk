@@ -36,7 +36,6 @@ rule assemble__bowtie2__build__all:
 
 
 use rule bowtie2__map as assemble__bowtie2__map with:
-    # """Map one sample to one megahit assembly"""
     input:
         forward_=PRE_CLEAN / "{sample_id}.{library_id}_1.fq.gz",
         reverse_=PRE_CLEAN / "{sample_id}.{library_id}_2.fq.gz",
@@ -59,7 +58,6 @@ use rule bowtie2__map as assemble__bowtie2__map with:
         rg_extra=compose_rg_extra,
         samtools_extra="",
         bowtie2_extra="",
-    # retries: 5
 
 
 rule assemble__bowtie2__map__all:

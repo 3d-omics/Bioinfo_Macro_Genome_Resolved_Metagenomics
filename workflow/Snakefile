@@ -53,6 +53,7 @@ use rule * from helpers as helpers__*
 
 include: "rules/functions.smk"
 include: "rules/folders.smk"
+include: "rules/common.smk"
 include: "rules/preprocess.smk"
 include: "rules/assemble.smk"
 include: "rules/prokaryotes.smk"

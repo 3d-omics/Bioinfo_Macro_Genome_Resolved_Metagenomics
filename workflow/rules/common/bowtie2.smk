@@ -1,6 +1,6 @@
 rule bowtie2__build:
     input:
-        ref="reference.fa"
+        ref="reference.fa",
     output:
         multiext(
             "reference",
@@ -12,10 +12,9 @@ rule bowtie2__build:
             ".rev.2.bt2",
         ),
     log:
-        "reference.log"
+        "reference.log",
     wrapper:
         "v5.1.0/bio/bowtie2/build"
-
 
 
 rule bowtie2__map:
