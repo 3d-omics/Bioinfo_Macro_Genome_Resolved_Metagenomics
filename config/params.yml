@@ -2,7 +2,7 @@
 ---
 preprocess:
   fastp:
-    extra: " --length_required 75 --trim_poly_g --trim_poly_x"
+    extra: "--length_required 75 --trim_poly_g --trim_poly_x"
   bowtie2:
     bowtie2_extra: ""
     samtools_extra: "-m 1G"
