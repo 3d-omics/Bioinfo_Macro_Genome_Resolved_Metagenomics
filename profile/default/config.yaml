@@ -3,26 +3,21 @@
 __use_yte__: true
 
 
-default-resources:
-    runtime: 1h
-    mem_mb: 1024
+# default-resources:
+#     runtime: 1h
+#     mem_mb: 1024
 
 
 set-threads:
     # preprocess
     preprocess__hosts: 8
     preprocess__fastp: 8
-    preprocess__bowtie2__build: 24
-    preprocess__bowtie2__map: 24
-    preprocess__bowtie2__fastq: 24
     preprocess__clean: 24
     preprocess__kraken2__assign: 8
     # assemble
     assemble__megahit: 24
     assemble__megahit__rename: 24
     assemble__megahit__archive: 24
-    assemble__bowtie2__build: 24
-    assemble__bowtie2__map: 24
     # prokaryotes
     ## prokaryotes - cluster
     prokaryotes__cluster__concoct: 24
@@ -38,9 +33,6 @@ set-threads:
     prokaryotes__annotate__dram__annotate__archive: 24
     prokaryotes__annotate__gtdbtk__classify_wf: 24
     prokaryotes__annotate__quast: 4
-    ## prokaryotes - quantify
-    prokaryotes__quantify__bowtie2__index: 24
-    prokaryotes__quantify__bowtie2__map: 24
     # viruses
     ## viruses - cluster
     viruses__cluster__genomad: 24
@@ -51,9 +43,6 @@ set-threads:
     viruses__annotate__virsorter2: 24
     viruses__annotate__dramv__annotate: 24
     viruses__annotate__quast: 4
-    ## viruses - quantify
-    viruses__quantify__bowtie2__build: 24
-    viruses__quantify__bowtie2__map: 24
 
 
 set-resources:
@@ -61,12 +50,6 @@ set-resources:
     preprocess__fastp:
         mem_mb: 8G
         runtime: 1h
-    preprocess__bowtie2__build:
-        mem_mb: 32 * 1024 * 2 ** (attempt - 1)
-        runtime: 1d
-    preprocess__bowtie2__map:
-        mem_mb: 32 * 1024 * 2 ** (attempt - 1)
-        runtime: 4h
     preprocess__bowtie2__fastq:
         mem_mb: 8 * 1024
         runtime: 2h
@@ -88,12 +71,6 @@ set-resources:
     assemble__megahit:
         mem_mb: 32 * 1024 * 2 ** (attempt - 1)
         runtime: 1w
-    assemble__bowtie2__build:
-        mem_mb: 32 * 1024 * 2 ** (attempt - 1)
-        runtime: 6h
-    assemble__bowtie2__map:
-        mem_mb: 32 * 1024 * 2 ** (attempt - 1)
-        runtime: 6h
     assemble__quast:
         mem_mb: 8G
     assemble__multiqc:
@@ -150,12 +127,6 @@ set-resources:
         runtime: 6h
 
     ## prokaryotes - quantify
-    prokaryotes__quantify__bowtie2__build:
-        mem_mb: 32 * 1024 * 2 ** (attempt - 1)
-        runtime: 6h
-    prokaryotes__quantify__bowtie2__map:
-        mem_mb: 32 * 1024 * 2 ** (attempt - 1)
-        runtime: 6h
     prokaryotes__quantify__coverm__genome__aggregate:
         mem_mb: 8G
     prokaryotes__quantify__coverm__contig__aggregate:
@@ -177,12 +148,6 @@ set-resources:
         mem_mb: 8G
 
     ## viruses - quantify
-    viruses__quantify__bowtie2__build:
-        mem_mb: 32 * 1024 * 2 ** (attempt - 1)
-        runtime: 1d
-    viruses__quantify__bowtie2__map:
-        mem_mb: 32 * 1024 * 2 ** (attempt - 1)
-        runtime: 1d
     viruses__quantify__coverm__genome__aggregate:
         mem_mb: 8G
     viruses__quantify__coverm__contig_aggregate:
