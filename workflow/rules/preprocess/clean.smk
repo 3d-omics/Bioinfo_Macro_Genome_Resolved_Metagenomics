@@ -2,6 +2,7 @@ include: "clean_functions.smk"
 
 
 rule preprocess__clean:
+    """Get the final fastq files and compress it properly"""
     input:
         forward_=get_final_fastq_forward,
         reverse_=get_final_fastq_reverse,
@@ -14,8 +15,7 @@ rule preprocess__clean:
         "../../environments/bowtie2.yml"  # It has htslib in it
     group:
         "preprocess__{sample_id}.{library_id}"
-    threads:
-        24,
+    threads: 24
     resources:
         mem_mb=1 * 1024,
         runtime=1 * 60,

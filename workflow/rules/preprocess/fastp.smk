@@ -29,7 +29,7 @@ rule preprocess__fastp:
     threads: 8
     resources:
         mem_mb=8 * 1024,
-        runtime: 60,
+        runtime=60,
     wrapper:
         "v4.7.1/bio/fastp"
 

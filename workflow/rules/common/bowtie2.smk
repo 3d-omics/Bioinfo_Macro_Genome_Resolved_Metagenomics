@@ -14,8 +14,7 @@ rule bowtie2__build:
         ),
     log:
         "reference.log",
-    threads:
-        24,
+    threads: 24
     resources:
         mem_mb=double_ram(32 * 1024),
         runtime="1d",
@@ -52,8 +51,7 @@ rule bowtie2__map:
         rg_extra="",  # compose_rg_extra
     conda:
         "../../environments/bowtie2.yml"
-    threads: 
-        24
+    threads: 24
     resources:
         mem_mb=double_ram(32 * 1024),
         runtime="1d",
