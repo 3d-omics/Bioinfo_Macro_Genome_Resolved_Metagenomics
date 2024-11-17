@@ -43,6 +43,12 @@ rule prokaryotes__annotate__drep__dereplicate:
         maximum_contamination=params["prokaryotes"]["annotate"]["drep"][
             "maximum_contamination"
         ],
+    threads: 24
+    resources:
+        mem_mb=double_ram(4 * 1024),
+        runtime=6 * 60,
+    group:
+        "prokaryotes__annotate__drep__{secondary_ani}"
     shell:
         """
         dRep dereplicate \
@@ -66,6 +72,9 @@ rule prokaryotes__annotate__drep__get_fasta:
         PROK_ANN / "drep.{secondary_ani}.fa.log",
     conda:
         "../../../environments/drep.yml"
+    threads: 24
+    group:
+        "prokaryotes__annotate__drep__{secondary_ani}"
     shell:
         """
         ( cat \
@@ -87,6 +96,9 @@ rule prokaryotes__annotate__drep__tarball:
         PROK_ANN / "drep.{secondary_ani}.tar.log",
     conda:
         "../../../environments/drep.yml"
+    threads: 24
+    group:
+        "prokaryotes__annotate__drep__{secondary_ani}"
     shell:
         """
         tar \
