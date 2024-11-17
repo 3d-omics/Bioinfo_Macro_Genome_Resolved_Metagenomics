@@ -9,10 +9,6 @@ __use_yte__: true
 
 
 set-threads:
-    # assemble
-    assemble__megahit: 24
-    assemble__megahit__rename: 24
-    assemble__megahit__archive: 24
     # prokaryotes
     ## prokaryotes - cluster
     prokaryotes__cluster__concoct: 24
@@ -41,16 +37,6 @@ set-threads:
 
 
 set-resources:
-    # assemble
-    assemble__megahit:
-        mem_mb: 32 * 1024 * 2 ** (attempt - 1)
-        runtime: 1w
-    assemble__quast:
-        mem_mb: 8G
-    assemble__multiqc:
-        mem_mb: 8 * 1024 * 2 ** (attempt - 1)
-        runtime: 6h
-
     # prokaryotes
     prokaryotes__multiqc:
         mem_mb: 8 * 1024 * 2 ** (attempt - 1)

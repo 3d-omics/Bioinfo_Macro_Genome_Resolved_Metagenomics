@@ -8,6 +8,8 @@ rule assemble__quast:
         ASSEMBLE_QUAST / "{assembly_id}.log",
     conda:
         "../../environments/quast.yml"
+    resources:
+        mem_mb=8 * 1024,
     shell:
         """
         quast \

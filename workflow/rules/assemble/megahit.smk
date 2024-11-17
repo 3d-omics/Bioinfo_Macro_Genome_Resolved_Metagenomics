@@ -23,6 +23,10 @@ rule assemble__megahit:
     retries: 5
     group:
         "assemble__megahit__{assembly_id}"
+    threads: 24
+    resources:
+        mem_mb=double_ram(32 * 1024),
+        runtime=7 * 24 * 60,
     shell:
         """
         megahit \
@@ -51,6 +55,7 @@ rule assemble__megahit__rename:
         "assemble__megahit__{assembly_id}"
     params:
         assembly_id=lambda w: w.assembly_id,
+    threads: 24
     shell:
         """
         ( seqtk seq \
@@ -78,6 +83,7 @@ rule assemble__megahit__archive:
         "../../environments/megahit.yml"
     group:
         "assemble__megahit__{assembly_id}"
+    threads: 24
     shell:
         """
         tar \
