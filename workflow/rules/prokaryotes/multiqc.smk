@@ -5,7 +5,7 @@ rule prokaryotes__multiqc:
             / f"drep.{secondary_ani}"
             / f"{sample_id}.{library_id}.{report}"
             for sample_id, library_id in SAMPLE_LIBRARY
-            for report in ["stats.tsv", "flagstats.txt"]
+            for report in ["stats.tsv"]
             for secondary_ani in SECONDARY_ANIS
         ],
         quast=rules.prokaryotes__annotate__quast__all.output,
