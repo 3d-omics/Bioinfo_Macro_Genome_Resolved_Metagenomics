@@ -155,7 +155,7 @@ set-resources:
         runtime: 6h
     prokaryotes__quantify__bowtie2__map:
         mem_mb: 32 * 1024 * 2 ** (attempt - 1)
-        runtime: 6d
+        runtime: 6h
     prokaryotes__quantify__coverm__genome__aggregate:
         mem_mb: 8G
     prokaryotes__quantify__coverm__contig__aggregate:
