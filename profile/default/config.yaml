@@ -9,44 +9,5 @@ __use_yte__: true
 
 
 set-threads:
-    # prokaryotes
-    ## prokaryotes - cluster
-    prokaryotes__cluster__drep__separate_bins: 24
-    prokaryotes__cluster__drep__run: 24
-    ## prokaryotes - annotate
-    prokaryotes__annotate__quast: 4
-    # viruses
-    ## viruses - cluster
-    viruses__cluster__genomad: 24
-    viruses__cluster__dedupe: 24
-    viruses__cluster__mmseqs: 24
-    ## viruses - annotate
-    viruses__annotate__genomad: 24
-    viruses__annotate__virsorter2: 24
-    viruses__annotate__dramv__annotate: 24
-    viruses__annotate__quast: 4
-
 
 set-resources:
-    # prokaryotes
-
-
-    ## prokaryotes - annotate
-    prokaryotes__annotate__drep__dereplicate:
-        mem_mb: 4G
-        runtime: 6h
-
-    # viruses
-    viruses__multiqc:
-        mem_mb: 8 * 1024 * 2 ** (attempt - 1)
-        runtime: 6h
-
-    ## viruses - cluster
-    viruses__cluster__genomad:
-        mem_mb: 32G
-
-    ## viruses - annotate
-    viruses__annotate__genomad:
-        mem_mb: 32G
-    viruses__annotate__quast:
-        mem_mb: 8G

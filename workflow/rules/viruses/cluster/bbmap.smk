@@ -10,6 +10,7 @@ rule viruses__cluster__bbmap__dedupe:
     params:
         fastas_comma=lambda w, input: ",".join(input),
         minimum_length=500,
+    threads: 24
     shell:
         """
         dedupe.sh \

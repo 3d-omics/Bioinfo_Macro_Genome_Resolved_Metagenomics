@@ -24,6 +24,9 @@ rule viruses__cluster__genomad:
         use_cuda=params["viral"]["genomad"]["use_cuda"],
     shadow:
         "minimal"
+    threads: 24
+    resources:
+        mem_mb=double_ram(32 * 1024),
     shell:
         """
         {params.use_cuda}
