@@ -14,6 +14,11 @@ rule preprocess__clean:
         "../../environments/bowtie2.yml"  # It has htslib in it
     group:
         "preprocess__{sample_id}.{library_id}"
+    threads:
+        24,
+    resources:
+        mem_mb=1 * 1024,
+        runtime=1 * 60,
     shell:
         """
         ( gzip \

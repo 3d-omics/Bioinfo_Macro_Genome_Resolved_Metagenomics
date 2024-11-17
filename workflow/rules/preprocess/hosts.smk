@@ -11,6 +11,8 @@ rule preprocess__hosts:
     cache: "omit-software"
     group:
         "preprocess__{host}"
+    threads:
+        8,
     shell:
         """
         ( gzip \

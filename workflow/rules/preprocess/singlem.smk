@@ -18,6 +18,9 @@ rule preprocess__singlem__pipe:
         PRE_SINGLEM / "pipe" / "{sample_id}.{library_id}.log",
     conda:
         "../../environments/singlem.yml"
+    resources:
+        mem_mb=16 * 1024,
+        runtime=2 * 60,
     shell:
         """
         if [ ! -s {input.forward_} ]; then
@@ -54,6 +57,8 @@ rule preprocess__singlem__condense:
         "../../environments/singlem.yml"
     params:
         input_dir=PRE_SINGLEM,
+    resources:
+        runtime=6 * 60,
     shell:
         """
         singlem condense \
@@ -101,8 +106,7 @@ rule preprocess__singlem__microbial_fraction:
         """
 
 
-rule preprocess__singlem__microbial_fraction__aggregate:
-    """Aggregate all the microbial_fraction files into one tsv"""
+use rule coverm__aggregate as preprocess__singlem__microbial_fraction__aggregate:
     input:
         [
             PRE_SINGLEM / "microbial_fraction" / f"{sample_id}.{library_id}.tsv"
@@ -113,7 +117,7 @@ rule preprocess__singlem__microbial_fraction__aggregate:
     log:
         PRE_SINGLEM / "microbial_fraction.log",
     conda:
-        "../../environments/csvkit.yml"
+        "../../environments/coverm.yml"
     shell:
         """
         ( csvstack --tabs {input} \

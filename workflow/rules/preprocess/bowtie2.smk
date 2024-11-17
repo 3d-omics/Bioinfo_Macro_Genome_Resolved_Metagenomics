@@ -83,6 +83,10 @@ rule preprocess__bowtie2__fastq:
         "../../environments/bowtie2.yml"
     group:
         "preprocess__{sample_id}.{library_id}"
+    threads: 24
+    resources:
+        mem_mb=8 * 1024,
+        runtime: 2 * 60,
     shell:
         """
         rm \

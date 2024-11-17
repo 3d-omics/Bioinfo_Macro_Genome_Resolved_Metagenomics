@@ -9,11 +9,6 @@ __use_yte__: true
 
 
 set-threads:
-    # preprocess
-    preprocess__hosts: 8
-    preprocess__fastp: 8
-    preprocess__clean: 24
-    preprocess__kraken2__assign: 8
     # assemble
     assemble__megahit: 24
     assemble__megahit__rename: 24
@@ -46,27 +41,6 @@ set-threads:
 
 
 set-resources:
-    # preprocess
-    preprocess__fastp:
-        mem_mb: 8G
-        runtime: 1h
-    preprocess__bowtie2__fastq:
-        mem_mb: 8 * 1024
-        runtime: 2h
-    preprocess__kraken2__assign:
-        mem_mb: 500G
-        runtime: 1d
-    preprocess__nonpareil__run:
-        runtime: 6h
-    preprocess__singlem__pipe:
-        runtime: 2h
-        mem_mb: 16G
-    preprocess__singlem__condense:
-        runtime: 6h
-    preprocess__multiqc:
-        mem_mb: 4 * 1024 * 2 ** (attempt - 1)
-        runtime: 6h
-
     # assemble
     assemble__megahit:
         mem_mb: 32 * 1024 * 2 ** (attempt - 1)

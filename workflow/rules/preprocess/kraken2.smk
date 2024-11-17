@@ -29,6 +29,10 @@ rule preprocess__kraken2__assign:
         in_folder=PRE_FASTP,
         out_folder=lambda w: PRE_KRAKEN2 / w.kraken2_db,
         kraken_db_name="{kraken2_db}",
+    threads: 8,
+    resources:
+        mem_mb=800 * 1024 * 1024,
+        runtime=24 * 60,
     conda:
         "../../environments/kraken2.yml"
     shell:

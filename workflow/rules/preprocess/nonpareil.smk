@@ -18,6 +18,9 @@ rule preprocess__nonpareil__run:
         "../../environments/nonpareil.yml"
     params:
         prefix=lambda w: PRE_NONPAREIL / f"{w.sample_id}.{w.library_id}",
+    resources:
+        mem_mb=8 * 1024,
+        runtime=6 * 60,
     shell:
         """
         nonpareil \

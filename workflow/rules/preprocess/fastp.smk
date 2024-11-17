@@ -26,6 +26,10 @@ rule preprocess__fastp:
     params:
         extra=params["preprocess"]["fastp"]["extra"],
         adapters=compose_adapters,
+    threads: 8
+    resources:
+        mem_mb=8 * 1024,
+        runtime: 60,
     wrapper:
         "v4.7.1/bio/fastp"
 
