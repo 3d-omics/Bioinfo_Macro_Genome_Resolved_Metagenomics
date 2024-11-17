@@ -14,7 +14,6 @@ set-threads:
     prokaryotes__cluster__drep__separate_bins: 24
     prokaryotes__cluster__drep__run: 24
     ## prokaryotes - annotate
-    prokaryotes__annotate__gtdbtk__classify_wf: 24
     prokaryotes__annotate__quast: 4
     # viruses
     ## viruses - cluster
@@ -33,18 +32,9 @@ set-resources:
 
 
     ## prokaryotes - annotate
-    prokaryotes__annotate__gtdbtk__classify_wf:
-        mem_mb: 128 * 1024 * 2 ** (attempt - 1)
-        runtime: 1d
     prokaryotes__annotate__drep__dereplicate:
         mem_mb: 4G
         runtime: 6h
-
-    ## prokaryotes - quantify
-    prokaryotes__quantify__coverm__genome__aggregate:
-        mem_mb: 8G
-    prokaryotes__quantify__coverm__contig__aggregate:
-        mem_mb: 8G
 
     # viruses
     viruses__multiqc:
@@ -59,10 +49,4 @@ set-resources:
     viruses__annotate__genomad:
         mem_mb: 32G
     viruses__annotate__quast:
-        mem_mb: 8G
-
-    ## viruses - quantify
-    viruses__quantify__coverm__genome__aggregate:
-        mem_mb: 8G
-    viruses__quantify__coverm__contig_aggregate:
         mem_mb: 8G
