@@ -39,8 +39,8 @@ set-threads:
     prokaryotes__annotate__gtdbtk__classify_wf: 24
     prokaryotes__annotate__quast: 4
     ## prokaryotes - quantify
-    prokaryotes__quantify__index: 24
-    prokaryotes__quantify__bowtie2: 24
+    prokaryotes__quantify__bowtie2__index: 24
+    prokaryotes__quantify__bowtie2__map: 24
     # viruses
     ## viruses - cluster
     viruses__cluster__genomad: 24
