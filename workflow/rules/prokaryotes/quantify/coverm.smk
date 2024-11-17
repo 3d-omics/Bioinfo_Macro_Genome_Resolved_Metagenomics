@@ -23,6 +23,7 @@ use rule coverm__genome as prokaryotes__quantify__coverm__genome with:
         extra=params["quantify"]["coverm"]["genome"]["extra"],
         separator=params["quantify"]["coverm"]["genome"]["separator"],
 
+
 use rule coverm__aggregate as prokaryotes__quantify__coverm__genome__aggregate with:
     input:
         get_tsvs_for_dereplicate_coverm_genome,

@@ -11,7 +11,7 @@ rule coverm__genome:
     params:
         method=lambda w: w.method,
         separator="@",
-        extra="--min-covered-fraction 0"
+        extra="--min-covered-fraction 0",
     shell:
         """
         ( coverm genome \
