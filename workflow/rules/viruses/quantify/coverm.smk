@@ -16,7 +16,7 @@ use rule coverm__genome as viruses__quantify__coverm__genome with:
         separator=params["quantify"]["coverm"]["genome"]["separator"],
 
 
-use rule coverm__aggregate as viruses__quantify__coverm__genome_aggregate with:
+use rule csvkit__aggregate as viruses__quantify__coverm__genome_aggregate with:
     input:
         get_tsvs_for_dereplicate_vcoverm_genome,
     output:
@@ -24,7 +24,7 @@ use rule coverm__aggregate as viruses__quantify__coverm__genome_aggregate with:
     log:
         VCOVERM / "genome.{method}.log",
     conda:
-        "../../../environments/coverm.yml"
+        "../../../environments/csvkit.yml"
 
 
 rule viruses__quantify__coverm__genome__all:
@@ -50,7 +50,7 @@ use rule coverm__contig as viruses__quantify__coverm__contig with:
         method=lambda w: w.method,
 
 
-use rule coverm__contig as viruses__quantify__coverm__contig_aggregate with:
+use rule csvkit__aggregate as viruses__quantify__coverm__contig_aggregate with:
     input:
         get_tsvs_for_dereplicate_vcoverm_contig,
     output:
@@ -58,7 +58,7 @@ use rule coverm__contig as viruses__quantify__coverm__contig_aggregate with:
     log:
         VCOVERM / "contig.{method}.log",
     conda:
-        "../../../environments/coverm.yml"
+        "../../../environments/csvkit.yml"
 
 
 rule viruses__quantify__coverm__contig__all:

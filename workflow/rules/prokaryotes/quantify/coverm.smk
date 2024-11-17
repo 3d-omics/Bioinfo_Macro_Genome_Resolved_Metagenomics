@@ -24,7 +24,7 @@ use rule coverm__genome as prokaryotes__quantify__coverm__genome with:
         separator=params["quantify"]["coverm"]["genome"]["separator"],
 
 
-use rule coverm__aggregate as prokaryotes__quantify__coverm__genome__aggregate with:
+use rule csvkit__aggregate as prokaryotes__quantify__coverm__genome__aggregate with:
     input:
         get_tsvs_for_dereplicate_coverm_genome,
     output:
@@ -32,7 +32,7 @@ use rule coverm__aggregate as prokaryotes__quantify__coverm__genome__aggregate w
     log:
         COVERM / "genome.{method}.drep.{secondary_ani}.log",
     conda:
-        "../../../environments/coverm.yml"
+        "../../../environments/csvkit.yml"
 
 
 rule prokaryotes__quantify__coverm__genome__all:
@@ -65,7 +65,7 @@ use rule coverm__contig as prokaryotes__quantify__coverm__contig with:
         "../../../environments/coverm.yml"
 
 
-use rule coverm__aggregate as prokaryotes__quantify__coverm__contig__aggregate with:
+use rule csvkit__aggregate as prokaryotes__quantify__coverm__contig__aggregate with:
     input:
         get_tsvs_for_dereplicate_coverm_contig,
     output:
@@ -73,7 +73,7 @@ use rule coverm__aggregate as prokaryotes__quantify__coverm__contig__aggregate w
     log:
         COVERM / "contig.{method}.drep.{secondary_ani}log",
     conda:
-        "../../../environments/coverm.yml"
+        "../../../environments/csvkit.yml"
 
 
 rule prokaryotes__quantify__coverm__contig__all:

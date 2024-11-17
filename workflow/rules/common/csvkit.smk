@@ -1,4 +1,4 @@
-rule coverm__aggregate:
+rule csvkit__aggregate:
     """Aggregate coverm reports"""
     input:
         ["{sample}.{method}.tsv.gz" for sample in ["sample"]],
@@ -7,7 +7,7 @@ rule coverm__aggregate:
     log:
         "coverm.{method}.log",
     conda:
-        "../../../environments/coverm.yml"
+        "../../../environments/csvkit.yml"
     shell:
         """
         ( csvstack --tabs {input} \

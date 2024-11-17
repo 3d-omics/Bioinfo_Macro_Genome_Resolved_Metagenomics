@@ -170,7 +170,7 @@ rule prokaryotes__cluster__magscot__run:
     log:
         MAGSCOT / "{assembly_id}/magscot.log",
     conda:
-        "../../../environments/r.yml"
+        "../../../environments/magscot.yml"
     params:
         out_prefix=lambda w: MAGSCOT / w.assembly_id / "magscot",
     shell:
@@ -194,7 +194,7 @@ rule prokaryotes__cluster__magscot__reformat:
     log:
         MAGSCOT / "{assembly_id}" / "magscot.reformat.log",
     conda:
-        "../../../environments/r.yml"
+        "../../../environments/magscot.yml"
     shell:
         """
         Rscript --no-init-file workflow/scripts/clean_magscot_bin_to_contig.R \

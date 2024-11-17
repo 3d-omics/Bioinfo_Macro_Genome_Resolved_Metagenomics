@@ -14,7 +14,7 @@ use rule coverm__contig as assemble__coverm__contig with:
         method=lambda w: w.method,
 
 
-use rule coverm__aggregate as assemble__coverm__aggregate with:
+use rule csvkit__aggregate as assemble__coverm__aggregate with:
     input:
         get_coverm_assembly_files,
     output:
@@ -22,7 +22,7 @@ use rule coverm__aggregate as assemble__coverm__aggregate with:
     log:
         ASSEMBLE_COVERM / "coverm.{assembly_id}.{method}.log",
     conda:
-        "../../environments/coverm.yml"
+        "../../environments/csvkit.yml"
 
 
 rule assemble__coverm__all:

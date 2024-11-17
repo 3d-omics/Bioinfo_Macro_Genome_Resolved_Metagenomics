@@ -106,7 +106,7 @@ rule preprocess__singlem__microbial_fraction:
         """
 
 
-use rule coverm__aggregate as preprocess__singlem__microbial_fraction__aggregate with:
+use rule csvkit__aggregate as preprocess__singlem__microbial_fraction__aggregate with:
     input:
         [
             PRE_SINGLEM / "microbial_fraction" / f"{sample_id}.{library_id}.tsv"
@@ -117,7 +117,7 @@ use rule coverm__aggregate as preprocess__singlem__microbial_fraction__aggregate
     log:
         PRE_SINGLEM / "microbial_fraction.log",
     conda:
-        "../../environments/coverm.yml"
+        "../../environments/csvkit.yml"
 
 
 rule preprocess__singlem__all:
