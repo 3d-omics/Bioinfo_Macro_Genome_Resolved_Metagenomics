@@ -21,9 +21,9 @@ rule prokaryotes__multiqc:
     shell:
         """
         multiqc \
-            --title assemble \
+            --title prokaryotes \
             --force \
-            --filename assemble \
+            --filename prokaryotes \
             --outdir {params.outdir} \
             --dirs \
             --dirs-depth 1 \
