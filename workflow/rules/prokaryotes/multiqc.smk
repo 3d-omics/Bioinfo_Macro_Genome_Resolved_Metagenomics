@@ -18,6 +18,9 @@ rule prokaryotes__multiqc:
         "../../environments/multiqc.yml"
     params:
         outdir=RESULTS,
+    resources:
+        mem_mb=double_ram(8 * 1024),
+        runtime=6 * 60,
     shell:
         """
         multiqc \

@@ -11,7 +11,11 @@ rule prokaryotes__cluster__maxbin2:
         "../../../environments/maxbin2.yml"
     params:
         seed=1,
-        coverage=lambda w: MAXBIN2 / f"{w.assembly_id}/maxbin2.coverage",
+        coverage=lambda w: MAXBIN2 / w.assembly_id / "maxbin2.coverage",
+    threads: 4
+    resources:
+        mem_mb=double_ram(8 * 1024),
+        runtime=24 * 60,
     shell:
         """
         mkdir --parents {output.workdir}
