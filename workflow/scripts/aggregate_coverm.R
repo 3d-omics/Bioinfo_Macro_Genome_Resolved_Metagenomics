@@ -1,9 +1,6 @@
 #!/usr/bin/env Rscript
 
-library(tidyverse)
-library(argparse)
-
-parser <- ArgumentParser()
+parser <- argparse::ArgumentParser()
 
 parser$add_argument(
   "-i", "--input-folder",
