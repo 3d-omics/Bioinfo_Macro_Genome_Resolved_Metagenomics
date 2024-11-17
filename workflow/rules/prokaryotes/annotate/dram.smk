@@ -72,6 +72,7 @@ rule prokaryotes__annotate__dram__annotate:
         2>> {log} 1>&2
         """
 
+
 # DONT USE CSVKIT__AGGREGATE: sometimes dram does not generate all the files
 # file_type = annotations, trnas, rrnas
 rule prokaryotes__annotate__dram__annotate__aggregate_tsvs:
@@ -98,6 +99,7 @@ rule prokaryotes__annotate__dram__annotate__aggregate_tsvs:
         > {output} ) \
         2> {log}
         """
+
 
 # file_type = genes.gff, genes.fna, genes.faa
 rule prokaryotes__annotate__dram__annotate__concatenate_genes:
@@ -250,7 +252,7 @@ rule prokaryotes__annotate__dram__distill__archive:
         "../../../environments/dram.yml"
     params:
         out_dir=PROK_ANN,
-    threads: 24,
+    threads: 24
     shell:
         """
         for file in genome_stats.tsv metabolism_summary.xlsx product.tsv ; do

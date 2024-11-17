@@ -10,7 +10,7 @@ rule prokaryotes__annotate__checkm2:
         PROK_ANN / "checkm2.quality_report.log",
     conda:
         "../../../environments/checkm2.yml"
-    threads: 24,
+    threads: 24
     resources:
         mem_mb=16 * 1024,
         runtime=24 * 60,

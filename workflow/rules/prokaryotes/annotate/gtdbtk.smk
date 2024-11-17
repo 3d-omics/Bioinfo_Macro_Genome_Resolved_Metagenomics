@@ -9,7 +9,7 @@ rule prokaryotes__annotate__gtdbtk__classify_wf:
         PROK_ANN / "gtdbtk.log",
     conda:
         "../../../environments/gtdbtk.yml"
-    threads: 24,
+    threads: 24
     resources:
         mem_mb=128 * 1024,
         runtime=24 * 60,
