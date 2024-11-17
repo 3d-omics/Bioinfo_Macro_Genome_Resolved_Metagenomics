@@ -23,8 +23,8 @@ quantify:
   coverm:   # https://github.com/wwood/CoverM#calculation-methods
     genome:
       methods: ["count", "covered_bases", "length"]
-      min_covered_fraction: 0.0
       separator: "@"
+      extra: "--min-covered-fraction 0"
     contig:
       methods: ["count", "covered_bases", "length"]
 

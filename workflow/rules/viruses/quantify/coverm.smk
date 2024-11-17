@@ -1,54 +1,30 @@
 include: "coverm_functions.smk"
 
 
-rule viruses__quantify__coverm__genome:
-    """Run coverm genome for one library and one mag catalogue"""
+use rule coverm__genome as viruses__quantify__coverm__genome with:
     input:
         VBOWTIE2 / "{sample_id}.{library_id}.bam",
     output:
         VCOVERM / "genome" / "{method}" / "{sample_id}.{library_id}.tsv.gz",
-    conda:
-        "../../../environments/coverm.yml"
     log:
         VCOVERM / "genome" / "{method}" / "{sample_id}.{library_id}.log",
+    conda:
+        "../../../environments/coverm.yml"
     params:
         method=lambda w: w.method,
-        min_covered_fraction=params["quantify"]["coverm"]["genome"][
-            "min_covered_fraction"
-        ],
+        extra=params["quantify"]["coverm"]["genome"]["extra"],
         separator=params["quantify"]["coverm"]["genome"]["separator"],
-    shell:
-        """
-        ( coverm genome \
-            --bam-files {input} \
-            --methods {params.method} \
-            --separator {params.separator} \
-            --min-covered-fraction {params.min_covered_fraction} \
-        | bgzip \
-        > {output} \
-        ) 2> {log}
-        """
 
 
-rule viruses__quantify__coverm__genome_aggregate:
-    """Run coverm genome and a single method"""
+use rule coverm__aggregate as viruses__quantify__coverm__genome_aggregate with:
     input:
         get_tsvs_for_dereplicate_vcoverm_genome,
     output:
-        tsv=VCOVERM / "genome.{method}.tsv.gz",
+        VCOVERM / "genome.{method}.tsv.gz",
     log:
         VCOVERM / "genome.{method}.log",
     conda:
-        "../../../environments/r.yml"
-    params:
-        input_dir=lambda w: VCOVERM / "genome" / w.method,
-    shell:
-        """
-        Rscript --vanilla workflow/scripts/aggregate_coverm.R \
-            --input-folder {params.input_dir} \
-            --output-file {output} \
-        2> {log} 1>&2
-        """
+        "../../../environments/coverm.yml"
 
 
 rule viruses__quantify__coverm__genome__all:
@@ -61,49 +37,28 @@ rule viruses__quantify__coverm__genome__all:
 
 
 # coverm contig ----
-rule viruses__quantify__coverm__contig:
-    """Run coverm contig for one library and one mag catalogue"""
+use rule coverm__contig as viruses__quantify__coverm__contig with:
     input:
         VBOWTIE2 / "{sample_id}.{library_id}.bam",
     output:
         VCOVERM / "contig" / "{method}" / "{sample_id}.{library_id}.tsv.gz",
-    conda:
-        "../../../environments/coverm.yml"
     log:
         VCOVERM / "contig" / "{method}" / "{sample_id}.{library_id}.log",
+    conda:
+        "../../../environments/coverm.yml"
     params:
         method=lambda w: w.method,
-    shell:
-        """
-        ( coverm contig \
-            --bam-files {input} \
-            --methods {params.method} \
-            --proper-pairs-only \
-        | bgzip \
-        > {output} \
-        ) 2> {log}
-        """
 
 
-rule viruses__quantify__coverm__contig_aggregate:
-    """Run coverm contig and a single method"""
+use rule coverm__contig as viruses__quantify__coverm__contig_aggregate with:
     input:
         get_tsvs_for_dereplicate_vcoverm_contig,
     output:
-        tsv=VCOVERM / "contig.{method}.tsv.gz",
+        VCOVERM / "contig.{method}.tsv.gz",
     log:
         VCOVERM / "contig.{method}.log",
     conda:
-        "../../../environments/r.yml"
-    params:
-        input_dir=lambda w: VCOVERM / "contig" / w.method,
-    shell:
-        """
-        Rscript --vanilla workflow/scripts/aggregate_coverm.R \
-            --input-folder {params.input_dir} \
-            --output-file {output} \
-        2> {log} 1>&2
-        """
+        "../../../environments/coverm.yml"
 
 
 rule viruses__quantify__coverm__contig__all:

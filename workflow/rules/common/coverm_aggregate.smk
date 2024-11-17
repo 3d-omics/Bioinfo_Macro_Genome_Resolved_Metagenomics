@@ -4,10 +4,10 @@ rule coverm__aggregate:
         ["{sample}.{method}.tsv.gz" for sample in ["sample"]],
     output:
         "coverm.{method}.tsv.gz",
+    log:
+        "coverm.{method}.log",
     conda:
         "../../../environments/coverm.yml"
-    params:
-        input_dir=".",
     shell:
         """
         ( csvstack --tabs {input} \

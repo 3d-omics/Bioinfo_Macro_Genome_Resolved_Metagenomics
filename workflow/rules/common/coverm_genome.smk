@@ -10,15 +10,15 @@ rule coverm__genome:
         "sample.{method}.log",
     params:
         method=lambda w: w.method,
-        min_covered_fraction=0,
         separator="@",
+        extra="--min-covered-fraction 0"
     shell:
         """
         ( coverm genome \
             --bam-files {input} \
             --methods {params.method} \
             --separator {params.separator} \
-            --min-covered-fraction {params.min_covered_fraction} \
+            {params.extra} \
         | gzip --best \
         > {output} \
         ) 2> {log}

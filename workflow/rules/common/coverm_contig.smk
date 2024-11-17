@@ -1,4 +1,5 @@
 rule coverm__contig:
+    """Compute coverm statistics for a single bam using the method {method}."""
     input:
         "sample.{method}.bam",
     output:
