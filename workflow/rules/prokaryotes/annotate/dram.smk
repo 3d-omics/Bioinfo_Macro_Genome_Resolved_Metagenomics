@@ -53,6 +53,9 @@ rule prokaryotes__annotate__dram__annotate:
         min_contig_size=params["prokaryotes"]["annotate"]["dram"]["annotate"][
             "min_contig_size"
         ],
+    resources:
+        mem_mb=8 * 1024,
+        runtime=24 * 60,
     shell:
         """
         rm \
@@ -69,24 +72,25 @@ rule prokaryotes__annotate__dram__annotate:
         2>> {log} 1>&2
         """
 
-
-rule prokaryotes__annotate__dram__annotate__aggregate_annotations:
-    """Aggregate DRAM annotations"""
+# DONT USE CSVKIT__AGGREGATE: sometimes dram does not generate all the files
+# file_type = annotations, trnas, rrnas
+rule prokaryotes__annotate__dram__annotate__aggregate_tsvs:
     input:
         collect_dram_annotate,
     output:
-        PROK_ANN / "dram.annotations.tsv.gz",
+        PROK_ANN / "dram.{file_type}.tsv.gz",
     log:
-        PROK_ANN / "dram.annotate.aggregate.log",
+        PROK_ANN / "dram.{file_type}.log",
     conda:
         "../../../environments/dram.yml"
     params:
         work_dir=PROK_ANN / "dram.annotate",
+        file_type=lambda w: w.file_type,
     shell:
         """
         ( csvstack \
             --tabs \
-            {params.work_dir}/*/annotations.tsv \
+            {params.work_dir}/*/{params.file_type}.tsv \
         | csvformat \
             --out-tabs \
         | bgzip \
@@ -95,126 +99,35 @@ rule prokaryotes__annotate__dram__annotate__aggregate_annotations:
         2> {log}
         """
 
-
-rule prokaryotes__annotate__dram__annotate__aggregate_trnas:
-    """Aggregate DRAM tRNAs"""
+# file_type = genes.gff, genes.fna, genes.faa
+rule prokaryotes__annotate__dram__annotate__concatenate_genes:
     input:
         collect_dram_annotate,
     output:
-        PROK_ANN / "dram.trnas.tsv",
+        PROK_ANN / "dram.genes.{file_type}.gz",
     log:
-        PROK_ANN / "dram.trnas.log",
+        PROK_ANN / "dram.genes.{file_type}.log",
     conda:
         "../../../environments/dram.yml"
     params:
         work_dir=PROK_ANN / "dram.annotate",
+        file_type=lambda w: w.file_type,
     shell:
         """
-        ( csvstack \
-            --tabs \
-            {params.work_dir}/*/trnas.tsv \
-        | csvformat \
-            --out-tabs \
-        > {output} ) \
-        2> {log}
-        """
-
-
-rule prokaryotes__annotate__dram__annotate__aggregate_rrnas:
-    """Aggregate DRAM rRNAs"""
-    input:
-        collect_dram_annotate,
-    output:
-        PROK_ANN / "dram.rrnas.tsv",
-    log:
-        PROK_ANN / "dram.rrnas.log",
-    conda:
-        "../../../environments/dram.yml"
-    params:
-        work_dir=PROK_ANN / "dram.annotate",
-    shell:
-        """
-        ( csvstack \
-            --tabs \
-            {params.work_dir}/*/rrnas.tsv \
-        | csvformat \
-            --out-tabs \
-        > {output} ) \
-        2> {log}
-        """
-
-
-rule prokaryotes__annotate__dram__annotate__aggregate_gffs:
-    """Aggregate DRAM GTFs"""
-    input:
-        collect_dram_annotate,
-    output:
-        PROK_ANN / "dram.genes.gff.gz",
-    log:
-        PROK_ANN / "dram.genes.gff.log",
-    conda:
-        "../../../environments/dram.yml"
-    params:
-        work_dir=PROK_ANN / "dram.annotate",
-    shell:
-        """
-        ( cat {params.work_dir}/*/genes.gff \
+        ( cat {params.work_dir}/*/{params.file_type} \
         | bgzip --compress-level 9 \
         > {output} ) \
         2> {log}
         """
 
 
-rule prokaryotes__annotate__dram__annotate__aggregate_fna:
-    """Aggregate DRAM fasta files"""
-    input:
-        collect_dram_annotate,
-    output:
-        PROK_ANN / "dram.genes.fna.gz",
-    log:
-        PROK_ANN / "dram.genes.fna.log",
-    conda:
-        "../../../environments/dram.yml"
-    params:
-        work_dir=PROK_ANN / "dram.annotate",
-    shell:
-        """
-        ( cat {params.work_dir}/*/genes.fna \
-        | bgzip \
-        > {output} ) \
-        2> {log}
-        """
-
-
-rule prokaryotes__annotate__dram__annotate__aggregate_faa:
-    """Aggregate DRAM fasta files"""
-    input:
-        collect_dram_annotate,
-    output:
-        PROK_ANN / "dram.genes.faa.gz",
-    log:
-        PROK_ANN / "dram.genes.faa.log",
-    conda:
-        "../../../environments/dram.yml"
-    params:
-        work_dir=PROK_ANN / "dram.annotate",
-    shell:
-        """
-        ( cat {params.work_dir}/*/genes.faa \
-        | bgzip \
-        > {output} ) \
-        2> {log}
-        """
-
-
-rule prokaryotes__annotate__dram__annotate__aggregate_scaffolds:
-    """Aggregate all DRAM scaffold files"""
+rule prokaryotes__annotate__dram__annotate__concatenate_scaffolds:
     input:
         collect_dram_annotate,
     output:
         PROK_ANN / "dram.scaffolds.fna.gz",
     log:
-        PROK_ANN / "dram.scaffolds.log",
+        PROK_ANN / "dram.scaffolds.fna.log",
     conda:
         "../../../environments/dram.yml"
     params:
@@ -222,7 +135,7 @@ rule prokaryotes__annotate__dram__annotate__aggregate_scaffolds:
     shell:
         """
         ( cat {params.work_dir}/*/scaffolds.fna \
-        | bgzip \
+        | bgzip --compress-level 9 \
         > {output} ) \
         2> {log}
         """
@@ -266,8 +179,8 @@ rule prokaryotes__annotate__dram__annotate__archive:
     """
     input:
         annotations=PROK_ANN / "dram.annotations.tsv.gz",
-        trnas=PROK_ANN / "dram.trnas.tsv",
-        rrnas=PROK_ANN / "dram.rrnas.tsv",
+        trnas=PROK_ANN / "dram.trnas.tsv.gz",
+        rrnas=PROK_ANN / "dram.rrnas.tsv.gz",
         gtf=PROK_ANN / "dram.genes.gff.gz",
         fna=PROK_ANN / "dram.genes.fna.gz",
         faa=PROK_ANN / "dram.genes.faa.gz",
@@ -300,8 +213,8 @@ rule prokaryotes__annotate__dram__distill:
     """Distill DRAM annotations."""
     input:
         annotations=PROK_ANN / "dram.annotations.tsv.gz",
-        trnas=PROK_ANN / "dram.trnas.tsv",
-        rrnas=PROK_ANN / "dram.rrnas.tsv",
+        trnas=PROK_ANN / "dram.trnas.tsv.gz",
+        rrnas=PROK_ANN / "dram.rrnas.tsv.gz",
         dram_db=features["databases"]["dram"],
         setup=PROK_ANN / "dram.setup.txt",
     output:
@@ -310,6 +223,9 @@ rule prokaryotes__annotate__dram__distill:
         PROK_ANN / "dram.distill.log",
     conda:
         "../../../environments/dram.yml"
+    resources:
+        mem_mb=16 * 1024,
+        runtime=24 * 60,
     shell:
         """
         DRAM.py distill \
@@ -334,6 +250,7 @@ rule prokaryotes__annotate__dram__distill__archive:
         "../../../environments/dram.yml"
     params:
         out_dir=PROK_ANN,
+    threads: 24,
     shell:
         """
         for file in genome_stats.tsv metabolism_summary.xlsx product.tsv ; do

@@ -11,17 +11,9 @@ __use_yte__: true
 set-threads:
     # prokaryotes
     ## prokaryotes - cluster
-    prokaryotes__cluster__concoct: 24
-    prokaryotes__cluster__maxbin2: 4
-    prokaryotes__cluster__metabat2: 24
-    prokaryotes__cluster__magscot__prodigal: 24
-    prokaryotes__cluster__magscot__hmmsearch_pfam: 4
-    prokaryotes__cluster__magscot__hmmsearch_tigr: 4
     prokaryotes__cluster__drep__separate_bins: 24
     prokaryotes__cluster__drep__run: 24
     ## prokaryotes - annotate
-    prokaryotes__annotate__checkm2: 24
-    prokaryotes__annotate__dram__annotate__archive: 24
     prokaryotes__annotate__gtdbtk__classify_wf: 24
     prokaryotes__annotate__quast: 4
     # viruses
@@ -38,47 +30,9 @@ set-threads:
 
 set-resources:
     # prokaryotes
-    prokaryotes__multiqc:
-        mem_mb: 8 * 1024 * 2 ** (attempt - 1)
-        runtime: 6h
 
-    ## prokaryotes - cluster
-    prokaryotes__cluster__concoct:
-        mem_mb: 8 * 1024 * 2 ** (attempt - 1)
-        runtime: 1d
-    prokaryotes__cluster__maxbin2:
-        mem_mb: 8 * 1024 * 2 ** (attempt - 1)
-        runtime: 1d
-    prokaryotes__cluster__metabat2:
-        mem_mb: 8 * 1024 * 2 ** (attempt - 1)
-        runtime: 1d
-    prokaryotes__cluster__magscot__prodigal:
-        mem_mb: 8 * 1024 * 2 ** (attempt - 1)
-        runtime: 1d
-    prokaryotes__cluster__magscot__hmmsearch_pfam:
-        mem_mb: 8G
-        runtime: 1d
-    prokaryotes__cluster__magscot__hmmsearch_tigr:
-        mem_mb: 8G
-        runtime: 1d
-    prokaryotes__cluster__magscot__run:
-        mem_mb: 8G
-        runtime: 12h
-    prokaryotes__cluster__magscot__reformat:
-        mem_mb: 8G
-    prokaryotes__cluster__magscot__rename:
-        mem_mb: 8G
 
     ## prokaryotes - annotate
-    prokaryotes__annotate__checkm2:
-        mem_mb: 16G
-        runtime: 1d
-    prokaryotes__annotate__dram__annotate:
-        mem_mb: 8G
-        runtime: 1d
-    prokaryotes__annotate__dram__distill:
-        mem_mb: 16G
-        runtime: 1d
     prokaryotes__annotate__gtdbtk__classify_wf:
         mem_mb: 128 * 1024 * 2 ** (attempt - 1)
         runtime: 1d
