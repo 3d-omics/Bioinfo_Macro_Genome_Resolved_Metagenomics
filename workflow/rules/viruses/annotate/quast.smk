@@ -11,7 +11,7 @@ rule viruses__annotate__quast:
     threads: 4
     resources:
         mem_mb=8 * 1024,
-        runtime=6 *60,
+        runtime=6 * 60,
     shell:
         """
         quast \
