@@ -4,12 +4,12 @@ use rule coverm__contig as assemble__coverm__contig with:
     output:
         temp(
             ASSEMBLE_COVERM
-            / "separated"
+            / "files"
             / "{method}.{assembly_id}.{sample_id}.{library_id}.tsv.gz"
         ),
     log:
         ASSEMBLE_COVERM
-        / "separated"
+        / "files"
         / "{method}.{assembly_id}.{sample_id}.{library_id}.log",
     conda:
         "../../environments/coverm.yml"
@@ -21,7 +21,7 @@ use rule csvkit__aggregate as assemble__coverm__aggregate with:
     input:
         lambda w: [
             ASSEMBLE_COVERM
-            / "separated"
+            / "files"
             / f"{w.method}.{w.assembly_id}.{sample_id}.{library_id}.tsv.gz"
             for assembly_id, sample_id, library_id in ASSEMBLY_SAMPLE_LIBRARY
             if assembly_id == w.assembly_id
