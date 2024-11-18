@@ -116,30 +116,24 @@ rule prokaryotes__annotate__dram__annotate__aggregate_genbank:
     input:
         collect_dram_annotate,
     output:
-        directory(PROK_ANN / "dram.genbank"),
+        PROK_ANN / "dram.genbank.gbk.gz",
     log:
         PROK_ANN / "dram.genbank.log",
     conda:
         "../../../environments/dram.yml"
     params:
         work_dir=PROK_ANN / "dram.annotate",
+    threads: 24
     shell:
         """
-        mkdir \
-            --parents \
+        ( cat \
             --verbose \
-            {output} \
-        2> {log}
-
-        cp \
-            --verbose \
-            {params.work_dir}/*/genbank/* \
-            {output} \
-        2>> {log}
-
-        bgzip \
-            {output}/*.gbk \
-        2>> {log} 1>&2
+            {params.work_dir}/*/genbank/*.gbk \
+        | bgzip \
+            --compress-level 9 \
+            --threads {threads} \
+        > {output} \
+        ) 2> {log}
         """
 
 
@@ -155,7 +149,7 @@ rule prokaryotes__annotate__dram__annotate__archive:
         fna=PROK_ANN / "dram.genes.fna.gz",
         faa=PROK_ANN / "dram.genes.faa.gz",
         scaffolds=PROK_ANN / "dram.scaffolds.fna.gz",
-        genbank=PROK_ANN / "dram.genbank",
+        genbank=PROK_ANN / "dram.genbank.gbk.gz",
     output:
         tarball=PROK_ANN / "dram.annotate.tar.gz",
     log:
