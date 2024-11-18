@@ -57,6 +57,7 @@ jobs:
             --cores 3
             --latency-wait 5
             --printshellcmds
+            --dry-run
             test
 
       - name: Test workflow - Print the commands to everything else
