@@ -26,7 +26,6 @@ use rule csvkit__aggregate as assemble__coverm__aggregate with:
             for assembly_id, sample_id, library_id in ASSEMBLY_SAMPLE_LIBRARY
             if assembly_id == w.assembly_id
         ],
-        # partial evaluation of w.method and w.assembly_id
     output:
         ASSEMBLE_COVERM / "coverm.{method}.{assembly_id}.tsv.gz",
     log:
