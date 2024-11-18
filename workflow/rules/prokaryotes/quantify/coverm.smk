@@ -1,6 +1,3 @@
-include: "coverm_functions.smk"
-
-
 use rule coverm__genome as prokaryotes__quantify__coverm__genome with:
     input:
         QUANT_BOWTIE2 / "drep.{secondary_ani}" / "{sample_id}.{library_id}.bam",
