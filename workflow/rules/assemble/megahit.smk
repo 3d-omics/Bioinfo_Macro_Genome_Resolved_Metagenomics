@@ -17,9 +17,9 @@ rule assemble__megahit:
     conda:
         "../../environments/megahit.yml"
     params:
-        min_contig_len=params["assemble"]["megahit"]["min_contig_len"],
         forwards=aggregate_forwards_for_megahit,
         reverses=aggregate_reverses_for_megahit,
+        extra=params["assemble"]["megahit"]["extra"],
     retries: 5
     group:
         "assemble__megahit__{assembly_id}"
@@ -31,11 +31,11 @@ rule assemble__megahit:
         """
         megahit \
             --num-cpu-threads {threads} \
-            --min-contig-len {params.min_contig_len} \
             --verbose \
             --force \
             --out-dir {output.workdir} \
             --continue \
+            {params.extra} \
             -1 {params.forwards} \
             -2 {params.reverses} \
         2> {log} 1>&2

@@ -12,7 +12,7 @@ preprocess:
 
 assemble:
   megahit:
-    min_contig_len: 1500
+    extra: "--min-contig-len 1500"  # --presets meta-large
   samtools:
     mem: 1G
 
