@@ -86,19 +86,18 @@ A Snakemake workflow for Genome Resolved Metagenomics
 5. Run the pipeline
      ```
      # make sure firsthand that you have all the databases above properly installed
-     snakemake --use-conda --jobs 8  # locally
-     snakemake --use-conda --profile profile/default --cores 24 --jobs 100 --executor slurm  # in slurm
+     snakemake --use-conda --cores 8  # locally
+     snakemake --use-conda --cores 24 --jobs 100 --executor slurm  # in slurm
      ```
 
 
 6. Output:
 
     The main outputs are:
-    1. `results/prokaryotes/cluster/drep/dereplicated_genomes.fa.gz`: all the assembled MAGs.
-    2. `results/prokaryotes/annotate/`: the different annotations.
-    3. `results/prokaryotes/quantify/`: MAG and contig-wise quantifications.
-    4. There is an experimental pipeline for viral identification with a similar structure. See below. The results are in `results/viruses/`.
-    5. MultiQC html reports and tables in `reports`, step and sample-wise.
+    1. `results/prokaryotes/annotate/`: the different annotations.
+    2. `results/prokaryotes/quantify/`: MAG and contig-wise quantifications.
+    3. There is an experimental pipeline for viral identification with a similar structure. See below. The results are in `results/viruses/`.
+    4. MultiQC html reports and tables next to the main modules: `preprocess`, `assemble`, `prokaryotes` and `viruses`.
 
 
 ## Rulegraph
