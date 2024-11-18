@@ -73,74 +73,48 @@ rule prokaryotes__annotate__dram__annotate:
         """
 
 
-# DONT USE CSVKIT__AGGREGATE: sometimes dram does not generate all the files
-# file_type = annotations, trnas, rrnas
-rule prokaryotes__annotate__dram__annotate__aggregate_tsvs:
-    input:
-        collect_dram_annotate,
-    output:
-        PROK_ANN / "dram.{file_type}.tsv.gz",
-    log:
-        PROK_ANN / "dram.{file_type}.log",
-    conda:
-        "../../../environments/dram.yml"
-    params:
-        work_dir=PROK_ANN / "dram.annotate",
-        file_type=lambda w: w.file_type,
-    shell:
-        """
-        ( csvstack \
-            --tabs \
-            {params.work_dir}/*/{params.file_type}.tsv \
-        | csvformat \
-            --out-tabs \
-        | bgzip \
-            --compress-level 9 \
-        > {output} ) \
-        2> {log}
-        """
+for file in ["annotations", "trnas", "rrnas"]:
+    rule:
+        name: 
+            f"prokaryotes__annotate__dram__annotate__aggregate_{file}"
+        input:
+            collect_dram_annotate,
+        output:
+            PROK_ANN / f"dram.{file}.tsv.gz",
+        log:
+            PROK_ANN / f"dram.{file}.log",
+        conda:
+            "../../../environments/dram.yml"
+        params:
+            work_dir=PROK_ANN / "dram.annotate",
+        shell:
+            f"( csvstack --tabs {{params.work_dir}}/*/{file} " +
+            f"| csvformat --out-tabs " +
+            f"| bgzip --compress-level 9 " +
+            f"> {{output}} " + 
+            f") 2> {{log}}"
 
 
 # file_type = genes.gff, genes.fna, genes.faa
-rule prokaryotes__annotate__dram__annotate__concatenate_genes:
-    input:
-        collect_dram_annotate,
-    output:
-        PROK_ANN / "dram.genes.{file_type}.gz",
-    log:
-        PROK_ANN / "dram.genes.{file_type}.log",
-    conda:
-        "../../../environments/dram.yml"
-    params:
-        work_dir=PROK_ANN / "dram.annotate",
-        file_type=lambda w: w.file_type,
-    shell:
-        """
-        ( cat {params.work_dir}/*/{params.file_type} \
-        | bgzip --compress-level 9 \
-        > {output} ) \
-        2> {log}
-        """
-
-
-rule prokaryotes__annotate__dram__annotate__concatenate_scaffolds:
-    input:
-        collect_dram_annotate,
-    output:
-        PROK_ANN / "dram.scaffolds.fna.gz",
-    log:
-        PROK_ANN / "dram.scaffolds.fna.log",
-    conda:
-        "../../../environments/dram.yml"
-    params:
-        work_dir=PROK_ANN / "dram.annotate",
-    shell:
-        """
-        ( cat {params.work_dir}/*/scaffolds.fna \
-        | bgzip --compress-level 9 \
-        > {output} ) \
-        2> {log}
-        """
+for file in ["genes.gff", "genes.fna", "genes.faa", "scaffolds.fna"]:
+    rule:
+        name:
+            f"prokaryotes__annotate__dram__annotate__concatenate_{file}"
+        input:
+            collect_dram_annotate,
+        output:
+            PROK_ANN / f"dram.{file}.gz",
+        log:
+            PROK_ANN / f"dram.{file}.log",
+        conda:
+            "../../../environments/dram.yml"
+        params:
+            work_dir=PROK_ANN / "dram.annotate",
+        shell:
+            f"(cat {{params.work_dir}}/*/{file} " + 
+            f"| bgzip --compress-level 9 " +
+            f"> {{output}} " +
+            f") 2> {{log}}"
 
 
 rule prokaryotes__annotate__dram__annotate__aggregate_genbank:
