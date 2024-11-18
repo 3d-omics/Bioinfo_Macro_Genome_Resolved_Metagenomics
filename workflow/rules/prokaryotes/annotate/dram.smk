@@ -156,8 +156,7 @@ rule prokaryotes__annotate__dram__annotate__archive:
         PROK_ANN / "dram.archive.log",
     conda:
         "../../../environments/dram.yml"
-    threads:
-        24
+    threads: 24
     params:
         out_dir=PROK_ANN,
         work_dir=PROK_ANN / "dram.annotate",
