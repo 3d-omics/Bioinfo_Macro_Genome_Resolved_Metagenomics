@@ -9,6 +9,11 @@ rule assemble__multiqc:
             ASSEMBLE_QUAST / f"{assembly_id}"
             for assembly_id, _, _ in ASSEMBLY_SAMPLE_LIBRARY
         ],
+        kraken2=[
+            ASSEMBLE_KRAKEN2 / kraken2_db / f"{assembly_id}.report"
+            for kraken2_db in features["databases"]["kraken2"]
+            for assembly_id in ASSEMBLIES
+        ],
     output:
         html=RESULTS / "assemble.html",
         folder=directory(RESULTS / "assemble_data"),
