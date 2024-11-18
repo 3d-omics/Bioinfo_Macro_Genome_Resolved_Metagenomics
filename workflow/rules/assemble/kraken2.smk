@@ -1,10 +1,7 @@
 rule assemble__kraken2__assign_contigs:
     input:
-        fastas=[
-            ASSEMBLE_MEGAHIT / f"{assembly_id}.fa.gz"
-            for assembly_id in ASSEMBLIES
-        ],
-        database=lambda w: features["databases"]["kraken2"][w.kraken2_db]
+        fastas=[ASSEMBLE_MEGAHIT / f"{assembly_id}.fa.gz" for assembly_id in ASSEMBLIES],
+        database=lambda w: features["databases"]["kraken2"][w.kraken2_db],
     output:
         out_gzs=[
             ASSEMBLE_KRAKEN2 / "{kraken2_db}" / f"{assembly_id}.out.gz"
@@ -13,9 +10,9 @@ rule assemble__kraken2__assign_contigs:
         reports=[
             ASSEMBLE_KRAKEN2 / "{kraken2_db}" / f"{assembly_id}.report"
             for assembly_id in ASSEMBLIES
-        ]
+        ],
     log:
-        ASSEMBLE_KRAKEN2 / "{kraken2_db}.log"
+        ASSEMBLE_KRAKEN2 / "{kraken2_db}.log",
     conda:
         "../../environments/kraken2.yml"
     params:
@@ -72,7 +69,7 @@ rule assemble__kraken2__assign_contigs:
         }}
 
         rm --force --recursive --verbose /dev/shm/{params.kraken_db_name} 2>>{log} 1>&2
-        """        
+        """
 
 
 rule assemble__kraken2__assign_contigs__all:
@@ -86,7 +83,7 @@ rule assemble__kraken2__assign_contigs__all:
             ASSEMBLE_KRAKEN2 / f"{kraken2_db}" / f"{assembly_id}.report"
             for assembly_id in ASSEMBLIES
             for kraken2_db in features["databases"]["kraken2"]
-        ]
+        ],
 
 
 rule assemble__kraken2__all:
