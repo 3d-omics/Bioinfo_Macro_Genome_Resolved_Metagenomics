@@ -7,23 +7,26 @@
 A Snakemake workflow for Genome Resolved Metagenomics
 
 ## Features
-- FASTQ processing with `fastp`.
-- Mapping of preprocessed reads against the host(s) and possible contaminants with `bowtie2`. Skip if no host is provided.
-  - Useful for environmental genomics (there is no host in soil, duh!), or
-  - environments that can have multiple genomes, like in mycorrhiza, where plant, fungus and even insects, can be there.
-- Assembly-free statistics with `kraken2`, `nonpareil` and `singlem`.
+- Preprocessing:
+  - FASTQ processing with `fastp`.
+  - Mapping of preprocessed reads against the host(s) and possible contaminants with `bowtie2`. Skip if no host is provided.
+    - Useful for environmental genomics (there is no host in soil, duh!), or
+    - environments that can have multiple genomes, like in mycorrhiza, where plant, fungus and even insects, can be there.
+  - Assembly-free statistics with `kraken2`, `nonpareil` and `singlem`.
 - Assembly of non-host reads with `megahit`.
+  - Coassembly strategies denoted in the `samples.tsv` file. See below.
+  - Taxonomic annotation of contigs with `kraken2`
+  - Assembly quantification with `bowtie2` and `coverm`
 - Bacterial metagenomics:
-  - Binning with CONCOCT, Maxbin2, MetaBAT2, and aggregated with MAGScoT.
+  - Binning with `CONCOCT`, `Maxbin2`, `MetaBAT2`, and aggregated with `MAGScoT`.
+  - Annotation with `quast` (mag and contig lengths), `gtdbtk` (taxonomy), `dram` (functions) and `checkm2` (completeness and contamination)
   - Dereplication with `dRep`, using multiple secondary ANIs, in case you need one for read mapping (eg. 95%), and a different for something like pangenomics (98 and 99%).
-  - Quantification with `bowtie2` and `coverm`
-  - Annotation with `quast`, `gtdbtk` and `dram`
+  - Quantification with `bowtie2` and `coverm`. One per secondary ANI
 - Viral metagenomics:
-  - Identification and clustering with `genomad`
-  - Clustering with `bbmap` and `mmseqs`.
+  - Identification and clustering with `genomad`, `bbmap` and `mmseqs`.
   - Quantification with `bowtie2` and `coverm`.
   - Annotation with `dram`, `virsorter2`, `checkv` and `quast`.
-- Reporting with `samtools`, `fastqc` and `multiqc`.
+- Module reporting with `multiqc`, assisted with `samtools` and `fastqc`.
 
 
 
@@ -43,7 +46,7 @@ A Snakemake workflow for Genome Resolved Metagenomics
 
 3. Test your installation by running the test data. It will download all the necesary software through conda / mamba. It should take less than 5 minutes.
     ```bash
-    .github/workflows/test.sh
+    snakemake --use-conda --cores 8 test
     ```
 
 4. Run it with your own data:
@@ -55,6 +58,9 @@ A Snakemake workflow for Genome Resolved Metagenomics
     sample1	lib1	resources/reads/sample1_1.fq.gz	resources/reads/sample1_2.fq.gz	AGATCGGAAGAGCACACGTCTGAACTCCAGTCA	AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT	sample, all
     sample2	lib1	resources/reads/sample2_1.fq.gz	resources/reads/sample2_2.fq.gz	AGATCGGAAGAGCACACGTCTGAACTCCAGTCA	AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT	all
     ```
+
+    In the `assembly_ids` you can name all the coassemblies each library will belong to. If you don't want to use a sample (a blank or a failed sample), leave the field empty.
+
 
     2. Edit `config/features.yml` with reference databases:
 
@@ -94,7 +100,7 @@ A Snakemake workflow for Genome Resolved Metagenomics
 6. Output:
 
     The main outputs are:
-    1. `results/prokaryotes/annotate/`: the different annotations.
+    1. `results/prokaryotes/annotate/`: MAG annotations.
     2. `results/prokaryotes/quantify/`: MAG and contig-wise quantifications.
     3. There is an experimental pipeline for viral identification with a similar structure. See below. The results are in `results/viruses/`.
     4. MultiQC html reports and tables next to the main modules: `preprocess`, `assemble`, `prokaryotes` and `viruses`.
