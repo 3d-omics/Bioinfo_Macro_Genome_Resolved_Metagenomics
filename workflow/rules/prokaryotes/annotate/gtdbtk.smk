@@ -40,37 +40,27 @@ rule prokaryotes__annotate__gtdbtk__join_bac_and_ar:
         "../../../environments/gtdbtk.yml"
     shell:
         """
-        if [[ -f {input.work_dir}/gtdbtk.ar122.summary.tsv ]] ; then
-
-            csvstack \
-                --tabs \
-                {input.work_dir}/gtdbtk.bac120.summary.tsv \
-                {input.work_dir}/gtdbtk.ar53.summary.tsv \
-            | csvformat \
-                --out-tabs \
-            > {output.summary} \
-            2> {log}
-
-            cp \
-                --verbose \
-                {input.work_dir}/classify/gtdbtk.ar53.classify.tree \
-                {output.ar_tree} \
-            2>> {log}
-
-        else
-
-            cp \
-                --verbose \
-                {input.work_dir}/gtdbtk.bac120.summary.tsv \
-                {output.summary} \
-
-        fi
+        ( csvstack \
+            --tabs \
+            {input.work_dir}/gtdbtk.*.summary.tsv \
+        | csvformat \
+            --out-tabs \
+        > {output.summary} \
+        ) 2> {log}
 
         cp \
             --verbose \
             {input.work_dir}/classify/gtdbtk.backbone.bac120.classify.tree \
             {output.bac_tree} \
         2>> {log} 1>&2
+
+        if [[ -f {input.work_dir}/classify/gtdbtk.ar53.classify.tree ]] ; then
+            cp \
+                --verbose \
+                {input.work_dir}/classify/gtdbtk.ar53.classify.tree \
+                {output.ar_tree} \
+            2>> {log} 1>&2
+        fi
         """
 
 
