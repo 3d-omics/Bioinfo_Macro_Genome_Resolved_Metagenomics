@@ -1,3 +1,4 @@
+[![Snakemake](https://img.shields.io/badge/snakemake-≥8-brightgreen.svg)](https://snakemake.github.io)
 [![GitHub actions status](https://github.com/3d-omics/mg_assembly/workflows/Tests/badge.svg)](https://github.com/3d-omics/mg_assembly/actions)
 
 
