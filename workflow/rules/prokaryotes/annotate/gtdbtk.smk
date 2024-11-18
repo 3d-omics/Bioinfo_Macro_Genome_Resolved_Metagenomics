@@ -37,7 +37,7 @@ rule prokaryotes__annotate__gtdbtk__join_bac_and_ar:
     log:
         PROK_ANN / "gtdbtk.join.log",
     conda:
-        "../../../environments/gtdbtk.yml"
+        "../../../environments/csvkit.yml"
     shell:
         """
         ( csvstack \

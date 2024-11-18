@@ -1,5 +1,5 @@
 rule csvkit__aggregate:
-    """Aggregate coverm reports"""
+    """Aggregate tsv reports"""
     input:
         ["{sample}.{method}.tsv.gz" for sample in ["sample"]],
     output:

@@ -74,7 +74,7 @@ rule preprocess__singlem__microbial_fraction:
 
     NOTE: reads come from FASTP. If fastp trims everything, it returns 0 size uncompressed file,
     not a 20 bytes compressed file. This is why we check for the size of the file, rather than the gzipped content.
-   """
+    """
     input:
         forward_=PRE_FASTP / "{sample_id}.{library_id}_1.fq.gz",
         reverse_=PRE_FASTP / "{sample_id}.{library_id}_2.fq.gz",
