@@ -57,6 +57,7 @@ jobs:
             --cores 3
             --latency-wait 5
             --printshellcmds
+            --dry-run
             test
 
       - name: Test workflow - Print the commands to everything else
@@ -74,9 +75,9 @@ jobs:
             --dry-run
             all
 
-      - name: Delete everything
-        run: |
-          sudo find results -not -name "*.log" -type f -delete -print
+      # - name: Delete everything
+      #   run: |
+      #     sudo find results -not -name "*.log" -type f -delete -print
 
       - name: Clean conda
         run: conda clean --all --yes
