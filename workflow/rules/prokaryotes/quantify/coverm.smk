@@ -71,7 +71,7 @@ use rule csvkit__aggregate as prokaryotes__quantify__coverm__contig__aggregate w
     output:
         COVERM / "contig.{method}.drep.{secondary_ani}.tsv.gz",
     log:
-        COVERM / "contig.{method}.drep.{secondary_ani}log",
+        COVERM / "contig.{method}.drep.{secondary_ani}.log",
     conda:
         "../../../environments/csvkit.yml"
 
