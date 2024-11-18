@@ -18,7 +18,7 @@ rule viruses__annotate__checkv:
     threads: 24
     resources:
         mem_mb=8 * 1024,
-        runtime=6 * 60,
+        runtime=24 * 60,
     shell:
         """
         checkv end_to_end \
