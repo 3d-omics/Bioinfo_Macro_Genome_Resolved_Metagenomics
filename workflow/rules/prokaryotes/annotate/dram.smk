@@ -74,8 +74,9 @@ rule prokaryotes__annotate__dram__annotate:
 
 
 for file in ["annotations", "trnas", "rrnas"]:
+
     rule:
-        name: 
+        name:
             f"prokaryotes__annotate__dram__annotate__aggregate_{file}"
         input:
             collect_dram_annotate,
@@ -88,15 +89,12 @@ for file in ["annotations", "trnas", "rrnas"]:
         params:
             work_dir=PROK_ANN / "dram.annotate",
         shell:
-            f"( csvstack --tabs {{params.work_dir}}/*/{file} " +
-            f"| csvformat --out-tabs " +
-            f"| bgzip --compress-level 9 " +
-            f"> {{output}} " + 
-            f") 2> {{log}}"
+            f"( csvstack --tabs {{params.work_dir}}/*/{file} | csvformat --out-tabs | bgzip --compress-level 9 > {{output}} ) 2> {{log}}"
 
 
 # file_type = genes.gff, genes.fna, genes.faa
 for file in ["genes.gff", "genes.fna", "genes.faa", "scaffolds.fna"]:
+
     rule:
         name:
             f"prokaryotes__annotate__dram__annotate__concatenate_{file}"
@@ -111,10 +109,7 @@ for file in ["genes.gff", "genes.fna", "genes.faa", "scaffolds.fna"]:
         params:
             work_dir=PROK_ANN / "dram.annotate",
         shell:
-            f"(cat {{params.work_dir}}/*/{file} " + 
-            f"| bgzip --compress-level 9 " +
-            f"> {{output}} " +
-            f") 2> {{log}}"
+            f"(cat {{params.work_dir}}/*/{file} | bgzip --compress-level 9 > {{output}}) 2> {{log}}"
 
 
 rule prokaryotes__annotate__dram__annotate__aggregate_genbank:
