@@ -23,6 +23,7 @@ ASSEMBLE_INDEX = ASSEMBLE / "build"
 ASSEMBLE_BOWTIE2 = ASSEMBLE / "bowtie2"
 ASSEMBLE_COVERM = ASSEMBLE / "coverm"
 ASSEMBLE_QUAST = ASSEMBLE / "quast"
+ASSEMBLE_KRAKEN2 = ASSEMBLE / "kraken2"
 
 # Prokaryotes
 PROK = RESULTS / "prokaryotes"

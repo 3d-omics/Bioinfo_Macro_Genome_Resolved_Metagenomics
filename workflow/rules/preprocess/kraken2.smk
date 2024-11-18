@@ -28,7 +28,7 @@ rule preprocess__kraken2__assign:
     params:
         in_folder=PRE_FASTP,
         out_folder=lambda w: PRE_KRAKEN2 / w.kraken2_db,
-        kraken_db_name="{kraken2_db}",
+        kraken_db_name=lambda w: w.kraken2_db,
     threads: 8
     resources:
         mem_mb=800 * 1024 * 1024,
