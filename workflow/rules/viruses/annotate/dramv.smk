@@ -11,6 +11,10 @@ rule viruses__annotate__dramv__annotate:
         "../../../environments/dram.yml"
     params:
         workdir=DRAMV,
+    threads: 24
+    resources:
+        mem_mb=32 * 1024,
+        time_min=60,
     shell:
         """
         DRAM-setup.py set_database_locations \

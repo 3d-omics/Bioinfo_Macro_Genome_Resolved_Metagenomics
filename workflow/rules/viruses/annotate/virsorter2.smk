@@ -16,6 +16,10 @@ rule viruses__annotate__virsorter2:
         workdir=VIRSORTER2,
     shadow:
         "minimal"
+    threads: 24
+    resources:
+        mem_mb=8 * 1024,
+        runtime=60,
     shell:
         """
         virsorter run \

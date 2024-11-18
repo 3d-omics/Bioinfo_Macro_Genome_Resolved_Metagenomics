@@ -24,6 +24,10 @@ rule viruses__annotate__genomad:
         use_cuda=params["viral"]["genomad"]["use_cuda"],
     shadow:
         "minimal"
+    threads: 24
+    resources:
+        mem_mb=double_ram(32 * 1024),
+        runtime=60,
     shell:
         """
         {params.use_cuda}

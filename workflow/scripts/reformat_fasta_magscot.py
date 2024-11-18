@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 
+import sys
+
 from Bio import SeqIO
 import pandas as pd
-import sys
 
 input_fasta = sys.argv[1]
 input_mapping = sys.argv[2]

@@ -5,7 +5,7 @@ rule prokaryotes__multiqc:
             / f"drep.{secondary_ani}"
             / f"{sample_id}.{library_id}.{report}"
             for sample_id, library_id in SAMPLE_LIBRARY
-            for report in ["stats.tsv", "flagstats.txt"]
+            for report in ["stats.tsv"]
             for secondary_ani in SECONDARY_ANIS
         ],
         quast=rules.prokaryotes__annotate__quast__all.output,
@@ -18,12 +18,15 @@ rule prokaryotes__multiqc:
         "../../environments/multiqc.yml"
     params:
         outdir=RESULTS,
+    resources:
+        mem_mb=double_ram(8 * 1024),
+        runtime=6 * 60,
     shell:
         """
         multiqc \
-            --title assemble \
+            --title prokaryotes \
             --force \
-            --filename assemble \
+            --filename prokaryotes \
             --outdir {params.outdir} \
             --dirs \
             --dirs-depth 1 \

@@ -14,6 +14,7 @@ rule viruses__cluster__mmseqs:
         tmpdir=MMSEQS,
     shadow:
         "minimal"
+    threads: 24
     shell:
         """
         mmseqs easy-cluster \

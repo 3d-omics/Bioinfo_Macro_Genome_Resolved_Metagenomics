@@ -7,9 +7,13 @@ rule prokaryotes__annotate__checkm2:
         report=PROK_ANN / "checkm2.quality_report.tsv",
         tmp_dir=temp(directory(PROK_ANN / "checkm2.quality_report")),
     log:
-        PROK_ANN / "quality_report.log",
+        PROK_ANN / "checkm2.quality_report.log",
     conda:
         "../../../environments/checkm2.yml"
+    threads: 24
+    resources:
+        mem_mb=16 * 1024,
+        runtime=24 * 60,
     shell:
         """
         checkm2 predict \

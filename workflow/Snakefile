@@ -33,13 +33,31 @@ KRAKEN2_DBS = features["databases"]["kraken2"]
 HOST_NAMES = [] if features["hosts"] is None else list(features["hosts"].keys())
 LAST_HOST = HOST_NAMES[-1] if len(HOST_NAMES) > 0 else None
 
-BAM_REPORTS = ["stats.tsv", "flagstats.txt", "idxstats.tsv"]
+BAM_REPORTS = ["stats.tsv"]  # , "flagstats.txt", "idxstats.tsv"]
 
 SECONDARY_ANIS = params["prokaryotes"]["annotate"]["drep"]["secondary_anis"]
 
 
 # Import subworkflows
-include: "rules/__main__.smk"
+
+
+module helpers:
+    snakefile:
+        github("jlanga/snakehelpers", path="workflow/Snakefile", branch="main")
+    config:
+        params
+
+
+use rule * from helpers as helpers__*
+
+
+include: "rules/functions.smk"
+include: "rules/folders.smk"
+include: "rules/common.smk"
+include: "rules/preprocess.smk"
+include: "rules/assemble.smk"
+include: "rules/prokaryotes.smk"
+include: "rules/viruses.smk"
 
 
 rule all:

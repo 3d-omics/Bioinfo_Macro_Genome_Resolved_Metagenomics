@@ -10,10 +10,14 @@ rule prokaryotes__cluster__metabat2:
     conda:
         "../../../environments/metabat2.yml"
     params:
-        bins_prefix=lambda w: METABAT2 / f"{w.assembly_id}/bin",
+        bins_prefix=lambda w: METABAT2 / w.assembly_id / "bin",
         depth=lambda w: METABAT2 / f"{w.assembly_id}.depth",
         paired=lambda w: METABAT2 / f"{w.assembly_id}.paired",
         workdir=METABAT2,
+    threads: 24
+    resources:
+        mem_mb=double_ram(8 * 1024),
+        runtime=24 * 60,
     shell:
         """
         jgi_summarize_bam_contig_depths \

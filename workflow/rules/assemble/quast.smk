@@ -8,6 +8,8 @@ rule assemble__quast:
         ASSEMBLE_QUAST / "{assembly_id}.log",
     conda:
         "../../environments/quast.yml"
+    resources:
+        mem_mb=8 * 1024,
     shell:
         """
         quast \
@@ -20,4 +22,7 @@ rule assemble__quast:
 
 rule assemble__quast__all:
     input:
-        rules.assemble__quast.output,
+        [
+            ASSEMBLE_QUAST / f"{assembly_id}"
+            for assembly_id, _, _ in ASSEMBLY_SAMPLE_LIBRARY
+        ],

@@ -35,3 +35,6 @@ jobs:
             --conda-cleanup-envs
             --conda-cleanup-pkgs cache
             --cores 1
+            test
+      - name: Conda clean
+        run: conda clean --all --yes

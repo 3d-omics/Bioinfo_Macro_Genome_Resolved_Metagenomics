@@ -1,48 +1,62 @@
-rule viruses__quantify__bowtie2:
-    """Align one sample to the dereplicated genomes"""
+use rule bowtie2__build as viruses__quantify__bowtie2__build with:
     input:
-        mock=VINDEX / "viruses",
-        forward_=PRE_BOWTIE2 / "{sample_id}.{library_id}_1.fq.gz",
-        reverse_=PRE_BOWTIE2 / "{sample_id}.{library_id}_2.fq.gz",
+        ref=MMSEQS / "rep_seq.fa.gz",
     output:
-        bam=VBOWTIE2 / "{sample_id}.{library_id}.bam",
+        multiext(
+            str(VINDEX / "viruses"),
+            ".1.bt2",
+            ".2.bt2",
+            ".3.bt2",
+            ".4.bt2",
+            ".rev.1.bt2",
+            ".rev.2.bt2",
+        ),
+    log:
+        VINDEX / "virues.log",
+
+
+rule viruses__quantify__bowtie2__build__all:
+    input:
+        rules.viruses__quantify__bowtie2__build.output,
+
+
+use rule bowtie2__map as viruses__quantify__bowtie2__map with:
+    input:
+        forward_=PRE_CLEAN / "{sample_id}.{library_id}_1.fq.gz",
+        reverse_=PRE_CLEAN / "{sample_id}.{library_id}_2.fq.gz",
+        mock=multiext(
+            str(VINDEX / "viruses"),
+            ".1.bt2",
+            ".2.bt2",
+            ".3.bt2",
+            ".4.bt2",
+            ".rev.1.bt2",
+            ".rev.2.bt2",
+        ),
+    output:
+        VBOWTIE2 / "{sample_id}.{library_id}.bam",
     log:
         VBOWTIE2 / "{sample_id}.{library_id}.log",
-    conda:
-        "../../../environments/bowtie2_samtools.yml"
     params:
-        samtools_mem=params["quantify"]["bowtie2"]["samtools_mem"],
+        index=VINDEX / "viruses",
+        samtools_extra=params["preprocess"]["bowtie2"]["samtools_extra"],
+        bowtie2_extra=params["preprocess"]["bowtie2"]["bowtie2_extra"],
         rg_id=compose_rg_id,
         rg_extra=compose_rg_extra,
-    shell:
-        """
-        find \
-            $(dirname {output.bam}) \
-            -name "$(basename {output.bam}).tmp.*.bam" \
-            -delete \
-        2> {log} 1>&2
-
-        ( bowtie2 \
-            -x {input.mock} \
-            -1 {input.forward_} \
-            -2 {input.reverse_} \
-            --threads {threads} \
-            --rg-id '{params.rg_id}' \
-            --rg '{params.rg_extra}' \
-        | samtools sort \
-            -l 9 \
-            -M \
-            -m {params.samtools_mem} \
-            -o {output.bam} \
-            --threads {threads} \
-        ) 2>> {log} 1>&2
-        """
+    conda:
+        "../../../environments/bowtie2.yml"
 
 
-rule viruses__quantify__bowtie2__all:
+rule viruses__quantify__bowtie2__map__all:
     """Align all samples to the dereplicated genomes"""
     input:
         [
             VBOWTIE2 / f"{sample_id}.{library_id}.bam"
             for sample_id, library_id in SAMPLE_LIBRARY
         ],
+
+
+rule viruses__quantify__bowtie2__all:
+    input:
+        rules.viruses__quantify__bowtie2__build__all.input,
+        rules.viruses__quantify__bowtie2__map__all.input,

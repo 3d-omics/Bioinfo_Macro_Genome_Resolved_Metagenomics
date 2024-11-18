@@ -15,6 +15,10 @@ rule viruses__annotate__checkv:
         "../../../environments/checkv.yml"
     params:
         workdir=CHECKV,
+    threads: 24
+    resources:
+        mem_mb=8 * 1024,
+        runtime=24 * 60,
     shell:
         """
         checkv end_to_end \

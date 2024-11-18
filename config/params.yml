@@ -2,10 +2,13 @@
 ---
 preprocess:
   fastp:
-    extra: " --length_required 75 --trim_poly_g --trim_poly_x"
+    extra: "--length_required 75 --trim_poly_g --trim_poly_x"
   bowtie2:
     bowtie2_extra: ""
     samtools_extra: "-m 1G"
+  kraken2:
+    bracken:
+      extra: "-r 150 -t 0 -l S"
 
 assemble:
   megahit:
@@ -20,8 +23,8 @@ quantify:
   coverm:   # https://github.com/wwood/CoverM#calculation-methods
     genome:
       methods: ["count", "covered_bases", "length"]
-      min_covered_fraction: 0.0
       separator: "@"
+      extra: "--min-covered-fraction 0"
     contig:
       methods: ["count", "covered_bases", "length"]
 

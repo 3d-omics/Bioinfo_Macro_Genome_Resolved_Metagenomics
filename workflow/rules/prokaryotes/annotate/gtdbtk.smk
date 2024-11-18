@@ -9,6 +9,10 @@ rule prokaryotes__annotate__gtdbtk__classify_wf:
         PROK_ANN / "gtdbtk.log",
     conda:
         "../../../environments/gtdbtk.yml"
+    threads: 24
+    resources:
+        mem_mb=128 * 1024,
+        runtime=24 * 60,
     shell:
         """
         export GTDBTK_DATA_PATH="{input.database}"
@@ -33,40 +37,30 @@ rule prokaryotes__annotate__gtdbtk__join_bac_and_ar:
     log:
         PROK_ANN / "gtdbtk.join.log",
     conda:
-        "../../../environments/gtdbtk.yml"
+        "../../../environments/csvkit.yml"
     shell:
         """
-        if [[ -f {input.work_dir}/gtdbtk.ar122.summary.tsv ]] ; then
-
-            csvstack \
-                --tabs \
-                {input.work_dir}/gtdbtk.bac120.summary.tsv \
-                {input.work_dir}/gtdbtk.ar53.summary.tsv \
-            | csvformat \
-                --out-tabs \
-            > {output.summary} \
-            2> {log}
-
-            cp \
-                --verbose \
-                {input.work_dir}/classify/gtdbtk.ar53.classify.tree \
-                {output.ar_tree} \
-            2>> {log}
-
-        else
-
-            cp \
-                --verbose \
-                {input.work_dir}/gtdbtk.bac120.summary.tsv \
-                {output.summary} \
-
-        fi
+        ( csvstack \
+            --tabs \
+            {input.work_dir}/gtdbtk.*.summary.tsv \
+        | csvformat \
+            --out-tabs \
+        > {output.summary} \
+        ) 2> {log}
 
         cp \
             --verbose \
             {input.work_dir}/classify/gtdbtk.backbone.bac120.classify.tree \
             {output.bac_tree} \
         2>> {log} 1>&2
+
+        if [[ -f {input.work_dir}/classify/gtdbtk.ar53.classify.tree ]] ; then
+            cp \
+                --verbose \
+                {input.work_dir}/classify/gtdbtk.ar53.classify.tree \
+                {output.ar_tree} \
+            2>> {log} 1>&2
+        fi
         """
 
 

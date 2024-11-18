@@ -6,42 +6,50 @@ RESULTS = Path("results/")
 
 # Preprocess
 PRE = RESULTS / "preprocess"
-PRE_FASTP = PRE / "fastp/"
-PRE_INDEX = PRE / "index/"
+PRE_READS = PRE / "reads"
+PRE_HOSTS = PRE / "hosts"
+PRE_FASTP = PRE / "fastp"
+PRE_BUILD = PRE / "build"
 PRE_BOWTIE2 = PRE / "bowtie2"
+PRE_CLEAN = PRE / "clean"
+PRE_KRAKEN2 = PRE / "kraken2"
+PRE_SINGLEM = PRE / "singlem"
+PRE_NONPAREIL = PRE / "nonpareil"
 
 # Assemble
 ASSEMBLE = RESULTS / "assemble"
-ASSEMBLE_MEGAHIT = ASSEMBLE / "megahit/"
-ASSEMBLE_INDEX = ASSEMBLE / "build/"
-ASSEMBLE_BOWTIE2 = ASSEMBLE / "bowtie2/"
-ASSEMBLE_QUAST = ASSEMBLE / "quast/"
+ASSEMBLE_MEGAHIT = ASSEMBLE / "megahit"
+ASSEMBLE_INDEX = ASSEMBLE / "build"
+ASSEMBLE_BOWTIE2 = ASSEMBLE / "bowtie2"
+ASSEMBLE_COVERM = ASSEMBLE / "coverm"
+ASSEMBLE_QUAST = ASSEMBLE / "quast"
+ASSEMBLE_KRAKEN2 = ASSEMBLE / "kraken2"
 
 # Prokaryotes
 PROK = RESULTS / "prokaryotes"
 
 ## Prokaryotes - Cluster
 PROK_CLUSTER = PROK / "cluster"
-CONCOCT = PROK_CLUSTER / "concoct/"
-METABAT2 = PROK_CLUSTER / "metabat2/"
-MAXBIN2 = PROK_CLUSTER / "maxbin2/"
-MAGSCOT = PROK_CLUSTER / "magscot/"
-PRODIGAL = PROK_CLUSTER / "prodigal/"
-DREP = PROK_CLUSTER / "drep/"
+CONCOCT = PROK_CLUSTER / "concoct"
+METABAT2 = PROK_CLUSTER / "metabat2"
+MAXBIN2 = PROK_CLUSTER / "maxbin2"
+MAGSCOT = PROK_CLUSTER / "magscot"
+PRODIGAL = PROK_CLUSTER / "prodigal"
+DREP = PROK_CLUSTER / "drep"
 
 
 ## Prokaryotes - Quantify
 PROK_QUANT = PROK / "quantify"
-QUANT_INDEX = PROK_QUANT / "build/"
-QUANT_BOWTIE2 = PROK_QUANT / "bowtie2/"
+QUANT_INDEX = PROK_QUANT / "build"
+QUANT_BOWTIE2 = PROK_QUANT / "bowtie2"
 COVERM = PROK_QUANT / "coverm/"
 
 ## Prokaryotes - Annotate
 PROK_ANN = PROK / "annotate"
-MAGS = PROK_ANN / "mags/"
-GTDBTK = PROK_ANN / "gtdbtk/"
-QUAST = PROK_ANN / "quast/"
-DRAM = PROK_ANN / "dram/"
+MAGS = PROK_ANN / "mags"
+GTDBTK = PROK_ANN / "gtdbtk"
+QUAST = PROK_ANN / "quast"
+DRAM = PROK_ANN / "dram"
 
 
 # Viruses
@@ -67,9 +75,3 @@ VIR_QUANT = VIR / "quantify"
 VINDEX = VIR_QUANT / "build"
 VBOWTIE2 = VIR_QUANT / "bowtie2"
 VCOVERM = VIR_QUANT / "coverm"
-
-
-# reports
-REPORT = Path("reports/")
-REPORT_STEP = REPORT / "step/"
-REPORT_SAMPLE = REPORT / "library/"
