@@ -3,6 +3,9 @@
 # https://snakemake.readthedocs.io/en/stable/snakefiles/best_practices.html,
 # in particular regarding the standardized folder structure mentioned there.
 
+from snakemake.utils import min_version
+min_version("8")
+
 import pandas as pd
 import yaml
 
