@@ -92,7 +92,6 @@ for file in ["annotations", "trnas", "rrnas"]:
             f"( csvstack --tabs {{params.work_dir}}/*/{file} | csvformat --out-tabs | bgzip --compress-level 9 > {{output}} ) 2> {{log}}"
 
 
-# file_type = genes.gff, genes.fna, genes.faa
 for file in ["genes.gff", "genes.fna", "genes.faa", "scaffolds.fna"]:
 
     rule:
