@@ -123,9 +123,9 @@ rule preprocess__kraken2__bracken__combine:
             for sample_id, library_id in SAMPLE_LIBRARY
         ],
     output:
-        PRE_KRAKEN2 / "{kraken2_db}.bracken",
+        PRE_KRAKEN2 / "{kraken2_db}.tsv",
     log:
-        PRE_KRAKEN2 / "{kraken2_db}.bracken.log",
+        PRE_KRAKEN2 / "{kraken2_db}.tsv.log",
     conda:
         "../../environments/kraken2.yml"
     shell:
@@ -140,4 +140,4 @@ rule preprocess__kraken2__bracken__combine:
 rule preprocess__kraken2__all:
     """Get the combined bracken results for all databases"""
     input:
-        [PRE_KRAKEN2 / f"{kraken2_db}.bracken" for kraken2_db in KRAKEN2_DBS],
+        [PRE_KRAKEN2 / f"{kraken2_db}.tsv" for kraken2_db in KRAKEN2_DBS],
