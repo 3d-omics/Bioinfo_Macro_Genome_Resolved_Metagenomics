@@ -28,6 +28,8 @@ rule csvkit__csvjoin:
         "joined.log",
     conda:
         "../../../environments/csvkit.yml"
+    resources:
+        mem_mb=8 * 1024,
     shell:
         """
         ( csvjoin \
