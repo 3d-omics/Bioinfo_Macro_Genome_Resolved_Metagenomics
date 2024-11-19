@@ -21,7 +21,7 @@ rule assemble__kraken2__assign_contigs:
         kraken_db_name=lambda w: w.kraken2_db,
     threads: 8
     resources:
-        mem_mb=800 * 1024 *,
+        mem_mb=800 * 1024,
         runtime=60,
     shell:
         """
