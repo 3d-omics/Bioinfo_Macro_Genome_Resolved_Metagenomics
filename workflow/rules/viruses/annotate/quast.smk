@@ -1,11 +1,11 @@
-rule viruses__annotate__quast:
+rule viruses__annotate__quast__all:
     """Run quast over one the dereplicated mags"""
     input:
         MMSEQS / "rep_seq.fa.gz",
     output:
         directory(QUASTV),
     log:
-        QUASTV / "quast.log",
+        VIR / "quast.log",
     conda:
         "../../../environments/quast.yml"
     threads: 4
@@ -20,8 +20,3 @@ rule viruses__annotate__quast:
             {input} \
         2> {log} 1>&2
         """
-
-
-rule viruses__annotate__quast__all:
-    input:
-        rules.viruses__annotate__quast.output,

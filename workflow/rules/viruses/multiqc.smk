@@ -5,7 +5,7 @@ rule viruses__multiqc:
             for sample_id, library_id in SAMPLE_LIBRARY
             for report in BAM_REPORTS
         ],
-        quast=rules.viruses__annotate__quast__all.input,
+        quast=QUASTV,
     output:
         html=RESULTS / "viruses.html",
         folder=directory(RESULTS / "viruses_data"),

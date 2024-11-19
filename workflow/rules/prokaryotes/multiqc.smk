@@ -8,7 +8,7 @@ rule prokaryotes__multiqc:
             for report in ["stats.tsv"]
             for secondary_ani in SECONDARY_ANIS
         ],
-        quast=rules.prokaryotes__annotate__quast__all.output,
+        quast=QUAST,
     output:
         html=RESULTS / "prokaryotes.html",
         folder=directory(RESULTS / "prokaryotes_data"),

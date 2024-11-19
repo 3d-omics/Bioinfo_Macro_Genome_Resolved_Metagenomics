@@ -5,10 +5,7 @@ rule assemble__multiqc:
             for assembly_id, sample_id, library_id in ASSEMBLY_SAMPLE_LIBRARY
             for report in BAM_REPORTS
         ],
-        quast=[
-            ASSEMBLE_QUAST / f"{assembly_id}"
-            for assembly_id, _, _ in ASSEMBLY_SAMPLE_LIBRARY
-        ],
+        quast=ASSEMBLE_QUAST,
         kraken2=[
             ASSEMBLE_KRAKEN2 / kraken2_db / f"{assembly_id}.report"
             for kraken2_db in features["databases"]["kraken2"]
