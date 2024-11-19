@@ -27,4 +27,4 @@ checkpoint prokaryotes__annotate__mags:
 
 rule prokaryotes__annotate__mags__all:
     input:
-        rules.prokaryotes__annotate__mags.output
+        rules.prokaryotes__annotate__mags.output,
