@@ -7,37 +7,17 @@ rule prokaryotes__multiqc:
         ],
         quast=QUAST,
     output:
-        html=RESULTS / "prokaryotes.html",
-        folder=directory(RESULTS / "prokaryotes_data"),
+        RESULTS / "prokaryotes.html",
+        RESULTS / "prokaryotes_data.zip",
     log:
         RESULTS / "prokaryotes.log",
-    conda:
-        "../../environments/multiqc.yml"
     params:
-        outdir=RESULTS,
+        extra="--title prokaryotes --dirs --dirs-depth 1 --fullnames --force",
     resources:
         mem_mb=double_ram(8 * 1024),
         runtime=6 * 60,
-    shell:
-        """
-        multiqc \
-            --title prokaryotes \
-            --force \
-            --filename prokaryotes \
-            --outdir {params.outdir} \
-            --dirs \
-            --dirs-depth 1 \
-            --fullnames \
-            {input} \
-        2> {log} 1>&2
-
-        gzip
-            --best \
-            --verbose \
-            {output.folder}/*.txt \
-            {output.folder}/*.json \
-        2>> {log} 1>&2
-        """
+    wrapper:
+        "v5.1.0/bio/multiqc"
 
 
 rule prokaryotes__multiqc__all:

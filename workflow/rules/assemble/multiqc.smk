@@ -12,36 +12,17 @@ rule assemble__multiqc:
             for assembly_id in ASSEMBLIES
         ],
     output:
-        html=RESULTS / "assemble.html",
-        folder=directory(RESULTS / "assemble_data"),
+        RESULTS / "assemble.html",
+        RESULTS / "assemble_data.zip",
     log:
         RESULTS / "assemble.log",
-    conda:
-        "../../environments/multiqc.yml"
     params:
-        outdir=RESULTS,
+        extra="--title assemble --dirs --dirs-depth 1 --fullnames --force",
     resources:
         mem_mb=double_ram(8 * 1024),
         runtime=6 * 60,
-    shell:
-        """
-        multiqc \
-            --title assemble \
-            --force \
-            --filename assemble \
-            --outdir {params.outdir} \
-            --dirs \
-            --dirs-depth 1 \
-            --fullnames \
-            {input} \
-        2> {log} 1>&2
-
-        gzip \
-            --verbose \
-            {output.folder}/*.txt \
-            {output.folder}/*.json \
-        2>> {log} 1>&2
-        """
+    wrapper:
+        "v5.1.0/bio/multiqc"
 
 
 rule assemble__multiqc__all:

@@ -7,34 +7,14 @@ rule viruses__multiqc:
         ],
         quast=QUASTV,
     output:
-        html=RESULTS / "viruses.html",
-        folder=directory(RESULTS / "viruses_data"),
+        RESULTS / "viruses.html",
+        RESULTS / "viruses_data.zip",
     log:
         RESULTS / "viruses.log",
-    conda:
-        "../../environments/multiqc.yml"
     params:
-        outdir=RESULTS,
-    shell:
-        """
-        multiqc \
-            --title viruses \
-            --force \
-            --filename viruses \
-            --outdir {params.outdir} \
-            --dirs \
-            --dirs-depth 1 \
-            --fullnames \
-            {input} \
-        2> {log} 1>&2
-
-        gzip
-            --best \
-            --verbose \
-            {output.folder}/*.txt \
-            {output.folder}/*.json \
-        2>> {log} 1>&2
-        """
+        extra="--title viruses --dirs --dirs-depth 1 --fullnames --force",
+    wrapper:
+        "v5.1.0/bio/multiqc"
 
 
 rule viruses__multiqc__all:
