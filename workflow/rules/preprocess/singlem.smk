@@ -106,7 +106,7 @@ rule preprocess__singlem__microbial_fraction:
         """
 
 
-use rule csvkit__aggregate as preprocess__singlem__microbial_fraction__aggregate with:
+use rule csvkit__csvstack as preprocess__singlem__microbial_fraction__csvstack with:
     input:
         [
             PRE_SINGLEM / "microbial_fraction" / f"{sample_id}.{library_id}.tsv"
@@ -122,4 +122,4 @@ use rule csvkit__aggregate as preprocess__singlem__microbial_fraction__aggregate
 
 rule preprocess__singlem__all:
     input:
-        rules.preprocess__singlem__microbial_fraction__aggregate.output,
+        rules.preprocess__singlem__microbial_fraction__csvstack.output,

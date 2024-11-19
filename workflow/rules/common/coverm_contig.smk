@@ -19,6 +19,8 @@ rule coverm__contig:
         | cut \
             --fields 1 \
             --delimiter " " \
+        | sed \
+            '1 s/^Contig/sequence_id/g' \
         | gzip \
             --best \
         > {output} \

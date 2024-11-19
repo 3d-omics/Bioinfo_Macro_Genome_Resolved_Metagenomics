@@ -19,7 +19,7 @@ use rule coverm__genome as prokaryotes__quantify__coverm__genome with:
         separator=params["quantify"]["coverm"]["genome"]["separator"],
 
 
-use rule csvkit__aggregate as prokaryotes__quantify__coverm__genome__aggregate with:
+use rule csvkit__csvjoin as prokaryotes__quantify__coverm__genome__aggregate with:
     input:
         lambda w: [
             COVERM
@@ -63,7 +63,7 @@ use rule coverm__contig as prokaryotes__quantify__coverm__contig with:
         "../../../environments/coverm.yml"
 
 
-use rule csvkit__aggregate as prokaryotes__quantify__coverm__contig__aggregate with:
+use rule csvkit__csvjoin as prokaryotes__quantify__coverm__contig__aggregate with:
     input:
         lambda w: [
             COVERM

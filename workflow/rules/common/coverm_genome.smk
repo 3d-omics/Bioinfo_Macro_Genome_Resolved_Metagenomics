@@ -19,6 +19,11 @@ rule coverm__genome:
             --methods {params.method} \
             --separator {params.separator} \
             {params.extra} \
+        | cut \
+            --fields 1 \
+            --delimiter " " \
+        | sed \
+            '1 s/^Contig/sequence_id/g' \
         | gzip --best \
         > {output} \
         ) 2> {log}

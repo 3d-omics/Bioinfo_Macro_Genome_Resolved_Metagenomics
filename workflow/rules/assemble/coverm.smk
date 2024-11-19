@@ -17,7 +17,7 @@ use rule coverm__contig as assemble__coverm__contig with:
         method=lambda w: w.method,
 
 
-use rule csvkit__aggregate as assemble__coverm__aggregate with:
+use rule csvkit__csvjoin as assemble__coverm__join with:
     input:
         lambda w: [
             ASSEMBLE_COVERM
