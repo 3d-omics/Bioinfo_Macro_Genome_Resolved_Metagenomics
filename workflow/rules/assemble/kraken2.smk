@@ -68,7 +68,12 @@ rule assemble__kraken2__assign_contigs:
             echo "Failed job" 2>> {log} 1>&2
         }}
 
-        rm --force --recursive --verbose /dev/shm/{params.kraken_db_name} 2>>{log} 1>&2
+        rm \
+            --force \
+            --recursive \
+            --verbose \
+            /dev/shm/{params.kraken_db_name} \
+        2>>{log} 1>&2
         """
 
 
