@@ -1,5 +1,5 @@
 rule csvkit__csvstack:
-    """Stack by row multiple tsvs"""
+    """Stack by row multiple tsvs (cat tsvs)"""
     input:
         ["{sample}.{method}.tsv.gz" for sample in ["sample"]],
     output:

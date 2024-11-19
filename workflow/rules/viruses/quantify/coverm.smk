@@ -14,7 +14,7 @@ use rule coverm__genome as viruses__quantify__coverm__genome with:
         separator=params["quantify"]["coverm"]["genome"]["separator"],
 
 
-use rule csvkit__csvjoin as viruses__quantify__coverm__genome_aggregate with:
+use rule csvkit__csvjoin as viruses__quantify__coverm__genome__csvjoin with:
     input:
         lambda w: [
             VCOVERM / "files" / f"genome.{w.method}.{sample_id}.{library_id}.tsv.gz"
@@ -51,7 +51,7 @@ use rule coverm__contig as viruses__quantify__coverm__contig with:
         method=lambda w: w.method,
 
 
-use rule csvkit__csvjoin as viruses__quantify__coverm__contig_aggregate with:
+use rule csvkit__csvjoin as viruses__quantify__coverm__contig__csvjoin with:
     input:
         lambda w: [
             VCOVERM / "files" / f"contig.{w.method}.{sample_id}.{library_id}.tsv.gz"
