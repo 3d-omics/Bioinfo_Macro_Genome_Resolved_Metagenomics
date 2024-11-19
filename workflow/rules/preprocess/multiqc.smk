@@ -53,6 +53,13 @@ rule preprocess__multiqc:
             --fullnames \
             {input} \
         2> {log} 1>&2
+
+        gzip 
+            --best \
+            --verbose \
+            {output.folder}/*.txt \
+            {output.folder}/*.json \
+        2>> {log} 1>&2
         """
 
 
