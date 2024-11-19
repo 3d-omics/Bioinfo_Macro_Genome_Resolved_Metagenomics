@@ -1,10 +1,7 @@
 rule assemble__quast__all:
     """Run quast over one the dereplicated mags"""
     input:
-        [
-            ASSEMBLE_MEGAHIT / f"{assembly_id}.fa.gz"
-            for assembly_id in ASSEMBLIES
-        ],
+        [ASSEMBLE_MEGAHIT / f"{assembly_id}.fa.gz" for assembly_id in ASSEMBLIES],
     output:
         directory(ASSEMBLE_QUAST),
     log:
