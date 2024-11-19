@@ -77,6 +77,8 @@ use rule csvkit__csvjoin as prokaryotes__quantify__coverm__contig__aggregate wit
         COVERM / "coverm.contig.{method}.drep.{secondary_ani}.log",
     conda:
         "../../../environments/csvkit.yml"
+    resources:
+        mem_mb=32 * 1024,
 
 
 rule prokaryotes__quantify__coverm__contig__all:
