@@ -28,7 +28,7 @@ rule viruses__multiqc:
             {input} \
         2> {log} 1>&2
 
-        gzip 
+        gzip
             --best \
             --verbose \
             {output.folder}/*.txt \

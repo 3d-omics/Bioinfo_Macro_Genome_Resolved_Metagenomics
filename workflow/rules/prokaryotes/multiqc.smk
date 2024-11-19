@@ -30,8 +30,8 @@ rule prokaryotes__multiqc:
             --fullnames \
             {input} \
         2> {log} 1>&2
-        
-        gzip 
+
+        gzip
             --best \
             --verbose \
             {output.folder}/*.txt \
