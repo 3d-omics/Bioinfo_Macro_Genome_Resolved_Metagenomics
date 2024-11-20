@@ -1,26 +1,26 @@
 rule viruses__annotate__genomad:
     input:
-        fasta=MMSEQS / "rep_seq.fa.gz",
+        fasta=VIR_MMSEQS / "rep_seq.fa.gz",
         database=features["databases"]["genomad"],
     output:
-        plasmid=GENOMADA / "rep_seq_plasmid.fna.gz",
-        plasmid_genes=GENOMADA / "rep_seq_plasmid_genes.tsv.gz",
-        plasmid_proteins=GENOMADA / "rep_seq_plasmid_proteins.faa.gz",
-        plasmid_summary=GENOMADA / "rep_seq_plasmid_summary.tsv.gz",
-        json=GENOMADA / "rep_seq_summary.json.gz",
-        virus=GENOMADA / "rep_seq_virus.fna.gz",
-        virus_genes=GENOMADA / "rep_seq_virus_genes.tsv.gz",
-        virus_proteins=GENOMADA / "rep_seq_virus_proteins.faa.gz",
-        virus_summary=GENOMADA / "rep_seq_virus_summary.tsv.gz",
+        plasmid=VIR_GENOMADA / "rep_seq_plasmid.fna.gz",
+        plasmid_genes=VIR_GENOMADA / "rep_seq_plasmid_genes.tsv.gz",
+        plasmid_proteins=VIR_GENOMADA / "rep_seq_plasmid_proteins.faa.gz",
+        plasmid_summary=VIR_GENOMADA / "rep_seq_plasmid_summary.tsv.gz",
+        json=VIR_GENOMADA / "rep_seq_summary.json.gz",
+        virus=VIR_GENOMADA / "rep_seq_virus.fna.gz",
+        virus_genes=VIR_GENOMADA / "rep_seq_virus_genes.tsv.gz",
+        virus_proteins=VIR_GENOMADA / "rep_seq_virus_proteins.faa.gz",
+        virus_summary=VIR_GENOMADA / "rep_seq_virus_summary.tsv.gz",
     log:
-        GENOMADA / "genomad.log",
+        VIR_GENOMADA / "genomad.log",
     conda:
         "../../../environments/genomad.yml"
     params:
         filtering=params["viral"]["genomad"]["filtering"],
-        workdir=GENOMADA,
+        workdir=VIR_GENOMADA,
         extra=params["viral"]["genomad"]["extra"],
-        tmp_prefix=GENOMADA / "rep_seq_summary",
+        tmp_prefix=VIR_GENOMADA / "rep_seq_summary",
         use_cuda=params["viral"]["genomad"]["use_cuda"],
     shadow:
         "minimal"

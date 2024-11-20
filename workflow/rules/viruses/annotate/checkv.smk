@@ -1,20 +1,20 @@
 rule viruses__annotate__checkv:
     input:
-        fasta=MMSEQS / "rep_seq.fa.gz",
+        fasta=VIR_MMSEQS / "rep_seq.fa.gz",
         database=features["databases"]["checkv"],
     output:
-        complete_genomes=CHECKV / "complete_genomes.tsv",
-        completeness=CHECKV / "completeness.tsv",
-        contamination=CHECKV / "contamination.tsv",
-        proviruses=CHECKV / "proviruses.fna",
-        summary=CHECKV / "quality_summary.tsv",
-        viruses=CHECKV / "viruses.fna",
+        complete_genomes=VIR_CHECKV / "complete_genomes.tsv",
+        completeness=VIR_CHECKV / "completeness.tsv",
+        contamination=VIR_CHECKV / "contamination.tsv",
+        proviruses=VIR_CHECKV / "proviruses.fna",
+        summary=VIR_CHECKV / "quality_summary.tsv",
+        viruses=VIR_CHECKV / "viruses.fna",
     log:
-        CHECKV / "checkv.log",
+        VIR_CHECKV / "checkv.log",
     conda:
         "../../../environments/checkv.yml"
     params:
-        workdir=CHECKV,
+        workdir=VIR_CHECKV,
     threads: 24
     resources:
         mem_mb=8 * 1024,

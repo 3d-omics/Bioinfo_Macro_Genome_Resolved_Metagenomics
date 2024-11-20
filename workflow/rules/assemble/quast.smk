@@ -1,11 +1,11 @@
-rule assemble__quast:
+rule assemble__quast__all:
     """Run quast over one the dereplicated mags"""
     input:
-        ASSEMBLE_MEGAHIT / "{assembly_id}.fa.gz",
+        [ASMB_MEGAHIT / f"{assembly_id}.fa.gz" for assembly_id in ASSEMBLIES],
     output:
-        directory(ASSEMBLE_QUAST / "{assembly_id}"),
+        directory(ASMB_QUAST),
     log:
-        ASSEMBLE_QUAST / "{assembly_id}.log",
+        ASSEMBLE / "quast.log",
     conda:
         "../../environments/quast.yml"
     resources:
@@ -18,11 +18,3 @@ rule assemble__quast:
             {input} \
         2> {log} 1>&2
         """
-
-
-rule assemble__quast__all:
-    input:
-        [
-            ASSEMBLE_QUAST / f"{assembly_id}"
-            for assembly_id, _, _ in ASSEMBLY_SAMPLE_LIBRARY
-        ],

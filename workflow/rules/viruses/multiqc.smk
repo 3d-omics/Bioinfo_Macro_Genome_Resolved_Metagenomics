@@ -1,33 +1,20 @@
 rule viruses__multiqc:
     input:
         bowtie2=[
-            VBOWTIE2 / f"{sample_id}.{library_id}.{report}"
+            VIR_BOWTIE2 / f"{sample_id}.{library_id}.{report}"
             for sample_id, library_id in SAMPLE_LIBRARY
             for report in BAM_REPORTS
         ],
-        quast=rules.viruses__annotate__quast__all.input,
+        quast=VIR_QUAST,
     output:
-        html=RESULTS / "viruses.html",
-        folder=directory(RESULTS / "viruses_data"),
+        RESULTS / "viruses.html",
+        RESULTS / "viruses_data.zip",
     log:
         RESULTS / "viruses.log",
-    conda:
-        "../../environments/multiqc.yml"
     params:
-        outdir=RESULTS,
-    shell:
-        """
-        multiqc \
-            --title viruses \
-            --force \
-            --filename viruses \
-            --outdir {params.outdir} \
-            --dirs \
-            --dirs-depth 1 \
-            --fullnames \
-            {input} \
-        2> {log} 1>&2
-        """
+        extra="--title viruses --dirs --dirs-depth 1 --fullnames --force",
+    wrapper:
+        "v5.1.0/bio/multiqc"
 
 
 rule viruses__multiqc__all:

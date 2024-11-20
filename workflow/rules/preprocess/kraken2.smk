@@ -31,7 +31,7 @@ rule preprocess__kraken2__assign:
         kraken_db_name=lambda w: w.kraken2_db,
     threads: 8
     resources:
-        mem_mb=800 * 1024 * 1024,
+        mem_mb=800 * 1024,
         runtime=24 * 60,
     conda:
         "../../environments/kraken2.yml"
@@ -115,10 +115,29 @@ rule preprocess__kraken2__bracken:
         """
 
 
-rule preprocess__kraken2__all:
+rule preprocess__kraken2__bracken__combine:
+    """Combine all the bracken outputs for a single database"""
     input:
-        [
-            PRE_KRAKEN2 / f"{kraken2_db}" / f"{sample_id}.{library_id}.bracken"
+        lambda w: [
+            PRE_KRAKEN2 / w.kraken2_db / f"{sample_id}.{library_id}.bracken"
             for sample_id, library_id in SAMPLE_LIBRARY
-            for kraken2_db in KRAKEN2_DBS
         ],
+    output:
+        PRE_KRAKEN2 / "{kraken2_db}.tsv",
+    log:
+        PRE_KRAKEN2 / "{kraken2_db}.tsv.log",
+    conda:
+        "../../environments/kraken2.yml"
+    shell:
+        """
+        combine_bracken_outputs.py \
+            --files {input} \
+            --output {output} \
+        2> {log} 1>&2
+        """
+
+
+rule preprocess__kraken2__all:
+    """Get the combined bracken results for all databases"""
+    input:
+        [PRE_KRAKEN2 / f"{kraken2_db}.tsv" for kraken2_db in KRAKEN2_DBS],

@@ -1,16 +1,16 @@
 rule viruses__annotate__dramv__annotate:
     input:
-        fa=VIRSORTER2 / "final-viral-combined-for-dramv.fa.gz",
-        tsv=VIRSORTER2 / "viral-affi-contigs-for-dramv.tab.gz",
+        fa=VIR_VIRSORTER2 / "final-viral-combined-for-dramv.fa.gz",
+        tsv=VIR_VIRSORTER2 / "viral-affi-contigs-for-dramv.tab.gz",
         dram_db=features["databases"]["dram"],
     output:
-        annotations=DRAMV / "annotations.tsv.gz",
+        annotations=VIR_DRAMV / "annotations.tsv.gz",
     log:
-        DRAMV / "annotate.log",
+        VIR_DRAMV / "annotate.log",
     conda:
         "../../../environments/dram.yml"
     params:
-        workdir=DRAMV,
+        workdir=VIR_DRAMV,
     threads: 24
     resources:
         mem_mb=32 * 1024,
@@ -64,18 +64,18 @@ rule viruses__annotate__dramv__annotate:
 
 rule viruses__annotate__dramv__distill:
     input:
-        annotations=DRAMV / "annotations.tsv.gz",
+        annotations=VIR_DRAMV / "annotations.tsv.gz",
     output:
-        amg_summary=DRAMV / "amg_summary.tsv.gz",
-        vmag_stats=DRAMV / "vMAG_stats.tsv.gz",
-        product=DRAMV / "product.html",
+        amg_summary=VIR_DRAMV / "amg_summary.tsv.gz",
+        vmag_stats=VIR_DRAMV / "vMAG_stats.tsv.gz",
+        product=VIR_DRAMV / "product.html",
     log:
-        DRAMV / "distill.log",
+        VIR_DRAMV / "distill.log",
     conda:
         "../../../environments/dram.yml"
     params:
-        outdir=DRAMV,
-        workdir=DRAMV / "tmp",
+        outdir=VIR_DRAMV,
+        workdir=VIR_DRAMV / "tmp",
     shadow:
         "minimal"
     shell:

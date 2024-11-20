@@ -1,39 +1,23 @@
 rule prokaryotes__multiqc:
     input:
         bowtie2=[
-            QUANT_BOWTIE2
-            / f"drep.{secondary_ani}"
-            / f"{sample_id}.{library_id}.{report}"
+            PROK_BOWTIE2 / f"drep.{secondary_ani}.{sample_id}.{library_id}.stats.tsv"
             for sample_id, library_id in SAMPLE_LIBRARY
-            for report in ["stats.tsv"]
             for secondary_ani in SECONDARY_ANIS
         ],
-        quast=rules.prokaryotes__annotate__quast__all.output,
+        quast=PROK_QUAST,
     output:
-        html=RESULTS / "prokaryotes.html",
-        folder=directory(RESULTS / "prokaryotes_data"),
+        RESULTS / "prokaryotes.html",
+        RESULTS / "prokaryotes_data.zip",
     log:
         RESULTS / "prokaryotes.log",
-    conda:
-        "../../environments/multiqc.yml"
     params:
-        outdir=RESULTS,
+        extra="--title prokaryotes --dirs --dirs-depth 1 --fullnames --force",
     resources:
         mem_mb=double_ram(8 * 1024),
         runtime=6 * 60,
-    shell:
-        """
-        multiqc \
-            --title prokaryotes \
-            --force \
-            --filename prokaryotes \
-            --outdir {params.outdir} \
-            --dirs \
-            --dirs-depth 1 \
-            --fullnames \
-            {input} \
-        2> {log} 1>&2
-        """
+    wrapper:
+        "v5.1.0/bio/multiqc"
 
 
 rule prokaryotes__multiqc__all:
