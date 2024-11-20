@@ -27,7 +27,7 @@ rule prokaryotes__annotate__drep__quality_report:
 rule prokaryotes__annotate__drep__dereplicate:
     """Dereplicate all the bins using dRep."""
     input:
-        genomes=MAGS,
+        genomes=PROK_MAGS,
         quality_report=PROK_ANN / "drep.quality_report.tsv",
     output:
         work_dir=temp(directory(PROK_ANN / "drep.{secondary_ani}.dir")),

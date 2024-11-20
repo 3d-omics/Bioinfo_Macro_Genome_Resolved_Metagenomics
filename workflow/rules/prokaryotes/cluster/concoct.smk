@@ -6,18 +6,18 @@ rule prokaryotes__cluster__concoct:
     in the folder
     """
     input:
-        assembly=ASSEMBLE_MEGAHIT / "{assembly_id}.fa.gz",
+        assembly=ASMB_MEGAHIT / "{assembly_id}.fa.gz",
         bams=get_bams_from_assembly_id,
         bais=get_bais_from_assembly_id,
     output:
-        directory(CONCOCT / "{assembly_id}"),
+        directory(PROK_CONCOCT / "{assembly_id}"),
     log:
-        CONCOCT / "{assembly_id}.log",
+        PROK_CONCOCT / "{assembly_id}.log",
     conda:
         "../../../environments/concoct.yml"
     retries: 5
     params:
-        workdir=lambda w: CONCOCT / w.assembly_id,
+        workdir=lambda w: PROK_CONCOCT / w.assembly_id,
     threads: 24
     resources:
         memory_mb=double_ram(8 * 1024),
@@ -80,4 +80,4 @@ rule prokaryotes__cluster__concoct:
 rule prokaryotes__cluster__concoct__all:
     """Run concoct on all assemblies"""
     input:
-        [CONCOCT / f"{assembly_id}" for assembly_id in ASSEMBLIES],
+        [PROK_CONCOCT / f"{assembly_id}" for assembly_id in ASSEMBLIES],

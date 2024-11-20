@@ -3,7 +3,7 @@ rule prokaryotes__annotate__quast:
     input:
         [PROK_ANN / f"drep.{secondary_ani}.fa.gz" for secondary_ani in SECONDARY_ANIS],
     output:
-        directory(QUAST),
+        directory(PROK_QUAST),
     log:
         PROK / "quast.log",
     conda:

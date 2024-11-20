@@ -1,11 +1,11 @@
 checkpoint prokaryotes__annotate__mags:
     """Separate and decompress all mags from all bins"""
     input:
-        [MAGSCOT / f"{assembly_id}.fa.gz" for assembly_id in ASSEMBLIES],
+        [PROK_MAGSCOT / f"{assembly_id}.fa.gz" for assembly_id in ASSEMBLIES],
     output:
-        directory(MAGS),
+        directory(PROK_MAGS),
     log:
-        MAGS / ".." / "mags.log",
+        PROK_MAGS / ".." / "mags.log",
     conda:
         "../../../environments/coreutils.yml"
     shell:

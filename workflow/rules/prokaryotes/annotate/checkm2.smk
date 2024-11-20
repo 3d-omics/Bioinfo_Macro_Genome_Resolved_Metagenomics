@@ -1,7 +1,7 @@
 rule prokaryotes__annotate__checkm2:
     """Run CheckM2 over the dereplicated mags"""
     input:
-        mags=MAGS,
+        mags=PROK_MAGS,
         db=features["databases"]["checkm2"],
     output:
         report=PROK_ANN / "checkm2.quality_report.tsv",

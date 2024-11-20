@@ -1,19 +1,19 @@
 rule viruses__annotate__virsorter2:
     input:
-        fna=GENOMADA / "rep_seq_virus.fna.gz",
+        fna=VIR_GENOMADA / "rep_seq_virus.fna.gz",
         database=features["databases"]["virsorter2"],
     output:
-        viruses_boundary=VIRSORTER2 / "final-viral-boundary.tsv.gz",
-        combined=VIRSORTER2 / "final-viral-combined.fa.gz",
-        score=VIRSORTER2 / "final-viral-score.tsv.gz",
-        fa=VIRSORTER2 / "final-viral-combined-for-dramv.fa.gz",
-        tsv=VIRSORTER2 / "viral-affi-contigs-for-dramv.tab.gz",
+        viruses_boundary=VIR_VIRSORTER2 / "final-viral-boundary.tsv.gz",
+        combined=VIR_VIRSORTER2 / "final-viral-combined.fa.gz",
+        score=VIR_VIRSORTER2 / "final-viral-score.tsv.gz",
+        fa=VIR_VIRSORTER2 / "final-viral-combined-for-dramv.fa.gz",
+        tsv=VIR_VIRSORTER2 / "viral-affi-contigs-for-dramv.tab.gz",
     log:
-        VIRSORTER2 / "virsorter2.log",
+        VIR_VIRSORTER2 / "virsorter2.log",
     conda:
         "../../../environments/virsorter2.yml"
     params:
-        workdir=VIRSORTER2,
+        workdir=VIR_VIRSORTER2,
     shadow:
         "minimal"
     threads: 24

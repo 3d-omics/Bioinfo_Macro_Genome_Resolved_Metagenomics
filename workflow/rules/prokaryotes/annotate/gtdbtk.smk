@@ -1,10 +1,10 @@
 rule prokaryotes__annotate__gtdbtk__classify_wf:
     """Run GTDB-Tk over the dereplicated genomes."""
     input:
-        mags=MAGS,
+        mags=PROK_MAGS,
         database=features["databases"]["gtdbtk"],
     output:
-        work_dir=directory(GTDBTK),
+        work_dir=directory(PROK_GTDBTK),
     log:
         PROK_ANN / "gtdbtk.log",
     conda:
@@ -29,7 +29,7 @@ rule prokaryotes__annotate__gtdbtk__classify_wf:
 
 rule prokaryotes__annotate__gtdbtk__join_bac_and_ar:
     input:
-        work_dir=GTDBTK,
+        work_dir=PROK_GTDBTK,
     output:
         summary=PROK_ANN / "gtdbtk.summary.tsv",
         bac_tree=PROK_ANN / "gtdbtk.backbone.bac120.classify.tree",

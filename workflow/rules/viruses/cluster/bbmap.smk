@@ -1,10 +1,12 @@
 rule viruses__cluster__bbmap__dedupe:
     input:
-        fastas=[GENOMADC / f"{assembly_id}_virus.fna.gz" for assembly_id in ASSEMBLIES],
+        fastas=[
+            VIR_GENOMADC / f"{assembly_id}_virus.fna.gz" for assembly_id in ASSEMBLIES
+        ],
     output:
-        fasta=DEDUPE / "dedupe.fa.gz",
+        fasta=VIR_DEDUPE / "dedupe.fa.gz",
     log:
-        DEDUPE / "bbmap.log",
+        VIR_DEDUPE / "bbmap.log",
     conda:
         "../../../environments/bbmap.yml"
     params:

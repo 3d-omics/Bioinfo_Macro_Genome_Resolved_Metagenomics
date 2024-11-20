@@ -1,11 +1,11 @@
 rule viruses__multiqc:
     input:
         bowtie2=[
-            VBOWTIE2 / f"{sample_id}.{library_id}.{report}"
+            VIR_BOWTIE2 / f"{sample_id}.{library_id}.{report}"
             for sample_id, library_id in SAMPLE_LIBRARY
             for report in BAM_REPORTS
         ],
-        quast=QUASTV,
+        quast=VIR_QUAST,
     output:
         RESULTS / "viruses.html",
         RESULTS / "viruses_data.zip",

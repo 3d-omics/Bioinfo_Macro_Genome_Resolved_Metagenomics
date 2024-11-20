@@ -11,9 +11,9 @@ rule assemble__megahit:
         forwards=get_forwards_from_assembly_id,
         reverses=get_reverses_from_assembly_id,
     output:
-        workdir=temp(directory(ASSEMBLE_MEGAHIT / "{assembly_id}.dir")),
+        temp(directory(ASMB_MEGAHIT / "{assembly_id}.dir")),
     log:
-        log=ASSEMBLE_MEGAHIT / "{assembly_id}.log",
+        log=ASMB_MEGAHIT / "{assembly_id}.log",
     conda:
         "../../environments/megahit.yml"
     params:
@@ -33,7 +33,7 @@ rule assemble__megahit:
             --num-cpu-threads {threads} \
             --verbose \
             --force \
-            --out-dir {output.workdir} \
+            --out-dir {output} \
             --continue \
             {params.extra} \
             -1 {params.forwards} \
@@ -44,11 +44,11 @@ rule assemble__megahit:
 
 rule assemble__megahit__rename:
     input:
-        workdir=ASSEMBLE_MEGAHIT / "{assembly_id}.dir",
+        ASMB_MEGAHIT / "{assembly_id}.dir",
     output:
-        fasta=ASSEMBLE_MEGAHIT / "{assembly_id}.fa.gz",
+        ASMB_MEGAHIT / "{assembly_id}.fa.gz",
     log:
-        log=ASSEMBLE_MEGAHIT / "{assembly_id}.rename.log",
+        ASMB_MEGAHIT / "{assembly_id}.rename.log",
     conda:
         "../../environments/megahit.yml"
     group:
@@ -59,7 +59,7 @@ rule assemble__megahit__rename:
     shell:
         """
         ( seqtk seq \
-            {input.workdir}/final.contigs.fa \
+            {input}/final.contigs.fa \
         | cut -f 1 -d " " \
         | paste - - \
         | awk \
@@ -67,18 +67,18 @@ rule assemble__megahit__rename:
         | bgzip \
             -l 9 \
             -@ {threads} \
-        > {output.fasta} \
+        > {output} \
         ) 2> {log}
         """
 
 
 rule assemble__megahit__archive:
     input:
-        workdir=ASSEMBLE_MEGAHIT / "{assembly_id}.dir",
+        ASMB_MEGAHIT / "{assembly_id}.dir",
     output:
-        tarball=ASSEMBLE_MEGAHIT / "{assembly_id}.tar.gz",
+        ASMB_MEGAHIT / "{assembly_id}.tar.gz",
     log:
-        log=ASSEMBLE_MEGAHIT / "{assembly_id}.archive.log",
+        ASMB_MEGAHIT / "{assembly_id}.archive.log",
     conda:
         "../../environments/megahit.yml"
     group:
@@ -88,10 +88,10 @@ rule assemble__megahit__archive:
         """
         tar \
             --create \
-            --file {output.tarball} \
+            --file {output} \
             --use-compress-program="pigz --best --processes {threads}" \
             --verbose \
-            {input.workdir} \
+            {input} \
         2> {log} 1>&2
         """
 
@@ -99,5 +99,5 @@ rule assemble__megahit__archive:
 rule assemble__megahit__all:
     """Rename all assemblies contigs to avoid future collisions"""
     input:
-        [ASSEMBLE_MEGAHIT / f"{assembly_id}.fa.gz" for assembly_id in ASSEMBLIES],
-        [ASSEMBLE_MEGAHIT / f"{assembly_id}.tar.gz" for assembly_id in ASSEMBLIES],
+        [ASMB_MEGAHIT / f"{assembly_id}.fa.gz" for assembly_id in ASSEMBLIES],
+        [ASMB_MEGAHIT / f"{assembly_id}.tar.gz" for assembly_id in ASSEMBLIES],

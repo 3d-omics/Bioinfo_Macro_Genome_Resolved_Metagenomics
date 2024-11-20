@@ -1,14 +1,14 @@
 use rule coverm__genome as prokaryotes__quantify__coverm__genome with:
     input:
-        QUANT_BOWTIE2 / "drep.{secondary_ani}.{sample_id}.{library_id}.bam",
+        PROK_BOWTIE2 / "drep.{secondary_ani}.{sample_id}.{library_id}.bam",
     output:
         temp(
-            COVERM
+            PROK_COVERM
             / "files"
             / "genome.{method}.drep.{secondary_ani}.{sample_id}.{library_id}.tsv.gz"
         ),
     log:
-        COVERM
+        PROK_COVERM
         / "files"
         / "genome.{method}.drep.{secondary_ani}.{sample_id}.{library_id}.log",
     conda:
@@ -22,15 +22,15 @@ use rule coverm__genome as prokaryotes__quantify__coverm__genome with:
 use rule csvkit__csvjoin as prokaryotes__quantify__coverm__genome__csvjoin with:
     input:
         lambda w: [
-            COVERM
+            PROK_COVERM
             / "files"
             / f"genome.{w.method}.drep.{w.secondary_ani}.{sample_id}.{library_id}.tsv.gz"
             for sample_id, library_id in SAMPLE_LIBRARY
         ],
     output:
-        COVERM / "coverm.genome.{method}.drep.{secondary_ani}.tsv.gz",
+        PROK_COVERM / "coverm.genome.{method}.drep.{secondary_ani}.tsv.gz",
     log:
-        COVERM / "coverm.genome.{method}.drep.{secondary_ani}.log",
+        PROK_COVERM / "coverm.genome.{method}.drep.{secondary_ani}.log",
     conda:
         "../../../environments/csvkit.yml"
 
@@ -39,7 +39,7 @@ rule prokaryotes__quantify__coverm__genome__all:
     """Run coverm genome and all methods"""
     input:
         [
-            COVERM / f"coverm.genome.{method}.drep.{secondary_ani}.tsv.gz"
+            PROK_COVERM / f"coverm.genome.{method}.drep.{secondary_ani}.tsv.gz"
             for method in params["quantify"]["coverm"]["genome"]["methods"]
             for secondary_ani in SECONDARY_ANIS
         ],
@@ -48,15 +48,15 @@ rule prokaryotes__quantify__coverm__genome__all:
 # coverm contig ----
 use rule coverm__contig as prokaryotes__quantify__coverm__contig with:
     input:
-        QUANT_BOWTIE2 / "drep.{secondary_ani}.{sample_id}.{library_id}.bam",
+        PROK_BOWTIE2 / "drep.{secondary_ani}.{sample_id}.{library_id}.bam",
     output:
         temp(
-            COVERM
+            PROK_COVERM
             / "files"
             / "contig.{method}.drep.{secondary_ani}.{sample_id}.{library_id}.tsv.gz"
         ),
     log:
-        COVERM
+        PROK_COVERM
         / "files"
         / "contig.{method}.drep.{secondary_ani}.{sample_id}.{library_id}.log",
     conda:
@@ -66,15 +66,15 @@ use rule coverm__contig as prokaryotes__quantify__coverm__contig with:
 use rule csvkit__csvjoin as prokaryotes__quantify__coverm__contig__csvjoin with:
     input:
         lambda w: [
-            COVERM
+            PROK_COVERM
             / "files"
             / f"contig.{w.method}.drep.{w.secondary_ani}.{sample_id}.{library_id}.tsv.gz"
             for sample_id, library_id in SAMPLE_LIBRARY
         ],
     output:
-        COVERM / "coverm.contig.{method}.drep.{secondary_ani}.tsv.gz",
+        PROK_COVERM / "coverm.contig.{method}.drep.{secondary_ani}.tsv.gz",
     log:
-        COVERM / "coverm.contig.{method}.drep.{secondary_ani}.log",
+        PROK_COVERM / "coverm.contig.{method}.drep.{secondary_ani}.log",
     conda:
         "../../../environments/csvkit.yml"
     resources:
@@ -85,7 +85,7 @@ rule prokaryotes__quantify__coverm__contig__all:
     """Run coverm contig and all methods"""
     input:
         [
-            COVERM / f"coverm.contig.{method}.drep.{secondary_ani}.tsv.gz"
+            PROK_COVERM / f"coverm.contig.{method}.drep.{secondary_ani}.tsv.gz"
             for method in params["quantify"]["coverm"]["contig"]["methods"]
             for secondary_ani in SECONDARY_ANIS
         ],

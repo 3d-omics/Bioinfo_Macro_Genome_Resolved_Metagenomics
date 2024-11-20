@@ -1,13 +1,13 @@
 rule assemble__multiqc:
     input:
         bowtie2=[
-            ASSEMBLE_BOWTIE2 / f"{assembly_id}.{sample_id}.{library_id}.{report}"
+            ASMB_BOWTIE2 / f"{assembly_id}.{sample_id}.{library_id}.{report}"
             for assembly_id, sample_id, library_id in ASSEMBLY_SAMPLE_LIBRARY
             for report in BAM_REPORTS
         ],
-        quast=ASSEMBLE_QUAST,
+        quast=ASMB_QUAST,
         kraken2=[
-            ASSEMBLE_KRAKEN2 / kraken2_db / f"{assembly_id}.report"
+            ASMB_KRAKEN2 / kraken2_db / f"{assembly_id}.report"
             for kraken2_db in features["databases"]["kraken2"]
             for assembly_id in ASSEMBLIES
         ],

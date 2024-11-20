@@ -1,23 +1,23 @@
 rule assemble__kraken2__assign_contigs:
     input:
-        fastas=[ASSEMBLE_MEGAHIT / f"{assembly_id}.fa.gz" for assembly_id in ASSEMBLIES],
+        fastas=[ASMB_MEGAHIT / f"{assembly_id}.fa.gz" for assembly_id in ASSEMBLIES],
         database=lambda w: features["databases"]["kraken2"][w.kraken2_db],
     output:
         out_gzs=[
-            ASSEMBLE_KRAKEN2 / "{kraken2_db}" / f"{assembly_id}.out.gz"
+            ASMB_KRAKEN2 / "{kraken2_db}" / f"{assembly_id}.out.gz"
             for assembly_id in ASSEMBLIES
         ],
         reports=[
-            ASSEMBLE_KRAKEN2 / "{kraken2_db}" / f"{assembly_id}.report"
+            ASMB_KRAKEN2 / "{kraken2_db}" / f"{assembly_id}.report"
             for assembly_id in ASSEMBLIES
         ],
     log:
-        ASSEMBLE_KRAKEN2 / "{kraken2_db}.log",
+        ASMB_KRAKEN2 / "{kraken2_db}.log",
     conda:
         "../../environments/kraken2.yml"
     params:
-        in_folder=ASSEMBLE_MEGAHIT,
-        out_folder=lambda w: ASSEMBLE_KRAKEN2 / w.kraken2_db,
+        in_folder=ASMB_MEGAHIT,
+        out_folder=lambda w: ASMB_KRAKEN2 / w.kraken2_db,
         kraken_db_name=lambda w: w.kraken2_db,
     threads: 8
     resources:
@@ -80,12 +80,12 @@ rule assemble__kraken2__assign_contigs:
 rule assemble__kraken2__assign_contigs__all:
     input:
         [
-            ASSEMBLE_KRAKEN2 / f"{kraken2_db}" / f"{assembly_id}.out.gz"
+            ASMB_KRAKEN2 / f"{kraken2_db}" / f"{assembly_id}.out.gz"
             for assembly_id in ASSEMBLIES
             for kraken2_db in features["databases"]["kraken2"]
         ],
         [
-            ASSEMBLE_KRAKEN2 / f"{kraken2_db}" / f"{assembly_id}.report"
+            ASMB_KRAKEN2 / f"{kraken2_db}" / f"{assembly_id}.report"
             for assembly_id in ASSEMBLIES
             for kraken2_db in features["databases"]["kraken2"]
         ],

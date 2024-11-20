@@ -1,9 +1,9 @@
 rule viruses__annotate__quast__all:
     """Run quast over one the dereplicated mags"""
     input:
-        MMSEQS / "rep_seq.fa.gz",
+        VIR_MMSEQS / "rep_seq.fa.gz",
     output:
-        directory(QUASTV),
+        directory(VIR_QUAST),
     log:
         VIR / "quast.log",
     conda:

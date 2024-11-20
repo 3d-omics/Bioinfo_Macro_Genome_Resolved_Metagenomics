@@ -1,25 +1,25 @@
 rule viruses__cluster__genomad:
     input:
-        fasta=ASSEMBLE_MEGAHIT / "{assembly_id}.fa.gz",
+        fasta=ASMB_MEGAHIT / "{assembly_id}.fa.gz",
         database=features["databases"]["genomad"],
     output:
-        plasmid=GENOMADC / "{assembly_id}_plasmid.fna.gz",
-        plasmid_genes=GENOMADC / "{assembly_id}_plasmid_genes.tsv.gz",
-        plasmid_proteins=GENOMADC / "{assembly_id}_plasmid_proteins.faa.gz",
-        plasmid_summary=GENOMADC / "{assembly_id}_plasmid_summary.tsv.gz",
-        json=GENOMADC / "{assembly_id}_summary.json.gz",
-        virus=GENOMADC / "{assembly_id}_virus.fna.gz",
-        virus_genes=GENOMADC / "{assembly_id}_virus_genes.tsv.gz",
-        virus_proteins=GENOMADC / "{assembly_id}_virus_proteins.faa.gz",
-        virus_summary_tsv=GENOMADC / "{assembly_id}_virus_summary.tsv.gz",
+        plasmid=VIR_GENOMADC / "{assembly_id}_plasmid.fna.gz",
+        plasmid_genes=VIR_GENOMADC / "{assembly_id}_plasmid_genes.tsv.gz",
+        plasmid_proteins=VIR_GENOMADC / "{assembly_id}_plasmid_proteins.faa.gz",
+        plasmid_summary=VIR_GENOMADC / "{assembly_id}_plasmid_summary.tsv.gz",
+        json=VIR_GENOMADC / "{assembly_id}_summary.json.gz",
+        virus=VIR_GENOMADC / "{assembly_id}_virus.fna.gz",
+        virus_genes=VIR_GENOMADC / "{assembly_id}_virus_genes.tsv.gz",
+        virus_proteins=VIR_GENOMADC / "{assembly_id}_virus_proteins.faa.gz",
+        virus_summary_tsv=VIR_GENOMADC / "{assembly_id}_virus_summary.tsv.gz",
     log:
-        GENOMADC / "{assembly_id}.log",
+        VIR_GENOMADC / "{assembly_id}.log",
     conda:
         "../../../environments/genomad.yml"
     params:
         filtering=params["viral"]["genomad"]["filtering"],
-        genomad_workdir=GENOMADC,
-        genomad_summary_dir=lambda w: GENOMADC / f"{w.assembly_id}_summary",
+        genomad_workdir=VIR_GENOMADC,
+        genomad_summary_dir=lambda w: VIR_GENOMADC / f"{w.assembly_id}_summary",
         extra=params["viral"]["genomad"]["extra"],
         use_cuda=params["viral"]["genomad"]["use_cuda"],
     shadow:
@@ -58,4 +58,4 @@ rule viruses__cluster__genomad:
 
 rule viruses__cluster__genomad__all:
     input:
-        [GENOMADC / f"{assembly_id}_virus.fna.gz" for assembly_id in ASSEMBLIES],
+        [VIR_GENOMADC / f"{assembly_id}_virus.fna.gz" for assembly_id in ASSEMBLIES],

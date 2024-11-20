@@ -1,9 +1,9 @@
 use rule bowtie2__build as viruses__quantify__bowtie2__build with:
     input:
-        ref=MMSEQS / "rep_seq.fa.gz",
+        ref=VIR_MMSEQS / "rep_seq.fa.gz",
     output:
         multiext(
-            str(VINDEX / "viruses"),
+            str(VIR_BUILD / "viruses"),
             ".1.bt2",
             ".2.bt2",
             ".3.bt2",
@@ -12,7 +12,7 @@ use rule bowtie2__build as viruses__quantify__bowtie2__build with:
             ".rev.2.bt2",
         ),
     log:
-        VINDEX / "virues.log",
+        VIR_BUILD / "virues.log",
 
 
 rule viruses__quantify__bowtie2__build__all:
@@ -25,7 +25,7 @@ use rule bowtie2__map as viruses__quantify__bowtie2__map with:
         forward_=PRE_CLEAN / "{sample_id}.{library_id}_1.fq.gz",
         reverse_=PRE_CLEAN / "{sample_id}.{library_id}_2.fq.gz",
         mock=multiext(
-            str(VINDEX / "viruses"),
+            str(VIR_BUILD / "viruses"),
             ".1.bt2",
             ".2.bt2",
             ".3.bt2",
@@ -34,11 +34,11 @@ use rule bowtie2__map as viruses__quantify__bowtie2__map with:
             ".rev.2.bt2",
         ),
     output:
-        VBOWTIE2 / "{sample_id}.{library_id}.bam",
+        VIR_BOWTIE2 / "{sample_id}.{library_id}.bam",
     log:
-        VBOWTIE2 / "{sample_id}.{library_id}.log",
+        VIR_BOWTIE2 / "{sample_id}.{library_id}.log",
     params:
-        index=VINDEX / "viruses",
+        index=VIR_BUILD / "viruses",
         samtools_extra=params["preprocess"]["bowtie2"]["samtools_extra"],
         bowtie2_extra=params["preprocess"]["bowtie2"]["bowtie2_extra"],
         rg_id=compose_rg_id,
@@ -51,7 +51,7 @@ rule viruses__quantify__bowtie2__map__all:
     """Align all samples to the dereplicated genomes"""
     input:
         [
-            VBOWTIE2 / f"{sample_id}.{library_id}.bam"
+            VIR_BOWTIE2 / f"{sample_id}.{library_id}.bam"
             for sample_id, library_id in SAMPLE_LIBRARY
         ],
 
