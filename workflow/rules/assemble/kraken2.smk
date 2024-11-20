@@ -22,7 +22,7 @@ rule assemble__kraken2__assign_contigs:
     threads: 8
     resources:
         mem_mb=800 * 1024,
-        runtime=60,
+        runtime=6 * 60,
     shell:
         """
         {{
