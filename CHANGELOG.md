@@ -1,5 +1,85 @@
 # Changelog
 
+## [1.3.0](https://github.com/3d-omics/mg_assembly/compare/v1.2.0...v1.3.0) (2024-11-20)
+
+
+### Features
+
+* add cache and groups to profile to see if it works ([407231a](https://github.com/3d-omics/mg_assembly/commit/407231a4c9c07b5388857e4e463333b58b941db3))
+* add coverm common files, add coverm in assembly step ([571fe32](https://github.com/3d-omics/mg_assembly/commit/571fe32f97625d7f9de0029eae275ca8f34061af))
+* add kraken2 to assembly report ([8f8b846](https://github.com/3d-omics/mg_assembly/commit/8f8b846203d40f17cb43fb2e6096fc13e47573a0))
+* aggregate all annotations from dram ([4a7c2b9](https://github.com/3d-omics/mg_assembly/commit/4a7c2b95ecdfec4c6c3f5ee2b4cac680c5a36fec))
+* aggregate all annotations from dram ([b492268](https://github.com/3d-omics/mg_assembly/commit/b4922688483f348d769e9e7202a162507eeeaf45))
+* assign kraken2 taxonomies to contigs ([0f37bf8](https://github.com/3d-omics/mg_assembly/commit/0f37bf88332faa55c93695167aa5bfb92434d0c6))
+* bring back mg_preprocess ([84f68bf](https://github.com/3d-omics/mg_assembly/commit/84f68bfb4266e7ca006039b20f5eecb41ffd68b1))
+* combine bracken reports into one ([dbf03f1](https://github.com/3d-omics/mg_assembly/commit/dbf03f1923b930a69d8c5721ea9a8068e78c0ad0))
+* compress everything in the multiqc folder ([f783e8e](https://github.com/3d-omics/mg_assembly/commit/f783e8ea1a83c7dc22487ab760e0a6c6c392bf80))
+* concatenate all gbk files ([d2ac488](https://github.com/3d-omics/mg_assembly/commit/d2ac488371b36e4a6993e73fe412257026c8d4fa))
+* get megahit extra from params ([cd0c9fa](https://github.com/3d-omics/mg_assembly/commit/cd0c9fa3d93dcbaf49b1d31d539921a38348d097))
+* join bowtie2 rules, use multext ([494a7a0](https://github.com/3d-omics/mg_assembly/commit/494a7a01f4719d70f9f000ef0375cfc1f30bc29c))
+* remove unused samtools files ([903c051](https://github.com/3d-omics/mg_assembly/commit/903c0511c280a8c28b5c015af8dadfdf8986c014))
+* run all quasts together, and give multiqc the folder ([4c20853](https://github.com/3d-omics/mg_assembly/commit/4c20853aeaaec4f07509a7a90e9add611e431f97))
+* update kraken2 mock db with bracken data ([a656935](https://github.com/3d-omics/mg_assembly/commit/a656935ce6ca8121ff6220ed9f010cb77ec20005))
+* update singlem db ([4357393](https://github.com/3d-omics/mg_assembly/commit/4357393a24c7bd55493cce3c600eed626d794be7))
+
+
+### Bug Fixes
+
+* add htslib to mmseqs and genomad environments ([ea33bfc](https://github.com/3d-omics/mg_assembly/commit/ea33bfc0fee92c912c478e5a2ae679a328780c13))
+* ask for 800 Gb not 800 Tb ([5e0e983](https://github.com/3d-omics/mg_assembly/commit/5e0e983a8b80a9e9ac6479b728d94bb3852cb88c))
+* cat fastas, compression level 5 ([854bdbd](https://github.com/3d-omics/mg_assembly/commit/854bdbd6f1e62caa01a2f040abd287730b29894d))
+* checkm2 log in the correct place ([f7a60cc](https://github.com/3d-omics/mg_assembly/commit/f7a60cc1e5410ff91d5bbc10dff13d222eb0e0bc))
+* **checkm2:** put log next to output ([c49e747](https://github.com/3d-omics/mg_assembly/commit/c49e747a88bb3d486427da1be56f3063e8d6a553))
+* correct bowtie2 names ([628efbe](https://github.com/3d-omics/mg_assembly/commit/628efbec7afa4abf2a740b10e856f5cf4fc5d80e))
+* correct bowtie2 time ([ae3cf22](https://github.com/3d-omics/mg_assembly/commit/ae3cf228b785ac56e63fb3d2eebbecacff71cec1))
+* correct output path for multiqc ([df32a85](https://github.com/3d-omics/mg_assembly/commit/df32a8504a02b37b8da95428ec9398d612cd93f1))
+* correct ram usage for assemble/kraken2 ([0d79480](https://github.com/3d-omics/mg_assembly/commit/0d79480eb4b89d9e24f579913ddf42c3280d555e))
+* **coverm:** wrong fai file ([383f4d4](https://github.com/3d-omics/mg_assembly/commit/383f4d4bad93ac529eef99cebc70a41fa898332e))
+* do left join, not a stack in coverm ([5e70084](https://github.com/3d-omics/mg_assembly/commit/5e70084ef0d628a9bf8518aad3270b6a8ba6e225))
+* don't ask for idxstats ([78bab3d](https://github.com/3d-omics/mg_assembly/commit/78bab3df6d37bffd24da554a332157f2fc37b7df))
+* don't do the mags folder temp ([5b6803e](https://github.com/3d-omics/mg_assembly/commit/5b6803efa582ddfeb0051a39f8c4e136cc95906d))
+* dram ([21a0308](https://github.com/3d-omics/mg_assembly/commit/21a0308735bfa0acdc6a1d359d9d34bb24885d3f))
+* **dram:** aggregate correct files ([4bb924a](https://github.com/3d-omics/mg_assembly/commit/4bb924a719f38b79bc6ecc58200f84d269886bd8))
+* **dram:** aggregate gff ([084c780](https://github.com/3d-omics/mg_assembly/commit/084c7808f540bd8caac17a84a0bbd64f381137b8))
+* **dram:** correct names ([eb22ff1](https://github.com/3d-omics/mg_assembly/commit/eb22ff14eb482ede4f961a905300ae9664ad2ae7))
+* **dram:** create genbank folder ([0d12173](https://github.com/3d-omics/mg_assembly/commit/0d12173da768712eedb76b573609445b78662dff))
+* **dram:** dram.genbank ([c6fc146](https://github.com/3d-omics/mg_assembly/commit/c6fc146742eba6c46e32ebc0fdc20b470fea45b7))
+* **dram:** dram.genbank ([c27fcf6](https://github.com/3d-omics/mg_assembly/commit/c27fcf6c69593ecc4b7e0e0570ec64f8c79b2e75))
+* **drep:** add htslib ([94f3f6c](https://github.com/3d-omics/mg_assembly/commit/94f3f6c29ab96405650a2963e97e767fc229994e))
+* **drep:** don't ask for workdirs ([3f66d93](https://github.com/3d-omics/mg_assembly/commit/3f66d93f0f98da6ac714f6426982433e88c4edda))
+* edit and update environment ([bc253da](https://github.com/3d-omics/mg_assembly/commit/bc253da5bfb3b9f782012e5407d9b5a8add19a3b))
+* lambda function ([fc8aabf](https://github.com/3d-omics/mg_assembly/commit/fc8aabfe903054e45de6cef04241b009f75ee71e))
+* link the clean reads to the rest of the pipeline ([78761fb](https://github.com/3d-omics/mg_assembly/commit/78761fbc2c0f5a4d6a4e947a5b6fa93597744023))
+* malformed string ([166a4da](https://github.com/3d-omics/mg_assembly/commit/166a4dabed33b48ddfa384489afdd96ad59c369b))
+* missing dot in log file ([ee46fc4](https://github.com/3d-omics/mg_assembly/commit/ee46fc49c2f67b2fd6e8a1ef654ade03e5ceeae9))
+* point to the correct path to environment ([3c98e0a](https://github.com/3d-omics/mg_assembly/commit/3c98e0a09b938fa484964a1799bc5e1c01f90bb1))
+* **prokaryotes/bowtie2:** a dot ([b4028ce](https://github.com/3d-omics/mg_assembly/commit/b4028cea8d76c3b05a2cac7c46b924fba0a685da))
+* **prokaryotes/bowtie2:** f-string ([60ab153](https://github.com/3d-omics/mg_assembly/commit/60ab153f9dcbe66b6d5922241759deda40aff960))
+* **prokaryotes/bowtie2:** forgot to remove a /dev/stdin ([a20aa20](https://github.com/3d-omics/mg_assembly/commit/a20aa20a39705bfa82f22731b62d990c008ec36d))
+* **prokaryotes/bowtie2:** w.secondary_ani ([9c59a01](https://github.com/3d-omics/mg_assembly/commit/9c59a0124a57a3a13726f82a74fc523f56d4decb))
+* put tidyverse functions package by package ([e35acbb](https://github.com/3d-omics/mg_assembly/commit/e35acbb040f60c2f813c8e2d8fa2b78fa18f67c2))
+* put together all the prokaryotes bam files ([1b07ad3](https://github.com/3d-omics/mg_assembly/commit/1b07ad39ac846b4667efc1ea485cec166e493b5b))
+* raise ram for checkv ([6c7fe97](https://github.com/3d-omics/mg_assembly/commit/6c7fe97afae16ddf26d0fb959af3843862f3b41e))
+* remove dead code ([8f624d5](https://github.com/3d-omics/mg_assembly/commit/8f624d5fa7f0f6366a9fe8d34607453decb47770))
+* remove libraru ([c8bd142](https://github.com/3d-omics/mg_assembly/commit/c8bd142b831d9c38dffc617c4465370f959838ed))
+* remove mention to diamond file ([e685339](https://github.com/3d-omics/mg_assembly/commit/e6853392b609719d22e509e331cfcd985033f1f9))
+* rename report to avoid loop ([332dc27](https://github.com/3d-omics/mg_assembly/commit/332dc27ad720220a5527ba1b43ad68cd1b341ef6))
+* typo in a log file ([390da01](https://github.com/3d-omics/mg_assembly/commit/390da01680ae9cd57743fd7d5bc961062be4d321))
+* **viruses/bowtie2:** remove useless lambda ([5972c1e](https://github.com/3d-omics/mg_assembly/commit/5972c1e68e1a302b1a7e047ea9027d8f0f75c218))
+
+
+### Performance Improvements
+
+* disable default cache ([d7e5fe4](https://github.com/3d-omics/mg_assembly/commit/d7e5fe4ef27d7dd74585184f46d5087ba4a9db87))
+* give 32gb to aggregator of contigs ([bb02890](https://github.com/3d-omics/mg_assembly/commit/bb028903bca7f4995026ac6e145e4f8125e00716))
+* give more ram to csvjoin ([9eee1a4](https://github.com/3d-omics/mg_assembly/commit/9eee1a469080eef59f3751a7bee720853e754a6f))
+* **gtdbtk:** raise ram ([7f490f8](https://github.com/3d-omics/mg_assembly/commit/7f490f8de0391403e31b47afe209d882a12abbd2))
+* proper name of rules in profile ([86c6cbe](https://github.com/3d-omics/mg_assembly/commit/86c6cbee160eea1e8bf25ea24c8ab2c50fe99f71))
+* raise threads ([a831404](https://github.com/3d-omics/mg_assembly/commit/a83140474744fd9dcf5f2f531140a4bb557d517f))
+* raise time for checkv ([d08919f](https://github.com/3d-omics/mg_assembly/commit/d08919fced45ce55427ebf462295a9ac0a04c31f))
+* raise time for kraken2 assembly ([0673751](https://github.com/3d-omics/mg_assembly/commit/0673751acee55eccd214e2bc548a6de6dc546d44))
+* **singlem:** reduce execution time ([5532dac](https://github.com/3d-omics/mg_assembly/commit/5532dacf512922227e3499d286630d9ea7da774d))
+
 ## [1.2.0](https://github.com/3d-omics/mg_assembly/compare/v1.1.0...v1.2.0) (2024-11-01)
 
 
