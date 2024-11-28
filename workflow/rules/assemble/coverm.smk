@@ -23,7 +23,8 @@ rule assemble__coverm__join:
             / f"{w.method}.{w.assembly_id}.{sample_id}.{library_id}.tsv.gz"
             for assembly_id, sample_id, library_id in ASSEMBLY_SAMPLE_LIBRARY
             if assembly_id == w.assembly_id
-        ],
+        ]
+        + ["/dev/null"],
     output:
         ASMB_COVERM / "coverm.{method}.{assembly_id}.tsv.gz",
     log:
@@ -39,5 +40,5 @@ rule assemble__coverm__all:
         [
             ASMB_COVERM / f"coverm.{method}.{assembly_id}.tsv.gz"
             for assembly_id in ASSEMBLIES
-            for method in params["quantify"]["coverm"]["contig"]["methods"]
+            for method in ["count", "covered_bases"]
         ],

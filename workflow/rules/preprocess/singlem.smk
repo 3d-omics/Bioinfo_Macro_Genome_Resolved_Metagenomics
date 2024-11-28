@@ -105,6 +105,7 @@ rule preprocess__singlem__microbial_fraction:
         2> {log} 1>&2
         """
 
+
 rule preprocess__singlem__microbial_fraction__join:
     input:
         [
@@ -118,7 +119,7 @@ rule preprocess__singlem__microbial_fraction__join:
     params:
         subcommand="join",
     wrapper:
-        "v5.2.1/utils/csvtk"        
+        "v5.2.1/utils/csvtk"
 
 
 rule preprocess__singlem__all:

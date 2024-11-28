@@ -34,7 +34,7 @@ rule prokaryotes__quantify__coverm__genome__join:
     params:
         subcommand="join",
     wrapper:
-        "v5.2.1/utils/csvtk"    
+        "v5.2.1/utils/csvtk"
 
 
 rule prokaryotes__quantify__coverm__genome__all:
@@ -42,7 +42,7 @@ rule prokaryotes__quantify__coverm__genome__all:
     input:
         [
             PROK_COVERM / f"coverm.genome.{method}.drep.{secondary_ani}.tsv.gz"
-            for method in params["quantify"]["coverm"]["genome"]["methods"]
+            for method in ["count", "covered_bases"]
             for secondary_ani in SECONDARY_ANIS
         ],
 
@@ -80,7 +80,7 @@ rule prokaryotes__quantify__coverm__genome__all:
 #     params:
 #         subcommand="join",
 #     wrapper:
-#         "v5.2.1/utils/csvtk"    
+#         "v5.2.1/utils/csvtk"
 #     resources:
 #         mem_mb=32 * 1024,
 

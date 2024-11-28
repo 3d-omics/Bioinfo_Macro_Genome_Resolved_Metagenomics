@@ -35,7 +35,7 @@ rule viruses__quantify__coverm__genome__all:
     input:
         [
             VIR_COVERM / f"coverm.genome.{method}.tsv.gz"
-            for method in params["quantify"]["coverm"]["genome"]["methods"]
+            for method in ["count", "covered_bases"]
         ],
 
 
