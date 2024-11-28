@@ -15,7 +15,7 @@ use rule coverm__contig as assemble__coverm__contig with:
         method=lambda w: w.method,
 
 
-use rule csvkit__csvjoin as assemble__coverm__csvjoin with:
+rule assemble__coverm__join:
     input:
         lambda w: [
             ASMB_COVERM
@@ -28,8 +28,10 @@ use rule csvkit__csvjoin as assemble__coverm__csvjoin with:
         ASMB_COVERM / "coverm.{method}.{assembly_id}.tsv.gz",
     log:
         ASMB_COVERM / "coverm.{method}.{assembly_id}.log",
-    conda:
-        "../../environments/csvkit.yml"
+    params:
+        subcommand="join",
+    wrapper:
+        "v5.2.1/utils/csvtk"
 
 
 rule assemble__coverm__all:

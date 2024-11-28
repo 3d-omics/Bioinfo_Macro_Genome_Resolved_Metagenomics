@@ -105,8 +105,7 @@ rule preprocess__singlem__microbial_fraction:
         2> {log} 1>&2
         """
 
-
-use rule csvkit__csvstack as preprocess__singlem__microbial_fraction__csvstack with:
+rule preprocess__singlem__microbial_fraction__join:
     input:
         [
             PRE_SINGLEM / "microbial_fraction" / f"{sample_id}.{library_id}.tsv"
@@ -116,10 +115,12 @@ use rule csvkit__csvstack as preprocess__singlem__microbial_fraction__csvstack w
         PRE_SINGLEM / "microbial_fraction.tsv.gz",
     log:
         PRE_SINGLEM / "microbial_fraction.log",
-    conda:
-        "../../environments/csvkit.yml"
+    params:
+        subcommand="join",
+    wrapper:
+        "v5.2.1/utils/csvtk"        
 
 
 rule preprocess__singlem__all:
     input:
-        rules.preprocess__singlem__microbial_fraction__csvstack.output,
+        rules.preprocess__singlem__microbial_fraction__join.output,
