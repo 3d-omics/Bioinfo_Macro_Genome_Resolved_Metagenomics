@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.4.0](https://github.com/3d-omics/mg_assembly/compare/v1.3.0...v1.4.0) (2024-11-30)
+
+
+### Features
+
+* **coverm:** don't do contig unless it is necessary ([82d3288](https://github.com/3d-omics/mg_assembly/commit/82d328802e8f5a9653bd85b214d1152f509aca12))
+
+
+### Bug Fixes
+
+* **dram:** undo the contig renaming that nobody asked for ([261dfee](https://github.com/3d-omics/mg_assembly/commit/261dfee938f81d7bbf35450962e0d8495161e6d4))
+
 ## [1.3.0](https://github.com/3d-omics/mg_assembly/compare/v1.2.0...v1.3.0) (2024-11-20)
 
 
