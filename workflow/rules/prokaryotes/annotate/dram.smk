@@ -40,7 +40,7 @@ rule prokaryotes__annotate__dram__setup:
 rule prokaryotes__annotate__dram__annotate:
     """Annotate dereplicate genomes with DRAM"""
     input:
-        fasta=PROK_MAGS / "{mag_id}.fa",
+        fasta=PROK_ANN / "dram.mags" / "{mag_id}.fa",
         dram_db=features["databases"]["dram"],
         setup=PROK_ANN / "dram.setup.txt",
     output:
@@ -89,7 +89,11 @@ for file in ["annotations", "trnas", "rrnas"]:
         params:
             work_dir=PROK_ANN / "dram.annotate",
         shell:
-            f"( csvstack --tabs {{params.work_dir}}/*/{file} | csvformat --out-tabs | bgzip --compress-level 9 > {{output}} ) 2> {{log}}"
+            f"( csvtk concat {{params.work_dir}}/*/{file} "
+            f"| sed -r 's/[[:alnum:]]+:bin_[0-9]+_([[:alnum:]]+:bin_[0-9]+@contig_[0-9]+)/\1/g' "
+            f"| bgzip --compress-level 9 "
+            f"> {{output}} "
+            f") 2> {{log}}"
 
 
 for file in ["genes.gff", "genes.fna", "genes.faa", "scaffolds.fna"]:
@@ -108,7 +112,11 @@ for file in ["genes.gff", "genes.fna", "genes.faa", "scaffolds.fna"]:
         params:
             work_dir=PROK_ANN / "dram.annotate",
         shell:
-            f"(cat {{params.work_dir}}/*/{file} | bgzip --compress-level 9 > {{output}}) 2> {{log}}"
+            f"( cat {{params.work_dir}}/*/{file} "
+            f"| sed -r 's/[[:alnum:]]+:bin_[0-9]+_([[:alnum:]]+:bin_[0-9]+@contig_[0-9]+)/\1/g' "
+            f"| bgzip --compress-level 9 "
+            f"> {{output}}"
+            f") 2> {{log}}"
 
 
 rule prokaryotes__annotate__dram__annotate__aggregate_genbank:
@@ -123,15 +131,17 @@ rule prokaryotes__annotate__dram__annotate__aggregate_genbank:
         "../../../environments/dram.yml"
     params:
         work_dir=PROK_ANN / "dram.annotate",
-    threads: 24
+    resources:
+        runtime=6 * 60,
     shell:
         """
         ( cat \
             --verbose \
             {params.work_dir}/*/genbank/*.gbk \
+        | sed \
+            -r 's/[[:alnum:]]+:bin_[0-9]+_([[:alnum:]]+:bin_[0-9]+@contig_[0-9]+)/\1/g' \
         | bgzip \
             --compress-level 9 \
-            --threads {threads} \
         > {output} \
         ) 2> {log}
         """

@@ -73,8 +73,13 @@ rule assemble__megahit__rename:
 
 
 rule assemble__megahit__archive:
+    """Archive the assembly directory into a tar.gz file
+
+    NOTE: I ask for the fasta so the grouping job does rename and archive sequentially.
+    """
     input:
-        ASMB_MEGAHIT / "{assembly_id}.dir",
+        folder=ASMB_MEGAHIT / "{assembly_id}.dir",
+        fasta=ASMB_MEGAHIT / "{assembly_id}.fa.gz",
     output:
         ASMB_MEGAHIT / "{assembly_id}.tar.gz",
     log:

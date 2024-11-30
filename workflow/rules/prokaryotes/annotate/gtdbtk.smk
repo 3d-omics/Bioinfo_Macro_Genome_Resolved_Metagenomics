@@ -37,16 +37,13 @@ rule prokaryotes__annotate__gtdbtk__join_bac_and_ar:
     log:
         PROK_ANN / "gtdbtk.join.log",
     conda:
-        "../../../environments/csvkit.yml"
+        "../../../environments/gtdbtk.yml"
     shell:
         """
-        ( csvstack \
-            --tabs \
+        csvkit concat \
             {input.work_dir}/gtdbtk.*.summary.tsv \
-        | csvformat \
-            --out-tabs \
         > {output.summary} \
-        ) 2> {log}
+        2> {log}
 
         cp \
             --verbose \
