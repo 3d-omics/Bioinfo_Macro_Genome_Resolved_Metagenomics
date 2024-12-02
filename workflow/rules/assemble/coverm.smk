@@ -23,9 +23,8 @@ rule assemble__coverm__join:
             / f"{w.method}.{w.assembly_id}.{sample_id}.{library_id}.tsv.gz"
             for assembly_id, sample_id, library_id in ASSEMBLY_SAMPLE_LIBRARY
             if assembly_id == w.assembly_id
-        ] + [
-            "/dev/null"
         ]
+        + ["/dev/null"],
     output:
         ASMB_COVERM / "contig.{method}.{assembly_id}.tsv.gz",
     log:
@@ -34,7 +33,7 @@ rule assemble__coverm__join:
         subcommand="join",
         extra="--left-join --tabs --out-tabs",
     wrapper:
-            "v5.2.1/utils/csvtk"
+        "v5.2.1/utils/csvtk"
 
 
 rule assemble__coverm__all:

@@ -17,7 +17,9 @@ use rule coverm__genome as viruses__quantify__coverm__genome with:
 rule viruses__quantify__coverm__genome__join:
     input:
         lambda w: [
-            VIR_COVERM / "genome" / f"{w.method}.rep_seq.{sample_id}.{library_id}.tsv.gz"
+            VIR_COVERM
+            / "genome"
+            / f"{w.method}.rep_seq.{sample_id}.{library_id}.tsv.gz"
             for sample_id, library_id in SAMPLE_LIBRARY
         ],
     output:

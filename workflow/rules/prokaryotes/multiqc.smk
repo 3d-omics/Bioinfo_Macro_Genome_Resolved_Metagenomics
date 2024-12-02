@@ -1,7 +1,9 @@
 rule prokaryotes__multiqc:
     input:
         bowtie2=[
-            PROK_BOWTIE2 / f"drep.{secondary_ani}" / f"{sample_id}.{library_id}.stats.tsv"
+            PROK_BOWTIE2
+            / f"drep.{secondary_ani}"
+            / f"{sample_id}.{library_id}.stats.tsv"
             for sample_id, library_id in SAMPLE_LIBRARY
             for secondary_ani in SECONDARY_ANIS
         ],
