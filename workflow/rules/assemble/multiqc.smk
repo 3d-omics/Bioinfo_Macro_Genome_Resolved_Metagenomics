@@ -1,7 +1,7 @@
 rule assemble__multiqc:
     input:
         bowtie2=[
-            ASMB_BOWTIE2 / f"{assembly_id}.{sample_id}.{library_id}.{report}"
+            ASMB_BOWTIE2 / assembly_id / f"{sample_id}.{library_id}.{report}"
             for assembly_id, sample_id, library_id in ASSEMBLY_SAMPLE_LIBRARY
             for report in BAM_REPORTS
         ],
