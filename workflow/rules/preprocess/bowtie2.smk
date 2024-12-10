@@ -61,8 +61,8 @@ use rule bowtie2__map as preprocess__bowtie2__map with:
         bowtie2_extra=params["preprocess"]["bowtie2"]["bowtie2_extra"],
         rg_id=compose_rg_id,
         rg_extra=compose_rg_extra,
-    group:
-        "preprocess__{sample_id}.{library_id}"
+    #group:
+    #    "preprocess__{sample_id}.{library_id}"
 
 
 rule preprocess__bowtie2__fastq:
