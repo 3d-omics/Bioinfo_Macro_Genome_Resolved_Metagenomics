@@ -71,7 +71,7 @@ rule preprocess__kraken2__assign:
                     --threads 1 \
                     --gzip-compressed \
                     --paired \
-                    --output {params.out_folder}/{{}}.out \
+                    --output ">( gzip > {params.out_folder}/{{}}.out.gz)" \
                     --report {params.out_folder}/{{}}.report \
                     --memory-mapping \
                     {params.in_folder}/{{}}_1.fq.gz \
@@ -79,12 +79,6 @@ rule preprocess__kraken2__assign:
                 "2>" {params.out_folder}/{{}}.log \
             ::: {params.sample_libs} \
             )
-
-            pigz \
-                --verbose \
-                --processes {threads} \
-                {params.out_folder}/*.out \
-            2>> {log} 1>&2
 
         }} || {{
             echo "Failed job" 2>> {log} 1>&2
