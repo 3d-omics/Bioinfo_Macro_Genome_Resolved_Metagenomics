@@ -63,9 +63,6 @@ rule preprocess__kraken2__assign:
                 /dev/shm/{params.kraken_db_name} \
             2>> {log} 1>&2
 
-            prefixes=$(echo {input.forwards} | xargs -I {{}} basename {{}} _1.fq.gz )
-            echo $prefixes 2>> {log} 1>&2
-
             ( parallel \
                 --jobs {threads} \
                 --retries 50 \
@@ -80,7 +77,7 @@ rule preprocess__kraken2__assign:
                     {params.in_folder}/{{}}_1.fq.gz \
                     {params.in_folder}/{{}}_2.fq.gz \
                 "2>" {params.out_folder}/{{}}.log \
-            ::: $prefixes \
+            ::: {params.sample_libs} \
             )
 
             pigz \
