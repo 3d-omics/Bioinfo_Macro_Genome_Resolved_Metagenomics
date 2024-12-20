@@ -29,7 +29,9 @@ rule preprocess__kraken2__assign:
         in_folder=PRE_FASTP,
         out_folder=lambda w: PRE_KRAKEN2 / w.kraken2_db,
         kraken_db_name=lambda w: w.kraken2_db,
-        sample_libs=[f"{sample_id}.{library_id}" for sample_id, library_id in SAMPLE_LIBRARY]
+        sample_libs=[
+            f"{sample_id}.{library_id}" for sample_id, library_id in SAMPLE_LIBRARY
+        ],
     threads: 8
     resources:
         mem_mb=2 * 800 * 1024,  # Use twice the size of the database, we use /dev/shm

@@ -68,6 +68,7 @@ rule preprocess__nonpareil__plot:
     wrapper:
         "v5.2.1/bio/nonpareil/plot"
 
+
 rule preprocess__nonpareil__all:
     """Run nonpareil over all samples and produce JSONs for multiqc"""
     input:
