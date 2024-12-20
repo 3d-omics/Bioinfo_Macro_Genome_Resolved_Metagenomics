@@ -32,7 +32,7 @@ rule preprocess__kraken2__assign:
         sample_libs=[
             f"{sample_id}.{library_id}" for sample_id, library_id in SAMPLE_LIBRARY
         ],
-    threads: 8
+    threads: 24
     resources:
         mem_mb=2 * 800 * 1024,  # Use twice the size of the database, we use /dev/shm
         runtime=24 * 60,
