@@ -21,6 +21,7 @@ rule preprocess__singlem__pipe:
     resources:
         mem_mb=16 * 1024,
         runtime=2 * 60,
+    shadow: True
     shell:
         """
         if [ ! -s {input.forward_} ]; then
