@@ -41,13 +41,13 @@ rule preprocess__kraken2__assign:
     shell:
         """
         {{
-            echo Running kraken2 in $(hostname) 2>> {log} 1>&2
+            echo Running kraken2 in $(hostname) 2> {log} 1>&2
 
             mkdir \
                 --parents \
                 --verbose \
                 /dev/shm/{params.kraken_db_name} \
-            2> {log} 1>&2
+            2>> {log} 1>&2
 
             mkdir --parents --verbose {params.out_folder} 2>> {log} 1>&2
 
@@ -71,7 +71,7 @@ rule preprocess__kraken2__assign:
                     --threads 1 \
                     --gzip-compressed \
                     --paired \
-                    --output ">( gzip > {params.out_folder}/{{}}.out.gz)" \
+                    --output ">(gzip > {params.out_folder}/{{}}.out.gz)" \
                     --report {params.out_folder}/{{}}.report \
                     --memory-mapping \
                     {params.in_folder}/{{}}_1.fq.gz \
