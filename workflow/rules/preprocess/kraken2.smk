@@ -29,19 +29,27 @@ rule preprocess__kraken2__assign:
         in_folder=PRE_FASTP,
         out_folder=lambda w: PRE_KRAKEN2 / w.kraken2_db,
         kraken_db_name=lambda w: w.kraken2_db,
-    threads: 8
+        sample_libs=[
+            f"{sample_id}.{library_id}" for sample_id, library_id in SAMPLE_LIBRARY
+        ],
+    threads: 24
     resources:
-        mem_mb=800 * 1024,
+        mem_mb=2 * 800 * 1024,  # Use twice the size of the database, we use /dev/shm
         runtime=24 * 60,
     conda:
         "../../environments/kraken2.yml"
     shell:
         """
         {{
-            echo Running kraken2 in $(hostname) 2>> {log} 1>&2
+            echo Running kraken2 in $(hostname) 2> {log} 1>&2
 
-            mkdir --parents /dev/shm/{params.kraken_db_name}
-            mkdir --parents {params.out_folder}
+            mkdir \
+                --parents \
+                --verbose \
+                /dev/shm/{params.kraken_db_name} \
+            2>> {log} 1>&2
+
+            mkdir --parents --verbose {params.out_folder} 2>> {log} 1>&2
 
             rsync \
                 --archive \
@@ -55,35 +63,33 @@ rule preprocess__kraken2__assign:
                 /dev/shm/{params.kraken_db_name} \
             2>> {log} 1>&2
 
-            for file in {input.forwards} ; do \
-
-                sample_id=$(basename $file _1.fq.gz)
-                forward={params.in_folder}/${{sample_id}}_1.fq.gz
-                reverse={params.in_folder}/${{sample_id}}_2.fq.gz
-                output={params.out_folder}/${{sample_id}}.out.gz
-                report={params.out_folder}/${{sample_id}}.report
-                log={params.out_folder}/${{sample_id}}.log
-
-                echo $(date) Processing $sample_id 2>> {log} 1>&2
-
+            ( parallel \
+                --jobs {threads} \
+                --retries 50 \
                 kraken2 \
                     --db /dev/shm/{params.kraken_db_name} \
-                    --threads {threads} \
+                    --threads 1 \
                     --gzip-compressed \
                     --paired \
-                    --output >(pigz --processes {threads} --best > $output) \
-                    --report $report \
+                    --output ">(gzip > {params.out_folder}/{{}}.out.gz)" \
+                    --report {params.out_folder}/{{}}.report \
                     --memory-mapping \
-                    $forward \
-                    $reverse \
-                2> $log 1>&2
+                    {params.in_folder}/{{}}_1.fq.gz \
+                    {params.in_folder}/{{}}_2.fq.gz \
+                "2>" {params.out_folder}/{{}}.log \
+            ::: {params.sample_libs} \
+            )
 
-            done
         }} || {{
             echo "Failed job" 2>> {log} 1>&2
         }}
 
-        rm --force --recursive --verbose /dev/shm/{params.kraken_db_name} 2>>{log} 1>&2
+        rm \
+            --force \
+            --recursive \
+            --verbose \
+            /dev/shm/{params.kraken_db_name} \
+        2>>{log} 1>&2
         """
 
 

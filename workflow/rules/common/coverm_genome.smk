@@ -23,7 +23,7 @@ rule coverm__genome:
             --fields 1 \
             --delimiter " " \
         | sed \
-            '1 s/^Contig/sequence_id/g' \
+            '1 s/^Genome/sequence_id/g' \
         | gzip --best \
         > {output} \
         ) 2> {log}
